@@ -1,0 +1,3 @@
+.popup dt { font-weight: bold; float: left; width: 5em; clear:both; }
+.popup dd { margin: 0 0 0.4em 0; float: left; }
+.popup p.clear { clear: both; }

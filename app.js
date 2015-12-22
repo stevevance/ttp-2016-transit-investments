@@ -223,7 +223,7 @@ function showFeatureProperties(properties) {
 	// Don't show these properties ever:
 	var noshow = ["timestamp", "begin", "end", "altitudeMode", "tessellate", "extrude", "visibility", "drawOrder", "icon", "description"];
 	
-	html = "";
+	html = "<dl class=''>";
 	$.each(properties, function(i,v) {
 		if(!in_array(i, noshow) && v != undefined && v != "") {
 			
@@ -232,7 +232,7 @@ function showFeatureProperties(properties) {
 				case "Cost_USD":
 				case "Estimated_Cost":
 					i = "<b>" + i + "</b>: ";
-					v = "$" + number_format(v);
+					v = "$" + number_format(v); // display a number with thousands separators
 				break;
 				
 				case "Project_Website":
@@ -252,9 +252,11 @@ function showFeatureProperties(properties) {
 				break;
 			}
 
-			html += "<br />" + i + v;
+			html += "<br />" + i + "" + v + "";
 		}
-	})
+	});
+	
+	html += "</dl>";
 	
 	return html;
 	
