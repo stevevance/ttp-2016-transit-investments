@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<title>The Transport Politic - 2016 Transit Improvements</title>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="/leaflet_plugins/leaflet-control-credits.js"></script>
+		<link rel="stylesheet" href="/leaflet_plugins/leaflet-control-credits.css" />
+		<style>
+			html, body {
+				height:100%;
+				margin:0;
+			}
+/*
+			.leaflet-credits-control {
+				margin-right:1em;
+				margin-bottom:1em;
+			}
+*/
+		</style>
+	</head>
+	
+	<body>
+		<div class="container">
+			<div id="map"></div>
+		</div>
+		<script>
+			var layerId;
+			$(document).ready(function() { 
+				makeMap(); 
+				addGeoJsonLayer("map_data/projects_funded_lines.geojson", "projects_funded_lines", "Funded Projects (Lines)", "lines", "funded");
+				addGeoJsonLayer("map_data/projects_funded_points.geojson", "projects_funded_points", "Funded Projects (Stations)", "stations", "funded");
+				addGeoJsonLayer("map_data/projects_construction_lines.geojson", "projects_construction_lines", "Under Construction (Lines)", "lines", "under_construction");
+				addGeoJsonLayer("map_data/projects_construction_points.geojson", "projects_construction_points", "Under Construction (Stations)", "stations", "under_construction");
+				addGeoJsonLayer("map_data/projects_future_lines.geojson", "projects_future_lines", "Future Lines", "lines", "future");
+				addGeoJsonLayer("map_data/projects_future_points.geojson", "projects_future_points", "Future Stations", "stations", "future");
+				addGeoJsonLayer("map_data/projects_new_starts_lines.geojson", "projects_new_starts_lines", "New Starts Lines", "lines", "new_starts");
+				addGeoJsonLayer("map_data/projects_renovations_lines.geojson", "projects_renovations_lines", "Renovating Lines", "lines", "renovating");
+				addGeoJsonLayer("map_data/projects_renovations_points.geojson", "projects_renovations_lines", "Renovating Stations", "stations", "renovating");
+			});	
+		</script>
+		<script src="/app.js"></script>
+	</body>
+</html>

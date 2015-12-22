@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+                                                                                
+"features": [
+{ "type": "Feature", "properties": { "Name": "Gateway Station", "description": "Project status: In planning; Funded by TIGER grant, but significant funding gap remains<br>Region: Charlotte NC<br>Mode: Station<br>Project Website: http:\/\/charmeck.org\/city\/charlotte\/cats\/planning\/facilities\/gatewaystation\/Pages\/projectoverview.aspx", "timestamp": null, "begin": null, "end": null, "altitudeMode": null, "tessellate": -1, "extrude": -1, "visibility": -1, "drawOrder": null, "icon": null, "Project_status": "In planning; Funded by TIGER grant, but significant funding gap remains", "Region": "Charlotte NC", "Mode": "Station", "Project_Website": "http:\/\/charmeck.org\/city\/charlotte\/cats\/planning\/facilities\/gatewaystation\/Pages\/projectoverview.aspx" }, "geometry": { "type": "Point", "coordinates": [ -80.848732, 35.2315284, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "Port Authority Bus Terminal Replacement", "description": "Project status: In initial planning; could cost several billion to rebuild.<br>Region: New York NY<br>Mode: Station<br>Project Website: http:\/\/www.panynj.gov\/bus-terminals\/pabt-master-plan.html", "timestamp": null, "begin": null, "end": null, "altitudeMode": null, "tessellate": -1, "extrude": -1, "visibility": -1, "drawOrder": null, "icon": null, "Project_status": "In initial planning; could cost several billion to rebuild.", "Region": "New York NY", "Mode": "Station", "Project_Website": "http:\/\/www.panynj.gov\/bus-terminals\/pabt-master-plan.html" }, "geometry": { "type": "Point", "coordinates": [ -73.9929628, 40.7578877, 0.0 ] } }
+]
+}
