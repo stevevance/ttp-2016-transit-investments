@@ -1,0 +1,12 @@
+/*
+This is an example Overpass query.
+Try it out by pressing the Run button above!
+You can find more examples with the Load tool.
+*/
+way
+  [railway=subway]
+  ({{bbox}});
+/*added by auto repair*/
+(._;>;);
+/*end of auto repair*/
+out;
