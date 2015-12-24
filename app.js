@@ -24,8 +24,15 @@ function makeMap() {
 	// initialize the map on the "map" div with a given center and zoom
 	map = L.map('map', {
 	    center: [41.505, -87.4],
-	    zoom: 15
+	    zoom: 15,
+	    zoomControl: false // turning off the auto location of the zoom control (to the right)
 	});
+	
+		// putting the zoom to the right
+			
+		L.control.zoom({
+     position:'topright'
+}).addTo(map);
 	
 	// Make some empty layers that will be filled later
 	var fakeData;
