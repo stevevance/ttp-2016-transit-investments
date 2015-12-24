@@ -206,7 +206,8 @@ function onEachFeature(feature, layer, type, status) {
 			switch(status) {
 				case "funded":
 				case "new_starts":
-						style.dashArray = [2, 10];
+						style.dashArray = [1, 9];
+						style.weight = 7;
 						break;
 		
 				case "planned":
@@ -221,7 +222,7 @@ function onEachFeature(feature, layer, type, status) {
 				
 				case "future":
 						style.weight = 4;
-						style.dashArray = [5,10];
+						style.dashArray = [5,8,1,8];
 						style.lineCap = 'square';
 						break;
 								
