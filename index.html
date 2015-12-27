@@ -59,6 +59,8 @@ font-size: 12;
 		
 		<link rel="stylesheet" href="css/leaflet.awesome-markers.css">
 		
+		<link rel="stylesheet" href="src/leaflet-search.css">
+		
 		<script src="js/leaflet.awesome-markers.js"></script>
 		
 		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300italic' rel='stylesheet' type='text/css'>
@@ -70,9 +72,10 @@ font-size: 12;
 			<div id="map"></div>
 		</div>
 		
-		<script src="leaflet_plugins/leaflet-search.js"></script>
+		<script src="src/leaflet-search.js"></script>
 		
 		<script>
+		
 			var layerId;
 			$(document).ready(function() { 
 				makeMap(); 
@@ -89,7 +92,7 @@ font-size: 12;
 				addGeoJsonLayer("map_data/projects_renovations_points.geojson", "projects_renovations_lines", "Renovating Stations", "stations", "renovating");
 			});	
 			
-			var controlSearch = new L.Control.Search({layer: layerID, initial: false, position:'topright'});
+			var controlSearch = new L.Control.Search({layer: layerID, initial: false, position:'bottomleft'}); // not working.
 			
 			map.addControl( controlSearch ); // this is supposedly the search thing, but it's not showing up.
 			
