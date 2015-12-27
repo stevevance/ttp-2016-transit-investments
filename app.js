@@ -45,6 +45,14 @@ function makeMap() {
 	});
 */
 	
+	  // Creates a red marker with the coffee icon
+  var redMarker = L.AwesomeMarkers.icon({
+    icon: 'coffee',
+    markerColor: 'red'
+  });
+  
+   L.marker([51.941196,4.512291], {icon: redMarker}).addTo(map); // instead of coordinates, i want it to replace the station icons. how do i do that?
+	
 	var otherLayers = {};
 	
 	// add the base layer maps
@@ -188,8 +196,8 @@ function onEachFeature(feature, layer, type, status) {
 		
 		//link = "<a href='" + p.Website + "'>Website</a>";
 		link = "";
-		content = "<p><b>" + p.Name + "</b></p>" + link;
-		content += showFeatureProperties(p);
+		content = "<b><font color=ff0000 size=3 face='Open Sans', sans-serif>" + p.Name + "</font></b>";
+		content += "<font size=2 face='Open Sans', sans-serif>" + showFeatureProperties(p) + "</font>";
 		popupOptions = {minWidth: 180}
 		popupOptions = {maxWidth: 220}
 		popup = L.popup(popupOptions, layer);
@@ -243,6 +251,8 @@ function onEachFeature(feature, layer, type, status) {
 				
 				break;
 			}
+			
+
 	/*
 			switch(layerId) {
 				case "projects_funded_lines":
@@ -266,7 +276,7 @@ function onEachFeature(feature, layer, type, status) {
 
 function showFeatureProperties(properties) {
 	// Don't show these properties ever:
-	var noshow = ["timestamp", "begin", "end", "altitudeMode", "tessellate", "extrude", "visibility", "drawOrder", "icon", "description"];
+	var noshow = ["Name", "Routes", "timestamp", "begin", "end", "altitudeMode", "tessellate", "extrude", "visibility", "drawOrder", "icon", "description"];
 	
 	html = "<dl class=''>";
 	$.each(properties, function(i,v) {
@@ -275,11 +285,11 @@ function showFeatureProperties(properties) {
 			// Display certain properties differently
 			switch(i) {
 				
-				case "Name":
+			/*	case "Name":
 				case "Routes":
 					i = "";
 					v = "";
-				break;
+				break; */
 			
 				case "Cost_USD":
 				case "Estimated_Cost":
