@@ -8,18 +8,24 @@ function makeMap() {
 		maxNativeZoom: 18,
 		subdomains: '1234'
 	});
+	
+	
 	var buildings = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 		detectRetina:true,
 		maxZoom: 20,
 		maxNativeZoom: 19
 	});
+	
+
 	var satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3RldmV2YW5jZSIsImEiOiJqRVdYSnFjIn0.cmW3_zqwZpvcwPYc_C2SPQ', {
 		attribution: '<a href="http://mapbox.com">Mapbox</a>',
 		detectRetina:false,
 		maxZoom: 20,
 		maxNativeZoom: 19
 	});
+	
+	
 
 	// initialize the map on the "map" div with a given center and zoom
 	map = L.map('map', {
@@ -27,6 +33,7 @@ function makeMap() {
 	    zoom: 15,
 	    zoomControl: false // turning off the auto location of the zoom control (to the right)
 	});
+	
 	
 		// putting the zoom to the right
 			
@@ -111,7 +118,7 @@ function addGeoJsonLayer(file, layerId, name, type, status) {
 		map.fitBounds(layer.getBounds());
 		
 		// Add the layer to our layer switcher
-		control.addOverlay(geojsonLayers[layerId], name + " (" + count + ")");
+	//	control.addOverlay(geojsonLayers[layerId], name + " (" + count + ")");
 	})
 	.fail(function() {
 		alert("Couldn't load your GeoJSON file; Is it where you said it is?")
@@ -293,31 +300,38 @@ function showFeatureProperties(properties) {
 			
 				case "Cost_USD":
 				case "Estimated_Cost":
+				case "Estimated_":
 					i = "<b>Estimated cost (USD)</b>: ";
 					v = "$" + number_format(v); // display a number with thousands separators
 				break;
 				
 				case "Cost_per_Mi_":
+				case "Cost_per_M":
 					i = "<b>Cost per mile</b>: ";
 					v = "$" + number_format(v); // display a number with thousands separators
 				break;
 				
 				case "Expected_Daily_Ridership":
+				case "Expected_D":
 					i = "<b>Estimated weekday riders</b>: ";
 					v = number_format(v); // display a number with thousands separators
 				break;
 				
 				case "Project_Website":
 				case "Website":
+				case "Project_We":
+				case "Web":
 					i = "";
 					v = "<a href='" + v + "' target='_blank'>Project website</a>";
 				break;
 				
 				case "Project_status":
+				case "Project_st":
 					i = "<b>Status</b>: ";
 				break;
 				
 				case "Travel_Time_Min_":
+				case "Travel_Tim":
 					i = "<b>Travel time</b>: ";
 					v = v + " min.";
 				break;
@@ -327,6 +341,7 @@ function showFeatureProperties(properties) {
 				break;
 				
 				case "Mode":
+				case "Mode1":
 					i = "<b>Type</b>: ";
 				break;
 				
@@ -337,7 +352,9 @@ function showFeatureProperties(properties) {
 				
 				
 				case "Construction_Start":
-					i = "<b>Construction start</b>: ";
+				case "Constructi":
+				case "Construct":
+					i = "<b>Construction</b>: ";
 				break;
 				
 				case "Completion_Date":
@@ -349,6 +366,8 @@ function showFeatureProperties(properties) {
 				break;
 				
 				case "Direct_Fed_Share":
+				case "Direct_Fed":
+				case "Direct_F_1":
 								case "Direct_Fed__Share":
 					i = "<b>Direct federal funding share</b>: ";
 				break;

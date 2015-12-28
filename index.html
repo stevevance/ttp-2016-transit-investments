@@ -51,6 +51,23 @@ font-size: 12;
   transform: translateY(-50%);
 }
 
+.left-mid {
+    position: absolute;
+    left: 20px;
+    width: 250px;
+    border: 0px;
+    padding: 10px;
+font-family: 'Open Sans', sans-serif;
+font-size: 12;
+  z-index: 2;
+  height: auto;
+  background: black;
+  opacity: .65;
+  color: white;
+ top: 40%;
+  transform: translateY(-50%);
+}
+
 		</style>
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -79,15 +96,14 @@ font-size: 12;
 			var layerId;
 			$(document).ready(function() { 
 				makeMap(); 
-			/*  addGeoJsonLayer("map_data/us_can_transit.geojson", "us_can_transit", "Existing fixed-guideway transit", "lines", "existing"); */
-			/*	addGeoJsonLayer("map_data/existing_transit_stops.geojson", "existing_transit_stops", "Existing stops", "stations", "existing"); */
-				addGeoJsonLayer("map_data/projects_funded_lines.geojson", "projects_funded_lines", "Funded Projects (Lines)", "lines", "funded");
-				addGeoJsonLayer("map_data/projects_funded_points.geojson", "projects_funded_points", "Funded Projects (Stations)", "stations", "funded");
+			//  addGeoJsonLayer("map_data/us_can_transit.geojson", "us_can_transit", "Existing fixed-guideway transit", "lines", "existing");
+			//	addGeoJsonLayer("map_data/existing_transit_stops.geojson", "existing_transit_stops", "Existing stops", "stations", "existing");
+			//	addGeoJsonLayer("map_data/projects_funded_ns_lines.geojson", "projects_funded_lines", "Funded/New Starts Projects (Lines)", "lines", "funded");
+			//	addGeoJsonLayer("map_data/projects_funded_points.geojson", "projects_funded_points", "Funded Projects (Stations)", "stations", "funded");
 				addGeoJsonLayer("map_data/projects_construction_lines.geojson", "projects_construction_lines", "Under Construction (Lines)", "lines", "under_construction");
 				addGeoJsonLayer("map_data/projects_construction_points.geojson", "projects_construction_points", "Under Construction (Stations)", "stations", "under_construction");
-				addGeoJsonLayer("map_data/projects_future_lines.geojson", "projects_future_lines", "Future Lines", "lines", "future");
-				addGeoJsonLayer("map_data/projects_future_points.geojson", "projects_future_points", "Future Stations", "stations", "future");
-				addGeoJsonLayer("map_data/projects_new_starts_lines.geojson", "projects_new_starts_lines", "New Starts Lines", "lines", "new_starts");
+			//	addGeoJsonLayer("map_data/projects_future_lines.geojson", "projects_future_lines", "Future Lines", "lines", "future");
+			//	addGeoJsonLayer("map_data/projects_future_points.geojson", "projects_future_points", "Future Stations", "stations", "future");
 				addGeoJsonLayer("map_data/projects_renovations_lines.geojson", "projects_renovations_lines", "Renovating Lines", "lines", "renovating");
 				addGeoJsonLayer("map_data/projects_renovations_points.geojson", "projects_renovations_lines", "Renovating Stations", "stations", "renovating");
 			});	
@@ -105,9 +121,20 @@ font-size: 12;
 <a href="http://www.thetransportpolitic.com/"><img src="http://www.thetransportpolitic.com/wp-content/themes/atahualpa/images/New-Logo.jpg" alt="The Transport Politic" width="220" border="0"></a>
 </div>
 
-<div class="right-bot">
-<b>Planned Transit in North America</b><br><br>
-Explore transit projects planned and under construction across North America. More information on transit planned and under construction can be found on <a href="http://www.thetransportpolitic.com">The Transport Politic</a>. &#169; 2016 Yonah Freemark and Steven Vance.
+<div class="left-mid">
+<font size="5" color="fff000"><b>Planned Transit in North America</b></font><br><br>
+<b>Explore transit projects planned and under construction across North America.</b><br><br>
+<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> <b>Rail</b><br>
+<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(178,24,43);stroke-width:10" /></svg> <b>Bus</b> 
+<br><br>
+<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> <b>Under construction</b><br>
+<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(186,180,224);stroke-width:10" /></svg> <b>Renovation</b><br>
+<svg height="10" width="30"><line x1="0" y1="0" x2="30" y2="10" style="stroke:rgb(33,102,172);stroke-width:8;stroke-dasharray:1,12;stroke-linecap:round" /></svg> <b>Funded or close to funding</b><br>
+<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10;stroke-dasharray:5,3,3,3" /></svg> <b>Proposed</b>
+<br><br>
+<b>Key cities: L.A., Seattle, Toronto.</b><br><br>
+More information on transit planned and under construction can be found on <a href="http://www.thetransportpolitic.com"><font color="ffffff">The Transport Politic</font></a>.<br>
+<font size="1"><br>&#169; 2016 Yonah Freemark and Steven Vance.</font>
 
 </div>
 		
