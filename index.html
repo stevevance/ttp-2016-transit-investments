@@ -37,22 +37,22 @@
 			var layerId;
 			$(document).ready(function() { 
 				makeMap(); 
-			//  addGeoJsonLayer("map_data/us_can_transit.geojson", "us_can_transit", "Existing fixed-guideway transit", "lines", "existing");
-			//	addGeoJsonLayer("map_data/existing_transit_stops.geojson", "existing_transit_stops", "Existing stops", "stations", "existing");
-			//	addGeoJsonLayer("map_data/projects_funded_ns_lines.geojson", "projects_funded_lines", "Funded/New Starts Projects (Lines)", "lines", "funded");
-			//	addGeoJsonLayer("map_data/projects_funded_points.geojson", "projects_funded_points", "Funded Projects (Stations)", "stations", "funded");
+				
+				addGeoJsonLayer("map_data/projects_funded_ns_lines.geojson", "projects_funded_lines", "Funded/New Starts Projects (Lines)", "lines", "funded");
+				addGeoJsonLayer("map_data/projects_funded_points.geojson", "projects_funded_points", "Funded Projects (Stations)", "stations", "funded");
 				addGeoJsonLayer("map_data/projects_construction_lines.geojson", "projects_construction_lines", "Under Construction (Lines)", "lines", "under_construction");
 				addGeoJsonLayer("map_data/projects_construction_points.geojson", "projects_construction_points", "Under Construction (Stations)", "stations", "under_construction");
-			//	addGeoJsonLayer("map_data/projects_future_lines.geojson", "projects_future_lines", "Future Lines", "lines", "future");
-			//	addGeoJsonLayer("map_data/projects_future_points.geojson", "projects_future_points", "Future Stations", "stations", "future");
+				addGeoJsonLayer("map_data/projects_future_lines.geojson", "projects_future_lines", "Future Lines", "lines", "future");
+				addGeoJsonLayer("map_data/projects_future_points.geojson", "projects_future_points", "Future Stations", "stations", "future");
 				addGeoJsonLayer("map_data/projects_renovations_lines.geojson", "projects_renovations_lines", "Renovating Lines", "lines", "renovating");
 				addGeoJsonLayer("map_data/projects_renovations_points.geojson", "projects_renovations_lines", "Renovating Stations", "stations", "renovating");
-			});	
-			
-			var controlSearch = new L.Control.Search({layer: layerID, initial: false, position:'bottomleft'}); // not working.
-			
-			map.addControl( controlSearch ); // this is supposedly the search thing, but it's not showing up.
-			
+				
+				/* Existing lines */
+/*
+				addGeoJsonLayer("map_data/us_can_transit.geojson", "us_can_transit", "Existing fixed-guideway transit", "lines", "existing");
+				addGeoJsonLayer("map_data/existing_transit_stops.geojson", "existing_transit_stops", "Existing stops", "stations", "existing");
+*/
+			});			
 		</script>
 
 		<script src="functions.js"></script>
