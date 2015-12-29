@@ -46,10 +46,12 @@ function makeMap() {
 	// Make some empty layers that will be filled later
 	lines = new L.featureGroup();
 	stations = new L.featureGroup();
-	stations_existing = new L.MarkerClusterGroup();
+//	stations_future = new L.featureGroup();
+//	stations_existing = new L.MarkerClusterGroup();
 	lines.addTo(map);
 	stations.addTo(map);
-	stations_existing.addTo(map);
+//	stations_future.addTo(map);
+//	stations_existing.addTo(map);
 	
 	geojsonLayers = [];
 
@@ -129,9 +131,13 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 					stations.addLayer(geojsonLayers[layerId]);
 				break;
 				
+			/*	case "stations_future":
+					stations_future.addLayer(geojsonLayers[layerId]);
+				break;
+				
 				case "stations_existing":
 					stations_existing.addLayer(geojsonLayers[layerId]);
-				break;
+				break; */
 			}
 		}
 		
@@ -166,9 +172,13 @@ function toggleLayer(layerId, type, zoomRange) {
 				stations.addLayer(geojsonLayers[layerId]);
 			break;
 			
+		/*	case "stations_future":
+				stations_future.addLayer(geojsonLayers[layerId]);
+			break;
+			
 			case "stations_existing":
 				stations_existing.addLayer(geojsonLayers[layerId]);
-			break;
+			break; */
 		}
 	} else {
 		console.log("Removing layer " + layerId);
@@ -181,9 +191,13 @@ function toggleLayer(layerId, type, zoomRange) {
 				stations.removeLayer(geojsonLayers[layerId]);
 			break;
 			
+		/*	case "stations_future":
+				stations_future.removeLayer(geojsonLayers[layerId]);
+			break;
+			
 			case "stations_existing":
 				stations_existing.removeLayer(geojsonLayers[layerId]);
-			break;
+			break; */
 		}
 	}
 }
@@ -221,6 +235,13 @@ function createIcons() {
 		// non-existing station
 	});
 	
+/*	icons["stations_future"] = L.AwesomeMarkers.icon({
+		icon: 'stop-circle-o',
+		prefix: 'fa',
+		markerColor: 'red'
+		// future station
+	});
+ */	
 	return icons;
 }
 
@@ -290,9 +311,9 @@ function onEachFeature(feature, layer, type, status) {
 						break;
 								
 				case "existing":
-						style.weight = 2;
+						style.weight = 2.5;
 						style.lineCap = 'round';
-						style.color = "#666666";
+						style.color = "#4F4F4F";
 						break;
 								
 				case "under_construction":
