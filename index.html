@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>The Transport Politic - 2016 Transit Improvements</title>
+		<title>The Transport Politic - Transit Explorer 2016</title>
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -25,7 +25,7 @@
 		<script src="js/leaflet.awesome-markers.js"></script>
 		<script src="leaflet_plugins/leaflet.markercluster.js"></script>
 		
-		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300italic' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300italic|Archivo+Narrow:400,700' rel='stylesheet' type='text/css'>
 		
 	</head>
 	
@@ -101,7 +101,7 @@
 						"name": "Existing fixed-guideway transit",
 						"type": "lines",
 						"status": "existing",
-						"zoomRange": [10,99]
+						"zoomRange": [9,99]
 					}/*,
 					{
 						"file": "map_data/existing_transit_stops.geojson",
@@ -136,29 +136,40 @@
 		</div>
 
 		<div class="left-mid">
-			<font size="5" color="F9AC24"><b>Planned Transit in North America</b></font><br><br>
+			<font size="6" face="Archivo Narrow, sans serif" color="000000"><b>Transit Explorer</b></font><br>
+			<font size="3" face="Archivo Narrow, sans serif" color="666666"><b>Discover current, planned, and potential fixed-guideway transit systems in North America.</b></font><br><br>
 			<table width="100%" border="0" valign="top">
 			<tr>
 			<td width="30%" valign="top">
-			<font color="ffffff" size="2">
+			<font color="000000" face="Archivo Narrow, sans serif" size="2">
 			<svg height="5" width="36"><line x1="0" y1="0" x2="36" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> Rail<br>
 			<svg height="5" width="36"><line x1="0" y1="0" x2="36" y2="0" style="stroke:rgb(178,24,43);stroke-width:10" /></svg> Bus 
 			</font>
 			</td>
 			<td width="70%" valign="top">
-			<font color="ffffff" size="2">
+			<font color="000000" face="Archivo Narrow, sans serif" size="2">
 			<svg height="5" width="18"><line x1="0" y1="0" x2="18" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> 
 			<svg height="5" width="18"><line x1="0" y1="0" x2="18" y2="0" style="stroke:rgb(178,24,43);stroke-width:10" /></svg> Under construction<br>
-			<svg height="5" width="36"><line x1="0" y1="0" x2="36" y2="0" style="stroke:rgb(186,180,224);stroke-width:10" /></svg> Under renovation<br>
+			<svg height="5" width="40"><line x1="0" y1="0" x2="39" y2="0" style="stroke:rgb(186,180,224);stroke-width:10" /></svg> Under renovation<br>
 			<svg height="6" width="18"><line x1="0" y1="3" x2="30" y2="3" style="stroke:rgb(33,102,172);stroke-width:5;stroke-dasharray:1,8;stroke-linecap:round" /></svg> 
 			<svg height="6" width="18"><line x1="0" y1="3" x2="30" y2="3" style="stroke:rgb(178,24,43);stroke-width:5;stroke-dasharray:1,8;stroke-linecap:round" /></svg> Planned<br>
 			<svg height="5" width="18"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10;stroke-dasharray:5,3,3,3" /></svg> 
 			<svg height="5" width="18"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(178,24,43);stroke-width:10;stroke-dasharray:5,3,3,3" /></svg> Proposed
 			</font>
-			</td></tr></table>
-			<br><b>Key cities: L.A., Seattle, Toronto.</b><br><br>
-			More information on transit planned and under construction can be found on <a href="http://www.thetransportpolitic.com" target="_self"><font color="ffffff">The Transport Politic</font></a>.<br>
-			<font size="1"><br>&#169; 2016 Yonah Freemark and Steven Vance.</font>
+			</td></tr></table><font color="000000" face="Archivo Narrow, sans serif" size="2">
+			<br><b>Zoom to a key city: [SHOULD BE A PULL DOWN THING WITH Bay Area, Denver, L.A., New York City, Seattle, Toronto.]</b><br><br>
+			More information can be found on <a href="http://www.thetransportpolitic.com" target="_self"><font color="000000">The Transport Politic</font></a>. <a href="http://www.thetransportpolitic.com" target="_self"><font color="000000">Did you find an error?</font></a><br></font>
+			<font size="1" face="Archivo Narrow, sans serif" ><br>&#169; 2016 Yonah Freemark and Steven Vance.</font>
+			<br>			<br>
+			 <a href="mailto:?Subject=Transit Explorer 2016: The Transport Politic&amp;Body=I%20saw%20this%20and%20thought%20of%20you!%20 http://www.thetransportpolitic.com/transitexplorer">
+        <img src="images/email.png" width="40" alt="Email" /></a>
+        <a href="http://www.facebook.com/sharer.php?u=http://www.thetransportpolitic.com/transitexplorer" target="_blank">
+        <img src="images/facebook.png" width="40" alt="Facebook" /></a>
+        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http://www.thetransportpolitic.com/transitexplorer" target="_blank">
+        <img src="images/linkedin.png" width="40" alt="LinkedIn" /></a>
+        <a href="https://twitter.com/share?url=http://www.thetransportpolitic.com/transitexplorer&amp;text=Transit%20Explorer:%20The%20Transport%20Politic&amp" target="_blank">
+        <img src="images/twitter.png" width="40" alt="Twitter" /></a>
+
 		</div>
 		
 	</body>

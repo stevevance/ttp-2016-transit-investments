@@ -52,16 +52,24 @@ font-size: 12;
 .left-mid {
     position: absolute;
     left: 20px;
-    width: 250px;
+    width: 220px;
     border: 0px;
     padding: 10px;
 font-family: 'Open Sans', sans-serif;
 font-size: 12;
   z-index: 2;
   height: auto;
-  background: black;
-  opacity: .65;
-  color: white;
+  background: white;
+  opacity: .75;
+  color: black;
  top: 50%;
   transform: translateY(-50%);
+}
+
+.buttons img {
+width: 20px;
+padding: 5px;
+border: 0;
+box-shadow: 0;
+display: inline;
 }
