@@ -318,6 +318,13 @@ function onEachFeature(feature, layer, type, status) {
 				break;	
 			}
 			
+			switch(p.Mode1) {
+				case "Bus Rapid Transit":
+					style.color = "#b2182b";
+				break;
+				
+			}
+			
 			switch(status) {
 				case "funded":
 				case "new_starts":
@@ -351,6 +358,7 @@ function onEachFeature(feature, layer, type, status) {
 				
 				break;
 			}
+			
 			
 
 	/*
