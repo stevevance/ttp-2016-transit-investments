@@ -35,11 +35,10 @@ function makeMap() {
 	});
 	
 	
-		// putting the zoom to the right
-			
-		L.control.zoom({
-     position:'topright'
-}).addTo(map);
+	// putting the zoom to the right
+	L.control.zoom({
+	     position:'topright'
+	}).addTo(map);
 	
 	// Make some empty layers that will be filled later
 	var fakeData;
@@ -51,6 +50,10 @@ function makeMap() {
 		onEachFeature: onEachFeature	
 	});
 */
+
+	// Add a search control
+	var controlSearch = new L.Control.Search({layer: layer, initial: false, position:'bottomleft'}); // not working.
+	map.addControl( controlSearch ); // this is supposedly the search thing, but it's not showing up.
 	
 	  // Creates a red marker with the coffee icon
   var redMarker = L.AwesomeMarkers.icon({
@@ -66,8 +69,8 @@ function makeMap() {
 	var baseMaps = {"Streets": streets, "Building Names": buildings, "Satellite": satellite};
 	streets.addTo(map); // load streets by default
 	
-	// create a layer control that turns on/off layers
-	control = L.control.layers(baseMaps, otherLayers, {collapsed: false, autoZIndex: false}).addTo(map);
+	// create a layer switcher
+	control = L.control.layers(baseMaps, otherLayers, {collapsed: true, autoZIndex: true}).addTo(map);
 	
 /*	L.controlCredits({
 	    image: "/images/the-transport-politic-logo.jpg",
@@ -104,8 +107,7 @@ function addGeoJsonLayer(file, layerId, name, type, status) {
 		
 		data = data;
 		geojsonLayers[layerId] = L.geoJson(data, {
-			onEachFeature: function(feature, layer) { onEachFeature(feature, layer, type, status) },
-			//style: function() {return pickStyle(type, status); }
+			onEachFeature: function(feature, layer) { onEachFeature(feature, layer, type, status) }
 		});
 		
 		count = data.features.length;
@@ -127,47 +129,6 @@ function addGeoJsonLayer(file, layerId, name, type, status) {
 
 	});
 	
-}
-
-function pickStyle(type, status) {
-	style = {}
-	console.log(status);
-	
-	switch(type) {
-		case "rail":
-			
-		break;
-	}
-	
-	switch(status) {
-		case "funded":
-		
-		case "new_starts":
-					style.dashArray = [2, 10];
-		break;
-		
-		case "planned":
-			style.dashArray = [2, 10];
-		break;
-		
-		case "renovating":
-				case "existing":
-							style.weight = 2;
-			style.lineCap = 'round';
-								style.color = "#666666";
-								break;
-					case "future":
-							style.weight = 4;
-												style.dashArray = [5,10];
-			style.lineCap = 'square';
-								break;
-								
-		case "under_construction":
-		
-		break;
-	}
-	
-	return style;
 }
 
 function resizeMap() {
@@ -285,7 +246,9 @@ function showFeatureProperties(properties) {
 	// Don't show these properties ever:
 	var noshow = ["Name", "Routes", "timestamp", "begin", "end", "altitudeMode", "tessellate", "extrude", "visibility", "drawOrder", "icon", "description"];
 	
-	html = "<dl class=''>";
+	html = "<dl class=''>"; // use <dl> for a simple data list
+	
+	// Iterate through each of the features and craft together a popup
 	$.each(properties, function(i,v) {
 		if(!in_array(i, noshow) && v != undefined && v != "") {
 			
