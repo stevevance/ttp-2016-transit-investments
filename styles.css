@@ -82,3 +82,8 @@ font-size: 12;
  top: 50%;
   transform: translateY(-50%);
 }
+
+.form {
+font-family: 'Archivo Narrow', sans-serif;
+font-size: 12;
+}
