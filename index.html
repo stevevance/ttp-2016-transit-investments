@@ -8,66 +8,7 @@
 		<link rel="stylesheet" href="leaflet_plugins/leaflet-control-credits.css" />
 		<link rel="stylesheet" href="styles.css" />
 		<style>
-			html, body {
-				height:100%;
-				margin:0;
-			}
-			
-			.top-nav {
-	 position: absolute;
-    width: 100%;
-  top: 5%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    border: 0px;
-    padding: 8px;
-display: table-cell;
-    vertical-align: middle;
-font-family: 'Open Sans', sans-serif;
-font-size: 16;
-font-color: 000000;
-  z-index: 3;
-  height: auto;
-  background: white;
-  opacity: .80;
-  color: black;
-}
-
-.right-bot {
-    position: absolute;
-    right: 10px;
-    width: 300px;
-    border: 0px;
-    padding: 10px;
-font-family: 'Open Sans', sans-serif;
-font-size: 12;
-  z-index: 2;
-  height: auto;
-  background: black;
-  opacity: .75;
-  color: white;
- top: 90%;
-  transform: translateY(-50%);
-}
-
-.left-mid {
-    position: absolute;
-    left: 20px;
-    width: 250px;
-    border: 0px;
-    padding: 10px;
-font-family: 'Open Sans', sans-serif;
-font-size: 12;
-  z-index: 2;
-  height: auto;
-  background: black;
-  opacity: .65;
-  color: white;
- top: 50%;
-  transform: translateY(-50%);
-}
-
+			/* Really nothign should go here and everything should go in styles.css */
 		</style>
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -117,33 +58,37 @@ font-size: 12;
 		<script src="functions.js"></script>
 		<script src="app.js"></script>
 		
+		<!-- The banner -->
 		<div class="top-nav">
-<a href="http://www.thetransportpolitic.com/"><img src="http://www.thetransportpolitic.com/wp-content/themes/atahualpa/images/New-Logo.jpg" alt="The Transport Politic" width="220" border="0"></a>
-</div>
+			<div class="container">
+				<a href="http://www.thetransportpolitic.com/" target="_blank">
+					<img src="http://www.thetransportpolitic.com/wp-content/themes/atahualpa/images/New-Logo.jpg" alt="The Transport Politic" width="220" border="0">
+				</a>
+			</div>
+		</div>
 
-<div class="left-mid">
-<font size="5" color="F9AC24"><b>Planned Transit in North America</b></font><br><br>
-<table width="100%" border="0" valign="top">
-<tr>
-<td width="30%" valign="top">
-<font color="ffffff" size="2">
-<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> Rail<br>
-<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(178,24,43);stroke-width:10" /></svg> Bus 
-</font>
-</td>
-<td width="70%" valign="top">
-<font color="ffffff" size="2">
-<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> Under construction<br>
-<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(186,180,224);stroke-width:10" /></svg> Renovation<br>
-<svg height="6" width="30"><line x1="0" y1="3" x2="30" y2="3" style="stroke:rgb(33,102,172);stroke-width:5;stroke-dasharray:1,8;stroke-linecap:round" /></svg> Planned<br>
-<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10;stroke-dasharray:5,3,3,3" /></svg> Proposed
-</font>
-</td></tr></table>
-<br><b>Key cities: L.A., Seattle, Toronto.</b><br><br>
-More information on transit planned and under construction can be found on <a href="http://www.thetransportpolitic.com"><font color="ffffff">The Transport Politic</font></a>.<br>
-<font size="1"><br>&#169; 2016 Yonah Freemark and Steven Vance.</font>
-
-</div>
+		<div class="left-mid">
+			<font size="5" color="F9AC24"><b>Planned Transit in North America</b></font><br><br>
+			<table width="100%" border="0" valign="top">
+			<tr>
+			<td width="30%" valign="top">
+			<font color="ffffff" size="2">
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> Rail<br>
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(178,24,43);stroke-width:10" /></svg> Bus 
+			</font>
+			</td>
+			<td width="70%" valign="top">
+			<font color="ffffff" size="2">
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> Under construction<br>
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(186,180,224);stroke-width:10" /></svg> Renovation<br>
+			<svg height="6" width="30"><line x1="0" y1="3" x2="30" y2="3" style="stroke:rgb(33,102,172);stroke-width:5;stroke-dasharray:1,8;stroke-linecap:round" /></svg> Planned<br>
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10;stroke-dasharray:5,3,3,3" /></svg> Proposed
+			</font>
+			</td></tr></table>
+			<br><b>Key cities: L.A., Seattle, Toronto.</b><br><br>
+			More information on transit planned and under construction can be found on <a href="http://www.thetransportpolitic.com"><font color="ffffff">The Transport Politic</font></a>.<br>
+			<font size="1"><br>&#169; 2016 Yonah Freemark and Steven Vance.</font>
+		</div>
 		
 	</body>
 </html>

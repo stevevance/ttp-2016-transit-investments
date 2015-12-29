@@ -1,3 +1,67 @@
+/* Reset the margins for <html> and <body> tags */
+html, body {
+	height:100%;
+	margin:0;
+}
+
 .popup dt { font-weight: bold; float: left; width: 5em; clear:both; }
 .popup dd { margin: 0 0 0.4em 0; float: left; }
 .popup p.clear { clear: both; }
+
+/* Map overlays */
+.top-nav {
+	position: absolute;
+	width: 100%;
+	top: 1em;
+	lleft: 50%;
+	mmargin-right: -50%;
+	ttransform: translate(-50%, -50%);
+	border: 0px;
+	display: table-cell;
+	vertical-align: middle;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16;
+	font-color: 000000;
+	z-index: 3;
+	height: auto;
+	background: white;
+	opacity: .80;
+	color: black;
+}
+.top-nav .container {
+	margin:8px;
+}
+
+.right-bot {
+    position: absolute;
+    right: 10px;
+    width: 300px;
+    border: 0px;
+    padding: 10px;
+font-family: 'Open Sans', sans-serif;
+font-size: 12;
+  z-index: 2;
+  height: auto;
+  background: black;
+  opacity: .75;
+  color: white;
+ top: 90%;
+  transform: translateY(-50%);
+}
+
+.left-mid {
+    position: absolute;
+    left: 20px;
+    width: 250px;
+    border: 0px;
+    padding: 10px;
+font-family: 'Open Sans', sans-serif;
+font-size: 12;
+  z-index: 2;
+  height: auto;
+  background: black;
+  opacity: .65;
+  color: white;
+ top: 50%;
+  transform: translateY(-50%);
+}
