@@ -10,6 +10,37 @@ function makeMap() {
 	});
 	
 	
+	var cities = {
+    "losangeles": {
+        "lat": 34,
+       "lng": -118
+    },
+    "seattle": {
+        "lat": 47.6,
+       "lng": -122.3
+    },
+     "sanfrancisco": {
+        "lat": 37.6,
+       "lng": -122.2
+    },
+     "denver": {
+        "lat": 39.8,
+       "lng": -105
+    },
+     "toronto": {
+        "lat": 43.7,
+       "lng": -79.4
+    },
+     "newyork": {
+        "lat": 40.7,
+       "lng": -74
+    },
+     "mexico": {
+        "lat": 19.4,
+       "lng": -99.1
+    },
+};
+	
 	var buildings = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 		detectRetina:true,
