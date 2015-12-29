@@ -34,6 +34,7 @@ function makeMap() {
 	    maxZoom: 18,
 	    zoomControl: false // turning off the auto location of the zoom control (to the right)
 	});
+	icons = createIcons();
 	
 	bounds = map.getBounds();
 	
@@ -204,7 +205,7 @@ function resizeMap() {
 	return height;
 }
 
-function getIcon(which) {
+function createIcons() {
 	icons = [];
 	icons["stations_existing"] = L.AwesomeMarkers.icon({
 		icon: 'subway',
@@ -220,7 +221,7 @@ function getIcon(which) {
 		// non-existing station
 	});
 	
-	return icons[which];
+	return icons;
 }
 
 function onEachFeature(feature, layer, type, status) {
@@ -248,7 +249,7 @@ function onEachFeature(feature, layer, type, status) {
 		layer.bindPopup(popup);
 		
 		if(type == "stations" || type == "stations_existing") {
-			layer.setIcon(getIcon(type));
+			layer.setIcon(icons[type]);
 		}
 		
 		if(type == "lines") {
