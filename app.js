@@ -29,36 +29,41 @@ function makeMap() {
 
 	// initialize the map on the "map" div with a given center and zoom
 	map = L.map('map', {
-	    center: [41.505, -87.4],
+	    center: [41.89, -87.62],
 	    zoom: 15,
+	    maxZoom: 18,
 	    zoomControl: false // turning off the auto location of the zoom control (to the right)
 	});
+	icons = createIcons();
 	
+	bounds = map.getBounds();
 	
-		// putting the zoom to the right
-			
-		L.control.zoom({
-     position:'topright'
-}).addTo(map);
+	// putting the zoom to the right
+	L.control.zoom({
+	     position:'topright'
+	}).addTo(map);
 	
 	// Make some empty layers that will be filled later
-	var fakeData;
-	layer = new L.featureGroup();
-	geojsonLayers = [];
-/*
-	geojsonLayer = L.geoJson(fakeData, {
-		//style: {},
-		onEachFeature: onEachFeature	
-	});
-*/
+	lines = new L.featureGroup();
+	stations = new L.featureGroup();
+	stations_existing = new L.MarkerClusterGroup();
+	lines.addTo(map);
+	stations.addTo(map);
+	stations_existing.addTo(map);
 	
-	  // Creates a red marker with the coffee icon
-  var redMarker = L.AwesomeMarkers.icon({
-    icon: 'coffee',
-    markerColor: 'red'
-  });
-  
-   L.marker([51.941196,4.512291], {icon: redMarker}).addTo(map); // instead of coordinates, i want it to replace the station icons. how do i do that?
+	geojsonLayers = [];
+
+	// Add a search control
+/*
+	var search_options = {
+		layer: layer, 
+		initial: false, 
+		position:'bottomleft', 
+		propertyLoc: features.geometry.coordinates
+	}
+	var controlSearch = new L.Control.Search(search_options);
+	map.addControl( controlSearch );
+*/
 	
 	var otherLayers = {};
 	
@@ -66,36 +71,29 @@ function makeMap() {
 	var baseMaps = {"Streets": streets, "Building Names": buildings, "Satellite": satellite};
 	streets.addTo(map); // load streets by default
 	
-	// create a layer control that turns on/off layers
-	control = L.control.layers(baseMaps, otherLayers, {collapsed: false, autoZIndex: false}).addTo(map);
-	
-/*	L.controlCredits({
-	    image: "/images/the-transport-politic-logo.jpg",
-	    link: "http://www.thetransportpolitic.com",
-	    text: "Interactive mapping<br/>by GreenInfo Network",
-	    width: 517,
-	    height: 85
-	}).addTo(map);
-	
-	*/
-	
-	layer.addTo(map);
+	// create a layer switcher
+	control = L.control.layers(baseMaps, otherLayers, {collapsed: false, autoZIndex: true}).addTo(map);
 	
 	// Adjust the map size
 	resizeMap();
 	$(window).on("resize", resizeMap);
 }
 
-function addGeoJsonLayer(file, layerId, name, type, status) {
+function processLayers(layers) {
+	$.each(layers, function(i, v) {
+		addGeoJsonLayer(v.file, v.layerId, v.name, v.type, v.status, v.zoomRange);
+	});
+}
+
+function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 	
 	/*
 	* A generic function that simply adds our GeoJSON file to the map
 	* and fits the map bounds (the viewport) to the extents of the GeoJSON features (zooms in or out
-	* to show all the features)
+	* to show all the features);
+	* parameter:zoomRange is an array [13,99] that tells the highest and lowest zoom levels this layer can be shown at
 	*/
-	
-	window["layerId"] = layerId;
-	
+		
 	console.log("adding GeoJSON file '" + file + "' with layerId '" + layerId + "'");
 	$.getJSON(file, function() {
 		console.log( "success" );
@@ -104,21 +102,41 @@ function addGeoJsonLayer(file, layerId, name, type, status) {
 		
 		data = data;
 		geojsonLayers[layerId] = L.geoJson(data, {
-			onEachFeature: function(feature, layer) { onEachFeature(feature, layer, type, status) },
-			//style: function() {return pickStyle(type, status); }
+			onEachFeature: function(feature, layer) { onEachFeature(feature, layer, type, status) }
 		});
+		layerBounds = geojsonLayers[layerId].getBounds();
+		bounds.extend(layerBounds);
+		map.fitBounds(bounds);
 		
 		count = data.features.length;
 		
 		// Add the data to our GeoJSON layer
-		geojsonLayers[layerId].addData(data);
-		layer.addLayer(geojsonLayers[layerId]);
+		//geojsonLayers[layerId].addData(data);
 		
-		// Fit the map to that layer 
-		map.fitBounds(layer.getBounds());
+		// Only show this layer at certain zoom levels
+		if(zoomRange != undefined) {
+			console.log(layerId + " has a zoomRange of " + zoomRange);
+			map.on("zoomend", function() {
+				toggleLayer(layerId, type, zoomRange);
+			});
+		} else {
+			switch(type) {
+				case "lines":
+					lines.addLayer(geojsonLayers[layerId]);
+				break;
+				
+				case "stations":
+					stations.addLayer(geojsonLayers[layerId]);
+				break;
+				
+				case "stations_existing":
+					stations_existing.addLayer(geojsonLayers[layerId]);
+				break;
+			}
+		}
 		
 		// Add the layer to our layer switcher
-	//	control.addOverlay(geojsonLayers[layerId], name + " (" + count + ")");
+		//control.addOverlay(geojsonLayers[layerId], name + " (" + count + ")");
 	})
 	.fail(function() {
 		alert("Couldn't load your GeoJSON file; Is it where you said it is?")
@@ -129,45 +147,45 @@ function addGeoJsonLayer(file, layerId, name, type, status) {
 	
 }
 
-function pickStyle(type, status) {
-	style = {}
-	console.log(status);
+function toggleLayer(layerId, type, zoomRange) {
+
+	var max = Math.max.apply(Math, zoomRange);
+	var min = Math.min.apply(Math, zoomRange);
 	
-	switch(type) {
-		case "rail":
+	// Check to see if we're within range
+	zoom = map.getZoom();
+	console.log("Current zoom: " + zoom + "; min: " + min + "; max: " + max);
+	if(zoom >= min && zoom <= max) {
+		console.log("Adding layer " + layerId);
+		switch(type) {
+			case "lines":
+				lines.addLayer(geojsonLayers[layerId]);
+			break;
 			
-		break;
+			case "stations":
+				stations.addLayer(geojsonLayers[layerId]);
+			break;
+			
+			case "stations_existing":
+				stations_existing.addLayer(geojsonLayers[layerId]);
+			break;
+		}
+	} else {
+		console.log("Removing layer " + layerId);
+		switch(type) {
+			case "lines":
+				lines.removeLayer(geojsonLayers[layerId]);
+			break;
+			
+			case "stations":
+				stations.removeLayer(geojsonLayers[layerId]);
+			break;
+			
+			case "stations_existing":
+				stations_existing.removeLayer(geojsonLayers[layerId]);
+			break;
+		}
 	}
-	
-	switch(status) {
-		case "funded":
-		
-		case "new_starts":
-					style.dashArray = [2, 10];
-		break;
-		
-		case "planned":
-			style.dashArray = [2, 10];
-		break;
-		
-		case "renovating":
-				case "existing":
-							style.weight = 2;
-			style.lineCap = 'round';
-								style.color = "#666666";
-								break;
-					case "future":
-							style.weight = 4;
-												style.dashArray = [5,10];
-			style.lineCap = 'square';
-								break;
-								
-		case "under_construction":
-		
-		break;
-	}
-	
-	return style;
 }
 
 function resizeMap() {
@@ -185,6 +203,25 @@ function resizeMap() {
 	map.invalidateSize();
 	
 	return height;
+}
+
+function createIcons() {
+	icons = [];
+	icons["stations_existing"] = L.AwesomeMarkers.icon({
+		icon: 'subway',
+		prefix: 'fa',
+		markerColor: 'lightblue'
+		// existing station
+	});
+	
+	icons["stations"] = L.AwesomeMarkers.icon({
+		icon: 'subway',
+		prefix: 'fa',
+		markerColor: 'red'
+		// non-existing station
+	});
+	
+	return icons;
 }
 
 function onEachFeature(feature, layer, type, status) {
@@ -210,6 +247,10 @@ function onEachFeature(feature, layer, type, status) {
 		popup = L.popup(popupOptions, layer);
 		popup.setContent(content);
 		layer.bindPopup(popup);
+		
+		if(type == "stations" || type == "stations_existing") {
+			layer.setIcon(icons[type]);
+		}
 		
 		if(type == "lines") {
 			style.weight = 6;
@@ -285,7 +326,9 @@ function showFeatureProperties(properties) {
 	// Don't show these properties ever:
 	var noshow = ["Name", "Routes", "timestamp", "begin", "end", "altitudeMode", "tessellate", "extrude", "visibility", "drawOrder", "icon", "description"];
 	
-	html = "<dl class=''>";
+	html = "<dl class=''>"; // use <dl> for a simple data list
+	
+	// Iterate through each of the features and craft together a popup
 	$.each(properties, function(i,v) {
 		if(!in_array(i, noshow) && v != undefined && v != "") {
 			

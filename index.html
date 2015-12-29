@@ -4,70 +4,9 @@
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-		<script type="text/javascript" src="leaflet_plugins/leaflet-control-credits.js"></script>
-		<link rel="stylesheet" href="leaflet_plugins/leaflet-control-credits.css" />
 		<link rel="stylesheet" href="styles.css" />
 		<style>
-			html, body {
-				height:100%;
-				margin:0;
-			}
-			
-			.top-nav {
-	 position: absolute;
-    width: 100%;
-  top: 5%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    border: 0px;
-    padding: 8px;
-display: table-cell;
-    vertical-align: middle;
-font-family: 'Open Sans', sans-serif;
-font-size: 16;
-font-color: 000000;
-  z-index: 3;
-  height: auto;
-  background: white;
-  opacity: .80;
-  color: black;
-}
-
-.right-bot {
-    position: absolute;
-    right: 10px;
-    width: 300px;
-    border: 0px;
-    padding: 10px;
-font-family: 'Open Sans', sans-serif;
-font-size: 12;
-  z-index: 2;
-  height: auto;
-  background: black;
-  opacity: .75;
-  color: white;
- top: 90%;
-  transform: translateY(-50%);
-}
-
-.left-mid {
-    position: absolute;
-    left: 20px;
-    width: 250px;
-    border: 0px;
-    padding: 10px;
-font-family: 'Open Sans', sans-serif;
-font-size: 12;
-  z-index: 2;
-  height: auto;
-  background: black;
-  opacity: .65;
-  color: white;
- top: 50%;
-  transform: translateY(-50%);
-}
-
+			/* Really nothign should go here and everything should go in styles.css */
 		</style>
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -77,8 +16,14 @@ font-size: 12;
 		<link rel="stylesheet" href="css/leaflet.awesome-markers.css">
 		
 		<link rel="stylesheet" href="src/leaflet-search.css">
+		<link rel="stylesheet" href="leaflet_plugins/MarkerCluster.css">
+		<link rel="stylesheet" href="leaflet_plugins/MarkerCluster.Default.css">
 		
+		<!-- Leaflet plugins -->
+		<script src="src/leaflet-search.js"></script>
+		<script src="src/leaflet-search.js"></script>
 		<script src="js/leaflet.awesome-markers.js"></script>
+		<script src="leaflet_plugins/leaflet.markercluster.js"></script>
 		
 		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300italic' rel='stylesheet' type='text/css'>
 		
@@ -89,64 +34,129 @@ font-size: 12;
 			<div id="map"></div>
 		</div>
 		
-		<script src="src/leaflet-search.js"></script>
-		
 		<script>
-		
-			var layerId;
 			$(document).ready(function() { 
 				makeMap(); 
-			//  addGeoJsonLayer("map_data/us_can_transit.geojson", "us_can_transit", "Existing fixed-guideway transit", "lines", "existing");
-			//	addGeoJsonLayer("map_data/existing_transit_stops.geojson", "existing_transit_stops", "Existing stops", "stations", "existing");
-			//	addGeoJsonLayer("map_data/projects_funded_ns_lines.geojson", "projects_funded_lines", "Funded/New Starts Projects (Lines)", "lines", "funded");
-			//	addGeoJsonLayer("map_data/projects_funded_points.geojson", "projects_funded_points", "Funded Projects (Stations)", "stations", "funded");
-				addGeoJsonLayer("map_data/projects_construction_lines.geojson", "projects_construction_lines", "Under Construction (Lines)", "lines", "under_construction");
-				addGeoJsonLayer("map_data/projects_construction_points.geojson", "projects_construction_points", "Under Construction (Stations)", "stations", "under_construction");
-			//	addGeoJsonLayer("map_data/projects_future_lines.geojson", "projects_future_lines", "Future Lines", "lines", "future");
-			//	addGeoJsonLayer("map_data/projects_future_points.geojson", "projects_future_points", "Future Stations", "stations", "future");
-				addGeoJsonLayer("map_data/projects_renovations_lines.geojson", "projects_renovations_lines", "Renovating Lines", "lines", "renovating");
-				addGeoJsonLayer("map_data/projects_renovations_points.geojson", "projects_renovations_lines", "Renovating Stations", "stations", "renovating");
-			});	
-			
-			var controlSearch = new L.Control.Search({layer: layerID, initial: false, position:'bottomleft'}); // not working.
-			
-			map.addControl( controlSearch ); // this is supposedly the search thing, but it's not showing up.
-			
+				
+				layers = [
+					{
+						"file": "map_data/projects_funded_ns_lines.geojson",
+						"layerId": "projects_funded_lines",
+						"name": "Funded/New Starts Projects (Lines)",
+						"type": "lines",
+						"status": "funded"
+					},
+					{
+						"file": "map_data/projects_funded_points.geojson",
+						"layerId": "projects_funded_points",
+						"name": "Funded Projects (Stations)",
+						"type": "stations",
+						"status": "funded"
+					},
+					{
+						"file": "map_data/projects_construction_lines.geojson",
+						"layerId": "projects_construction_lines",
+						"name": "Under Construction (Lines)",
+						"type": "lines",
+						"status": "under_construction"
+					},
+					{
+						"file": "map_data/projects_construction_points.geojson",
+						"layerId": "projects_construction_points",
+						"name": "Under Construction (Stations)",
+						"type": "stations",
+						"status": "under_construction"
+					},
+					{
+						"file": "map_data/projects_future_lines.geojson",
+						"layerId": "projects_future_lines",
+						"name": "Future Lines",
+						"type": "lines",
+						"status": "future"
+					},
+					{
+						"file": "map_data/projects_future_points.geojson",
+						"layerId": "projects_future_points",
+						"name": "Future Stations",
+						"type": "stations",
+						"status": "future"
+					},
+					{
+						"file": "map_data/projects_renovations_lines.geojson",
+						"layerId": "projects_renovations_lines",
+						"name": "Renovating Lines",
+						"type": "lines",
+						"status": "renovating"
+					},
+					{
+						"file": "map_data/projects_renovations_points.geojson",
+						"layerId": "projects_renovations_stations",
+						"name": "Renovating Stations",
+						"type": "stations",
+						"status": "renovating"
+					},
+					{
+						"file": "map_data/us_can_transit.geojson",
+						"layerId": "existing_lines",
+						"name": "Existing fixed-guideway transit",
+						"type": "lines",
+						"status": "existing",
+						"zoomRange": [14,99]
+					},
+					{
+						"file": "map_data/existing_transit_stops.geojson",
+						"layerId": "existing_transit_stops",
+						"name": "Existing stations",
+						"type": "stations_existing",
+						"status": "existing",
+						"zoomRange": [14,99]
+					}
+				];
+				
+				processLayers(layers);
+				
+/*
+				setTimeout(function() {
+					map.fitBounds(bounds);
+				}, 500);
+*/
+			});			
 		</script>
 
 		<script src="functions.js"></script>
 		<script src="app.js"></script>
 		
+		<!-- The banner -->
 		<div class="top-nav">
-<a href="http://www.thetransportpolitic.com/"><img src="http://www.thetransportpolitic.com/wp-content/themes/atahualpa/images/New-Logo.jpg" alt="The Transport Politic" width="220" border="0"></a>
-</div>
+			<div class="container">
+				<a href="http://www.thetransportpolitic.com/" target="_blank">
+					<img src="http://www.thetransportpolitic.com/wp-content/themes/atahualpa/images/New-Logo.jpg" alt="The Transport Politic" width="220" border="0">
+				</a>
+			</div>
+		</div>
 
-<div class="left-mid">
-<font size="5" color="F9AC24"><b>Planned Transit in North America</b></font><br><br>
-<table width="100%" border="0" valign="top">
-<tr>
-<td width="30%" valign="top">
-<font color="ffffff" size="2">
-<svg height="5" width="36"><line x1="0" y1="0" x2="36" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> Rail<br>
-<svg height="5" width="36"><line x1="0" y1="0" x2="36" y2="0" style="stroke:rgb(178,24,43);stroke-width:10" /></svg> Bus 
-</font>
-</td>
-<td width="70%" valign="top">
-<font color="ffffff" size="2">
-<svg height="5" width="18"><line x1="0" y1="0" x2="18" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg>
-<svg height="5" width="18"><line x1="0" y1="0" x2="18" y2="0" style="stroke:rgb(178,24,43);stroke-width:10" /></svg> Under construction<br>
-<svg height="5" width="36"><line x1="0" y1="0" x2="36" y2="0" style="stroke:rgb(186,180,224);stroke-width:10" /></svg> Under renovation<br>
-<svg height="6" width="18"><line x1="0" y1="3" x2="18" y2="3" style="stroke:rgb(33,102,172);stroke-width:5;stroke-dasharray:1,6;stroke-linecap:round" /></svg>
-<svg height="6" width="18"><line x1="0" y1="3" x2="18" y2="3" style="stroke:rgb(178,24,43);stroke-width:5;stroke-dasharray:1,6;stroke-linecap:round" /></svg> Planned<br>
-<svg height="5" width="18"><line x1="0" y1="0" x2="18" y2="0" style="stroke:rgb(33,102,172);stroke-width:10;stroke-dasharray:8,3,3,3" /></svg> 
-<svg height="5" width="18"><line x1="0" y1="0" x2="18" y2="0" style="stroke:rgb(178,24,43);stroke-width:10;stroke-dasharray:8,3,3,3" /></svg> Proposed
-</font>
-</td></tr></table>
-<br><b>Key cities: L.A., Seattle, Toronto.</b><br><br>
-More information on transit planned and under construction can be found on <a href="http://www.thetransportpolitic.com"><font color="ffffff">The Transport Politic</font></a>.<br>
-<font size="1"><br>&#169; 2016 Yonah Freemark and Steven Vance.</font>
-
-</div>
+		<div class="left-mid">
+			<font size="5" color="F9AC24"><b>Planned Transit in North America</b></font><br><br>
+			<table width="100%" border="0" valign="top">
+			<tr>
+			<td width="30%" valign="top">
+			<font color="ffffff" size="2">
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> Rail<br>
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(178,24,43);stroke-width:10" /></svg> Bus 
+			</font>
+			</td>
+			<td width="70%" valign="top">
+			<font color="ffffff" size="2">
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10" /></svg> Under construction<br>
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(186,180,224);stroke-width:10" /></svg> Renovation<br>
+			<svg height="6" width="30"><line x1="0" y1="3" x2="30" y2="3" style="stroke:rgb(33,102,172);stroke-width:5;stroke-dasharray:1,8;stroke-linecap:round" /></svg> Planned<br>
+			<svg height="5" width="30"><line x1="0" y1="0" x2="30" y2="0" style="stroke:rgb(33,102,172);stroke-width:10;stroke-dasharray:5,3,3,3" /></svg> Proposed
+			</font>
+			</td></tr></table>
+			<br><b>Key cities: L.A., Seattle, Toronto.</b><br><br>
+			More information on transit planned and under construction can be found on <a href="http://www.thetransportpolitic.com"><font color="ffffff">The Transport Politic</font></a>.<br>
+			<font size="1"><br>&#169; 2016 Yonah Freemark and Steven Vance.</font>
+		</div>
 		
 	</body>
 </html>
