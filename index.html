@@ -38,7 +38,8 @@
 						"layerId": "projects_funded_lines",
 						"name": "Funded/New Starts Projects (Lines)",
 						"type": "lines",
-						"status": "funded"
+						"status": "funded",
+						"zoomRange": [10,99]
 					},
 					{
 						"file": "map_data/projects_funded_points.geojson",
@@ -52,7 +53,8 @@
 						"layerId": "projects_construction_lines",
 						"name": "Under Construction (Lines)",
 						"type": "lines",
-						"status": "under_construction"
+						"status": "under_construction",
+						"zoomRange": [10,99]
 					},
 					{
 						"file": "map_data/projects_construction_points.geojson",
@@ -66,7 +68,8 @@
 						"layerId": "projects_future_lines",
 						"name": "Future Lines",
 						"type": "lines",
-						"status": "future"
+						"status": "future",
+						"zoomRange": [10,99]
 					},
 					{
 						"file": "map_data/projects_future_points.geojson",
@@ -80,7 +83,8 @@
 						"layerId": "projects_renovations_lines",
 						"name": "Renovating Lines",
 						"type": "lines",
-						"status": "renovating"
+						"status": "renovating",
+						"zoomRange": [10,99]
 					},
 					{
 						"file": "map_data/projects_renovations_points.geojson",
@@ -95,8 +99,8 @@
 						"name": "Existing fixed-guideway transit",
 						"type": "lines",
 						"status": "existing",
-						"zoomRange": [9,99]
-					}/*,
+						"zoomRange": [10,99]
+					},
 					{
 						"file": "map_data/existing_transit_stops.geojson",
 						"layerId": "existing_transit_stops",
@@ -104,7 +108,7 @@
 						"type": "stations_existing",
 						"status": "existing",
 						"zoomRange": [14,99]
-					}*/
+					}
 				];
 				
 				processLayers(layers);
@@ -214,14 +218,16 @@
 		<!-- Scripts should go right before the closing body tag so they don't obstruct page loading performance -->
 		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 		<script src="scripts/wufoo.js"></script>
-		<script src="functions.js"></script>
-		<script src="app.js"></script>
 		
 		<!-- Leaflet plugins -->
 		<script src="src/leaflet-search.js"></script>
 		<script src="src/leaflet-search.js"></script>
 		<script src="js/leaflet.awesome-markers.js"></script>
 		<script src="leaflet_plugins/leaflet.markercluster.js"></script>
+		
+		<!-- Our app scripts -->
+		<script src="functions.js"></script>
+		<script src="app.js"></script>
 		
 	</body>
 </html>

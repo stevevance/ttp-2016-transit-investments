@@ -1,6 +1,6 @@
 function makeMap() {
 
-	var skobblerUrl1 = 'http://tiles{s}-73ef414d6fe7d2b466d3d6cb0a1eb744.skobblermaps.com/TileService/tiles/2.0/11021111200/0/{z}/{x}/{y}.png24';
+	var skobblerUrl1 = 'http://tiles{s}-73ef414d6fe7d2b466d3d6cb0a1eb744.skobblermaps.com/TileService/tiles/2.0/01021111200/0/{z}/{x}/{y}.png20';
 	var streets = L.tileLayer(skobblerUrl1, {
 		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 		detectRetina:true,
@@ -61,7 +61,7 @@ function makeMap() {
 	// initialize the map on the "map" div with a given center and zoom
 	map = L.map('map', {
 	    center: [41.89, -87.62],
-	    zoom: 15,
+	    zoom: 10,
 	    maxZoom: 18,
 	    zoomControl: false // turning off the auto location of the zoom control (to the right)
 	});
@@ -129,17 +129,18 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		
 	console.log("adding GeoJSON file '" + file + "' with layerId '" + layerId + "'");
 	$.getJSON(file, function() {
-		console.log( "success" );
+		//console.log( "success" );
 	})
 	.done(function(data) {
 		
-		data = data;
+		//data = data;		
+		
 		geojsonLayers[layerId] = L.geoJson(data, {
 			onEachFeature: function(feature, layer) { onEachFeature(feature, layer, type, status) }
 		});
 		layerBounds = geojsonLayers[layerId].getBounds();
 		bounds.extend(layerBounds);
-		map.fitBounds(bounds);
+		//map.fitBounds(bounds);
 		
 		count = data.features.length;
 		
@@ -148,7 +149,7 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		
 		// Only show this layer at certain zoom levels
 		if(zoomRange != undefined) {
-			console.log(layerId + " has a zoomRange of " + zoomRange);
+			//console.log(layerId + " has a zoomRange of " + zoomRange);
 			map.on("zoomend", function() {
 				toggleLayer(layerId, type, zoomRange);
 			});
@@ -191,9 +192,9 @@ function toggleLayer(layerId, type, zoomRange) {
 	
 	// Check to see if we're within range
 	zoom = map.getZoom();
-	console.log("Current zoom: " + zoom + "; min: " + min + "; max: " + max);
+	//console.log("Current zoom: " + zoom + "; min: " + min + "; max: " + max);
 	if(zoom >= min && zoom <= max) {
-		console.log("Adding layer " + layerId);
+		//console.log("Adding layer " + layerId);
 		switch(type) {
 			case "lines":
 				lines.addLayer(geojsonLayers[layerId]);
@@ -212,7 +213,7 @@ function toggleLayer(layerId, type, zoomRange) {
 			break; */
 		}
 	} else {
-		console.log("Removing layer " + layerId);
+		//console.log("Removing layer " + layerId);
 		switch(type) {
 			case "lines":
 				lines.removeLayer(geojsonLayers[layerId]);
@@ -241,7 +242,7 @@ function resizeMap() {
 	* anytime the user resizes the window
 	*/
 	
-	console.log("Window has been resized so let's resize the map to match");
+	//console.log("Window has been resized so let's resize the map to match");
 	
 	height = $("body").outerHeight();
 	$("#map").height( height );
@@ -333,7 +334,6 @@ function onEachFeature(feature, layer, type, status) {
 						break;
 		
 				case "planned":
-						console.log("got a status with a dash array");
 						style.dashArray = [2,10];
 						break;
 				
