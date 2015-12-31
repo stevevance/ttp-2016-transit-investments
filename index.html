@@ -1,51 +1,36 @@
 <html>
 	<head>
 		<title>The Transport Politic - Transit Explorer 2016</title>
-		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-		<link rel="stylesheet" href="styles.css" />
 		
+		<!-- our app's stylesheets -->
+		<link href="styles.css" rel="stylesheet" />
 		<link href="css/structure.css" rel="stylesheet">
 		<link href="css/form.css" rel="stylesheet">
-
-		<script src="scripts/wufoo.js"></script>
 		
-		<style>
-			/* Really nothing should go here and everything should go in styles.css */
-		</style>
-		
+		<!-- Other stylesheets -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		
 		<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300italic|Archivo+Narrow:400,700' rel='stylesheet' type='text/css'>
 		
+		<!-- Leaflet styles -->
 		<link rel="stylesheet" href="css/leaflet.awesome-markers.css">
-		
 		<link rel="stylesheet" href="src/leaflet-search.css">
 		<link rel="stylesheet" href="leaflet_plugins/MarkerCluster.css">
 		<link rel="stylesheet" href="leaflet_plugins/MarkerCluster.Default.css">
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 		
+		<!-- Scripts too important to go before </body> -->
+		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript">
-
-
-    function toggle_visibility(id) {
-       var e = document.getElementById(id);
-       if(e.style.display == 'block')
-          e.style.display = 'none';
-       else
-          e.style.display = 'block';
-    }
-	
-
-</script>
+		    function toggle_visibility(id) {
+		       var e = document.getElementById(id);
+		       if(e.style.display == 'block')
+		          e.style.display = 'none';
+		       else
+		          e.style.display = 'block';
+		    }
+		</script>
 		
-		<!-- Leaflet plugins -->
-		<script src="src/leaflet-search.js"></script>
-		<script src="src/leaflet-search.js"></script>
-		<script src="js/leaflet.awesome-markers.js"></script>
-		<script src="leaflet_plugins/leaflet.markercluster.js"></script>
-		
-		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300italic|Archivo+Narrow:400,700' rel='stylesheet' type='text/css'>
 		
 	</head>
 	
@@ -143,9 +128,6 @@
 			});			
 		</script>
 
-		<script src="functions.js"></script>
-		<script src="app.js"></script>
-		
 		<!-- The banner -->
 		<div class="top-nav">
 			<div class="container">
@@ -237,6 +219,18 @@
 		<a href="#" onclick="toggle_visibility('more');">Close window</a>
 		</font>
 		</div>
+		
+		<!-- Scripts should go right before the closing body tag so they don't obstruct page loading performance -->
+		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+		<script src="scripts/wufoo.js"></script>
+		<script src="functions.js"></script>
+		<script src="app.js"></script>
+		
+		<!-- Leaflet plugins -->
+		<script src="src/leaflet-search.js"></script>
+		<script src="src/leaflet-search.js"></script>
+		<script src="js/leaflet.awesome-markers.js"></script>
+		<script src="leaflet_plugins/leaflet.markercluster.js"></script>
 		
 	</body>
 </html>
