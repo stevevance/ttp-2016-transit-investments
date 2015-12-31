@@ -79,6 +79,8 @@ function makeMap() {
 	stations = new L.featureGroup();
 //	stations_future = new L.featureGroup();
 //	stations_existing = new L.MarkerClusterGroup();
+
+	// Add those layers to the map
 	lines.addTo(map);
 	stations.addTo(map);
 //	stations_future.addTo(map);
@@ -89,14 +91,21 @@ function makeMap() {
 	// Add a search control
 /*
 	var search_options = {
-		layer: layer, 
+		layer: geojsonLayers["projects_construction_points"], 
 		initial: false, 
 		position:'bottomleft', 
-		propertyLoc: features.geometry.coordinates
+		propertyName: 'name',
+		circleLocation:false
 	}
-	var controlSearch = new L.Control.Search(search_options);
+	controlSearch = new L.Control.Search(search_options);
 	map.addControl( controlSearch );
 */
+
+	searchCtrl = L.control.fuseSearch({
+		threshold: 0.3,
+		maxResultLength: 5
+	});
+	searchCtrl.addTo(map);
 	
 	var otherLayers = {};
 	
@@ -142,10 +151,13 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		bounds.extend(layerBounds);
 		//map.fitBounds(bounds);
 		
-		count = data.features.length;
-		
-		// Add the data to our GeoJSON layer
-		//geojsonLayers[layerId].addData(data);
+		// Index the features for searching
+		if(status != "99") {
+			console.log("indexing " + layerId);
+			searchCtrl.indexFeatures(data.features, ['Name', 'name', 'region', 'mode', 'Name', 'Region', 'Mode']);
+		} else {
+			console.log("NOT indexing " + layerId);
+		}
 		
 		// Only show this layer at certain zoom levels
 		if(zoomRange != undefined) {
@@ -174,6 +186,7 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		}
 		
 		// Add the layer to our layer switcher
+		//count = data.features.length;
 		//control.addOverlay(geojsonLayers[layerId], name + " (" + count + ")");
 	})
 	.fail(function() {
