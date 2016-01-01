@@ -190,7 +190,7 @@ function makeMap() {
 	
 	geojsonLayers = [];
 
-	// Add a search control
+	// These are mistaken search codes...
 /*
 	var search_options = {
 		layer: layer, 
@@ -200,7 +200,14 @@ function makeMap() {
 	}
 	var controlSearch = new L.Control.Search(search_options);
 	map.addControl( controlSearch );
-*/
+
+//this?
+	map.addControl( new L.Control.Search({layer: searchLayer}) );
+
+//or this?
+	L.map('map', { searchControl: {layer: searchLayer} });
+	
+	*/
 	
 	var otherLayers = {};
 	
