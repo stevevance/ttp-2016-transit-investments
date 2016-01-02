@@ -87,6 +87,7 @@ function makeMap() {
 //	stations_existing.addTo(map);
 	
 	geojsonLayers = [];
+	geojsonDatas = [];
 
 	// Add a search control
 /*
@@ -147,6 +148,7 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		geojsonLayers[layerId] = L.geoJson(data, {
 			onEachFeature: function(feature, layer) { onEachFeature(feature, layer, type, status) }
 		});
+		geojsonDatas.push(data);
 		layerBounds = geojsonLayers[layerId].getBounds();
 		bounds.extend(layerBounds);
 		//map.fitBounds(bounds);
@@ -154,7 +156,7 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		// Index the features for searching
 		if(status != "99") {
 			console.log("indexing " + layerId);
-			searchCtrl.indexFeatures(data.features, ['Name', 'name', 'region', 'mode', 'Name', 'Region', 'Mode']);
+			//searchCtrl.indexFeatures(data.features, ['Name', 'name', 'region', 'mode', 'Name', 'Region', 'Mode']);
 		} else {
 			console.log("NOT indexing " + layerId);
 		}
