@@ -39,6 +39,110 @@ function makeMap() {
         "lat": 19.4,
        "lng": -99.1
     },
+       "atlanta": {
+        "lat": 33.75,
+       "lng": -84.39
+    },
+       "boston": {
+        "lat": 42.36,
+       "lng": -71.06
+    },
+      "calgary": {
+        "lat": 51.05,
+       "lng": -114.07
+    },
+      "chicago": {
+        "lat": 41.88,
+       "lng": -87.63
+    },
+       "cincinnati": {
+        "lat": 39.1,
+       "lng": -84.51
+    },
+       "dallas": {
+        "lat": 32.78,
+       "lng": -96.8
+    },
+       "detroit": {
+        "lat": 42.33,
+       "lng": -83.05
+    },
+       "edmonton": {
+        "lat": 53.54,
+       "lng": -113.49
+    },
+       "honolulu": {
+        "lat": 21.31,
+       "lng": -157.86
+    },
+       "houston": {
+        "lat": 29.76,
+       "lng": -95.37
+    },
+       "indianapolis": {
+        "lat": 39.77,
+       "lng": -86.16
+    },
+       "kansascity": {
+        "lat": 39.1,
+       "lng": -94.58
+    },
+       "miami": {
+        "lat": 25.76,
+       "lng": -80.19
+    },
+       "minneapolis": {
+        "lat": 44.98,
+       "lng": -93.27
+    },
+       "montreal": {
+        "lat": 45.5,
+       "lng": -73.57
+    },
+       "okcity": {
+        "lat": 35.47,
+       "lng": -97.52
+    },
+       "orlando": {
+        "lat": 28.54,
+       "lng": -81.38
+    },
+       "ottawa": {
+        "lat": 45.42,
+       "lng": -75.7
+    },
+       "philadelphia": {
+        "lat": 39.95,
+       "lng": -75.17
+    },
+       "phoenix": {
+        "lat": 33.45,
+       "lng": -112.07
+    },
+        "portland": {
+        "lat": 45.52,
+       "lng": -122.68
+    },
+       "sandiego": {
+        "lat": 32.72,
+       "lng": -117.16
+    },
+       "trianglenc": {
+        "lat": 35.88,
+       "lng": -78.79
+    },
+        "vancouver": {
+        "lat": 49.28,
+       "lng": -123.12
+    },
+       "washington": {
+        "lat": 38.91,
+       "lng": -77.04
+    },
+       "winnipeg": {
+        "lat": 49.9,
+       "lng": -97.14
+    },
 };
 	
 	var buildings = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -88,19 +192,7 @@ function makeMap() {
 	
 	geojsonLayers = [];
 
-	// Add a search control
-/*
-	var search_options = {
-		layer: geojsonLayers["projects_construction_points"], 
-		initial: false, 
-		position:'bottomleft', 
-		propertyName: 'name',
-		circleLocation:false
-	}
-	controlSearch = new L.Control.Search(search_options);
-	map.addControl( controlSearch );
-*/
-
+	// Add a search box
 	searchCtrl = L.control.fuseSearch({
 		threshold: 0.3,
 		maxResultLength: 5
