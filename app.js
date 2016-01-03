@@ -150,7 +150,9 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		bounds.extend(layerBounds);
 		
 		// Index the features for searching
-		searchCtrl.indexFeaturesMultipleLayers(data.features, ['Name', 'name', 'region', 'Mode1', 'Region', 'Mode']);
+		if(layerId != "existing_transit_stops") {
+			searchCtrl.indexFeaturesMultipleLayers(data.features, ['Name', 'name', 'region', 'Mode1', 'Region', 'Mode']);
+		}
 		
 		// Only show this layer at certain zoom levels
 		if(zoomRange != undefined) {
@@ -172,7 +174,6 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 	.always(function() {
 
 	});
-	
 }
 
 function toggleLayer() {
@@ -252,6 +253,7 @@ function onEachFeature(feature, layer, type, status) {
 		popup = L.popup(popupOptions, layer);
 		popup.setContent(content);
 		layer.bindPopup(popup);
+		feature.layer = layer;
 		
 		// Change the icons for stations
 		if(type == "stations" || type == "stations_existing") {
