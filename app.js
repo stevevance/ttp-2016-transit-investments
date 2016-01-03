@@ -280,14 +280,9 @@ function onEachFeature(feature, layer, type, status) {
 	* and how features should be styled
 	*/
 	
-	var style = {};
 	if(feature.properties) {
 		
 		p = feature.properties;
-		//console.log(p);
-		
-		//link = "<a href='" + p.Website + "'>Website</a>";
-		link = "";
 		content = "<b><font color=ff0000 size=3 face='Open Sans', sans-serif>" + p.Name + "</font></b>";
 		content += "<font size=2 face='Open Sans', sans-serif>" + showFeatureProperties(p) + "</font>";
 		popupOptions = {minWidth: 180}
@@ -296,29 +291,28 @@ function onEachFeature(feature, layer, type, status) {
 		popup.setContent(content);
 		layer.bindPopup(popup);
 		
+		// Change the icons for stations
 		if(type == "stations" || type == "stations_existing") {
 			layer.setIcon(icons[type]);
 		}
 		
+		// Change the styling for lines
 		if(type == "lines") {
+			// set some default styles for lines
+			var style = {};
 			style.weight = 6;
 			style.lineCap = 'round';
 			
-			switch(p.Mode) {
+			mode = p.Mode || p.Mode1;
+			switch(mode) {
 				case "Bus Rapid Transit":
+				case "BRT":
 					style.color = "#b2182b";
 				break;
 				
 				default:
 					style.color = "#2166ac";
 				break;	
-			}
-			
-			switch(p.Mode1) {
-				case "Bus Rapid Transit":
-					style.color = "#b2182b";
-				break;
-				
 			}
 			
 			switch(status) {
@@ -353,25 +347,6 @@ function onEachFeature(feature, layer, type, status) {
 				
 				break;
 			}
-			
-			
-
-	/*
-			switch(layerId) {
-				case "projects_funded_lines":
-					style = {
-						weight: 10,
-						color: "#000",
-						opacity: 0.3,
-					}
-				break;
-				
-				case "Y":
-				
-				break;
-			}
-	*/
-	
 			layer.setStyle(style);
 		}
     }
