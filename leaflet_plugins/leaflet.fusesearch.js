@@ -24,6 +24,8 @@ L.Control.FuseSearch = L.Control.extend({
     
     includes: L.Mixin.Events,
     
+    properties: [],
+    
     options: {
         position: 'topright',
         title: 'Search',
@@ -241,6 +243,31 @@ L.Control.FuseSearch = L.Control.extend({
         };
         
         this._fuseIndex = new Fuse(properties, options);
+    },
+    
+    indexFeaturesMultipleLayers: function(data, keys) {
+
+        var jsonFeatures = data.features || data;
+        
+        this._keys = keys;
+        temp_properties = jsonFeatures.map(function(feature) {
+            // Keep track of the original feature
+            feature.properties._feature = feature;
+            return feature.properties;
+        });
+        properties = this.properties.concat(temp_properties);
+        
+        this.properties = properties;
+    },
+    
+    initiateFuse: function(keys) {
+	    var options = {
+            keys: keys,
+            caseSensitive: this.options.caseSensitive,
+            threshold : this.options.threshold
+        };
+        
+        this._fuseIndex = new Fuse(this.properties, options);
     },
     
     searchFeatures: function(string) {

@@ -104,7 +104,8 @@ function makeMap() {
 
 	searchCtrl = L.control.fuseSearch({
 		threshold: 0.3,
-		maxResultLength: 5
+		maxResultLength: 5,
+		keys: ["name", "Name", "Region", "region"]
 	});
 	searchCtrl.addTo(map);
 	
@@ -123,8 +124,21 @@ function makeMap() {
 }
 
 function processLayers(layers) {
+	count = layers.length;
+	iteration = 0;
 	$.each(layers, function(i, v) {
 		addGeoJsonLayer(v.file, v.layerId, v.name, v.type, v.status, v.zoomRange);
+		iteration++;
+		
+		// Do something when we're done processing the layers
+		if(iteration == count) {
+			console.log("iteration " + iteration + " matches count " + count);
+			setTimeout(function() {
+				searchCtrl.initiateFuse(["name", "Name"]);
+			}, 500); // this won't work unless there's a short delay
+		} else {
+			console.log("iteration " + iteration + " doesn't = count " + count);
+		}
 	});
 }
 
@@ -156,7 +170,7 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		// Index the features for searching
 		if(status != "99") {
 			console.log("indexing " + layerId);
-			//searchCtrl.indexFeatures(data.features, ['Name', 'name', 'region', 'mode', 'Name', 'Region', 'Mode']);
+			searchCtrl.indexFeaturesMultipleLayers(data.features, ['Name', 'name', 'region', 'mode', 'Name', 'Region', 'Mode']);
 		} else {
 			console.log("NOT indexing " + layerId);
 		}
