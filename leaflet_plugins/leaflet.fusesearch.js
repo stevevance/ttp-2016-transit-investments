@@ -286,7 +286,7 @@ L.Control.FuseSearch = L.Control.extend({
         for (var i in result) {
             var props = result[i];
             var feature = props._feature;
-            var popup = this._getFeaturePopupIfVisible(feature);
+            //var popup = this._getFeaturePopupIfVisible(feature);
             
             if (undefined !== popup || this.options.showInvisibleFeatures) {
                 this.createResultItem(props, resultList, popup);
@@ -350,13 +350,13 @@ L.Control.FuseSearch = L.Control.extend({
         // Temporarily adapt the map padding so that the popup is not hidden by the search pane
         if (this._panelOnLeftSide) {
             var oldPadding = popup.options.autoPanPaddingTopLeft;
-            var newPadding = new L.Point(- this.getOffset(), 10);
+            var newPadding = new L.Point(- this.getOffset(), 50);
             popup.options.autoPanPaddingTopLeft = newPadding;
             feature.layer.openPopup();
             popup.options.autoPanPaddingTopLeft = oldPadding;
         } else {
             var oldPadding = popup.options.autoPanPaddingBottomRight;
-            var newPadding = new L.Point(this.getOffset(), 10);
+            var newPadding = new L.Point(this.getOffset(), 50);
             popup.options.autoPanPaddingBottomRight = newPadding;
             feature.layer.openPopup();
             popup.options.autoPanPaddingBottomRight = oldPadding;
