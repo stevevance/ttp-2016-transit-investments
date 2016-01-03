@@ -61,8 +61,18 @@ function makeMap() {
 	// Add a search box
 	searchCtrl = L.control.fuseSearch({
 		threshold: 0.3,
-		maxResultLength: 5,
-		showInvisibleFeatures: true
+		maxResultLength: 10,
+		showInvisibleFeatures: true,
+		placeholder: "Search names and regions",
+		showResultFct: function(feature, container) {
+	        props = feature.properties;
+	        var name = L.DomUtil.create('b', null, container);
+	        name.innerHTML = props.name || props.Name;
+	        
+	        var region = props.region || props.Region;
+	        container.appendChild(L.DomUtil.create('br', null, container));
+	        container.appendChild(document.createTextNode(region));
+	    }
 	});
 	searchCtrl.addTo(map);
 	
@@ -150,7 +160,7 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		bounds.extend(layerBounds);
 		
 		// Index the features for searching
-		if(layerId != "existing_transit_stops") {
+		if(status != "existing") {
 			searchCtrl.indexFeaturesMultipleLayers(data.features, ['Name', 'name', 'region', 'Mode1', 'Region', 'Mode']);
 		}
 		
