@@ -304,7 +304,16 @@ function onEachFeature(feature, layer, type, status) {
 				case "existing":
 						style.weight = 2.5;
 						style.lineCap = 'round';
-						style.color = "#4F4F4F";
+						style.color = "#494949";
+						
+						switch(mode) {
+							case "Commuter Rail":
+							case "Streetcar":
+							style.color = "#8E8E8E";
+							style.weight = 2;
+							break;
+							}
+						
 						break;
 								
 				case "under_construction":
