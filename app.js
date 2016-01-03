@@ -8,39 +8,7 @@ function makeMap() {
 		maxNativeZoom: 18,
 		subdomains: '1234'
 	});
-	
-	
-	var cities = {
-    "losangeles": {
-        "lat": 34,
-       "lng": -118
-    },
-    "seattle": {
-        "lat": 47.6,
-       "lng": -122.3
-    },
-     "sanfrancisco": {
-        "lat": 37.6,
-       "lng": -122.2
-    },
-     "denver": {
-        "lat": 39.8,
-       "lng": -105
-    },
-     "toronto": {
-        "lat": 43.7,
-       "lng": -79.4
-    },
-     "newyork": {
-        "lat": 40.7,
-       "lng": -74
-    },
-     "mexico": {
-        "lat": 19.4,
-       "lng": -99.1
-    },
-};
-	
+		
 	var buildings = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 		detectRetina:true,
@@ -121,6 +89,8 @@ function makeMap() {
 	// Adjust the map size
 	resizeMap();
 	$(window).on("resize", resizeMap);
+	
+	
 }
 
 function processLayers(layers) {
@@ -132,14 +102,37 @@ function processLayers(layers) {
 		
 		// Do something when we're done processing the layers
 		if(iteration == count) {
-			console.log("iteration " + iteration + " matches count " + count);
 			setTimeout(function() {
 				searchCtrl.initiateFuse(["name", "Name"]);
+				map.fire("zoomend");
 			}, 500); // this won't work unless there's a short delay
+			
 		} else {
-			console.log("iteration " + iteration + " doesn't = count " + count);
+			// do something in the mean time?
 		}
 	});
+}
+
+function selectKeyCity() {
+	
+	
+	var html = "<p>Zoom to a key city";
+	select = "<select id='key_city_select' onchange=\"zoomToCity('key_city_select');\"><option>Choose a city</option>";
+	
+	$.each(cities, function(i, v) {
+		select += "<option data-latitude='" + v.lat + "' data-longitude='" + v.lng + "'>" + v.name + "</option>";
+	});
+	
+	select += "</select>";
+	html += select + "</p>";
+	
+	$("#key_city").html(html);
+}
+
+function zoomToCity(id) {
+	lat = $('#' + id).find(':selected').data('latitude');
+	lng = $('#' + id).find(':selected').data('longitude');
+	map.setView([lat, lng], 11);
 }
 
 function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
