@@ -61,7 +61,8 @@ function makeMap() {
 	// Add a search box
 	searchCtrl = L.control.fuseSearch({
 		threshold: 0.3,
-		maxResultLength: 5
+		maxResultLength: 5,
+		showInvisibleFeatures: true
 	});
 	searchCtrl.addTo(map);
 	
@@ -92,8 +93,8 @@ function processLayers(layers) {
 		if(iteration == count) {
 			setTimeout(function() {
 				searchCtrl.initiateFuse(["name", "Name", "Mode1", "Region", "Mode"]);
-				map.fire("zoomend");
-			}, 500); // this won't work unless there's a short delay
+				map.fire("zoomend"); // fire a zoomend so the layers that need to turn on depending on the zoom level will be toggled
+			}, 100); // this won't work unless there's a short delay
 			
 		} else {
 			// do something in the mean time?
@@ -137,9 +138,6 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		//console.log( "success" );
 	})
 	.done(function(data) {
-		
-		//data = data;		
-		
 		geojsonLayers[layerId] = L.geoJson(data, {
 			onEachFeature: function(feature, layer) { onEachFeature(feature, layer, type, status) },
 			zoomRange: zoomRange,
