@@ -90,7 +90,7 @@ h6 {
 
 /* feature title */
 
-h7 {
+.feature-heading {
 	
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14;
@@ -105,7 +105,7 @@ h7 {
 
 /* feature text */
 
-h8 {
+.feature-text {
 	
 	font-family: 'Open Sans', sans-serif;
 	font-size: 12;
