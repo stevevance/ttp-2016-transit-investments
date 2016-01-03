@@ -30,6 +30,180 @@
 		</div>
 		
 		<script>
+			
+			cities = [
+				    {
+					    "name": "Los Angeles",
+				        "lat": 34,
+				        "lng": -118
+				    },
+				    {
+					    "name": "Seattle",
+				        "lat": 47.6,
+				        "lng": -122.3
+				    },
+				    {
+					    "name": "San Francisco",
+				        "lat": 37.6,
+				        "lng": -122.2
+				    },
+				    {
+					    "name": "Denver",
+				        "lat": 39.8,
+				        "lng": -105
+				    },
+				    {
+					    "name": "Toronto",
+				        "lat": 43.7,
+				        "lng": -79.4
+				    },
+				    {
+					    "name": "New York City",
+				        "lat": 40.7,
+				        "lng": -74
+				    },
+				    {
+					    "name": "Mexico City",
+				        "lat": 19.4,
+				        "lng": -99.1
+				    },
+				];
+			
+			var citiesNew = {
+    "losangeles": {
+        "lat": 34,
+       "lng": -118
+    },
+    "seattle": {
+        "lat": 47.6,
+       "lng": -122.3
+    },
+     "sanfrancisco": {
+        "lat": 37.6,
+       "lng": -122.2
+    },
+     "denver": {
+        "lat": 39.8,
+       "lng": -105
+    },
+     "toronto": {
+        "lat": 43.7,
+       "lng": -79.4
+    },
+     "newyork": {
+        "lat": 40.7,
+       "lng": -74
+    },
+     "mexico": {
+        "lat": 19.4,
+       "lng": -99.1
+    },
+       "atlanta": {
+        "lat": 33.75,
+       "lng": -84.39
+    },
+       "boston": {
+        "lat": 42.36,
+       "lng": -71.06
+    },
+      "calgary": {
+        "lat": 51.05,
+       "lng": -114.07
+    },
+      "chicago": {
+        "lat": 41.88,
+       "lng": -87.63
+    },
+       "cincinnati": {
+        "lat": 39.1,
+       "lng": -84.51
+    },
+       "dallas": {
+        "lat": 32.78,
+       "lng": -96.8
+    },
+       "detroit": {
+        "lat": 42.33,
+       "lng": -83.05
+    },
+       "edmonton": {
+        "lat": 53.54,
+       "lng": -113.49
+    },
+       "honolulu": {
+        "lat": 21.31,
+       "lng": -157.86
+    },
+       "houston": {
+        "lat": 29.76,
+       "lng": -95.37
+    },
+       "indianapolis": {
+        "lat": 39.77,
+       "lng": -86.16
+    },
+       "kansascity": {
+        "lat": 39.1,
+       "lng": -94.58
+    },
+       "miami": {
+        "lat": 25.76,
+       "lng": -80.19
+    },
+       "minneapolis": {
+        "lat": 44.98,
+       "lng": -93.27
+    },
+       "montreal": {
+        "lat": 45.5,
+       "lng": -73.57
+    },
+       "okcity": {
+        "lat": 35.47,
+       "lng": -97.52
+    },
+       "orlando": {
+        "lat": 28.54,
+       "lng": -81.38
+    },
+       "ottawa": {
+        "lat": 45.42,
+       "lng": -75.7
+    },
+       "philadelphia": {
+        "lat": 39.95,
+       "lng": -75.17
+    },
+       "phoenix": {
+        "lat": 33.45,
+       "lng": -112.07
+    },
+        "portland": {
+        "lat": 45.52,
+       "lng": -122.68
+    },
+       "sandiego": {
+        "lat": 32.72,
+       "lng": -117.16
+    },
+       "trianglenc": {
+        "lat": 35.88,
+       "lng": -78.79
+    },
+        "vancouver": {
+        "lat": 49.28,
+       "lng": -123.12
+    },
+       "washington": {
+        "lat": 38.91,
+       "lng": -77.04
+    },
+       "winnipeg": {
+        "lat": 49.9,
+       "lng": -97.14
+    },
+};
+			
 			$(document).ready(function() { 
 				makeMap(); 
 				
@@ -111,16 +285,10 @@
 						"zoomRange": [14,99]
 					}
 				];
-				
+			
 				processLayers(layers);
-				
-/*
-				setTimeout(function() {
-					map.fitBounds(bounds);
-				}, 500);
-*/
-			});	
-					
+				selectKeyCity();
+			});			
 		</script>
 
 		<!-- The banner -->
@@ -155,62 +323,33 @@
 			</h5>
 			</td></tr></table>
 			
-			<h6>
-			<br>Zoom to a region: <select>
- 			<option value="atlanta">Atlanta</option>
-			<option value="boston">Boston</option>
-      		<option value="calgary">Calgary</option>
-        	<option value="chicago">Chicago</option>
-            <option value="cincinnati">Cincinnati</option>
-            <option value="dallas">Dallas</option>
-  			<option value="denver">Denver</option>
-          	<option value="detroit">Detroit</option>
-            <option value="edmonton">Edmonton</option>
-            <option value="honolulu">Honolulu</option>
-            <option value="houston">Houston</option>
-            <option value="indianapolis">Indianapolis</option>
-            <option value="kansascity">Kansas City</option>
-            <option value="losangeles">Los Angeles</option>
-            <option value="mexico">Mexico City</option>
-            <option value="miami">Miami</option>
-            <option value="minneapolis">Minneapolis</option>
-            <option value="montreal">Montréal</option>
-            <option value="newyork">New York City</option>
-        	<option value="okcity">Oklahoma City</option>
-            <option value="orlando">Orlando</option>
-            <option value="ottawa">Ottawa</option>
-         	<option value="philadelphia">Philadelphia</option>
-            <option value="phoenix">Phoenix</option>
-            <option value="portland">Portland</option>
-            <option value="sandiego">San Diego</option>
-    		<option value="sanfrancisco">San Francisco</option>
-      		<option value="seattle">Seattle</option>
-        	<option value="trianglenc">Triangle (NC)</option>
-        	<option value="toronto">Toronto</option>
-            <option value="vancouver">Vancouver</option>
-            <option value="washington">Washington</option>
-            <option value="winnipeg">Winnipeg</option>
-</select></h6>
+			<!-- Insert the "zoom to a key city" here -->
+			<div id="key_city"></div>
+
 			<h3><a href="#" onclick="$('#more').slideToggle();">More information about this page</a>. Follow transport news and analysis on <a href="http://www.thetransportpolitic.com" target="_self">The Transport Politic</a>. <a href="#" onclick="$('div#err').slideToggle();">Find an error?</a></h3>
+			
 			<div id="err" style="display:none;">
-<form id="form1" name="form1" class="wufoo topLabel page" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" novalidate
-      action="https://yfreemark.wufoo.com/forms/z11qhl9e0tdbgax/#public"><h3>
-<input id="Field1" name="Field1" type="email" spellcheck="false" class="field text large" value="Email (not required)" maxlength="255" tabindex="1"       />
-<input id="Field2" name="Field2" type="text" class="field text large" value="What&#039;s wrong or missing?" maxlength="500" tabindex="2" onkeyup="validateRange(2, 'character');"       required />
-
-<input id="saveForm" name="saveForm" class="btTxt submit"
-    type="submit" value="Submit" />
-
-<ul>
-<li class="hide">
-<label for="comment">Do Not Fill This Out</label>
-<textarea name="comment" id="comment" rows="1" cols="1"></textarea>
-<input type="hidden" id="idstamp" name="idstamp" value="/5EUlRa6ZFujVoDaGAbPyvKCP0ycsg265BoKFtWt4cY=" />
-</li>
-</ul>
-</h3>
-</form>
-</div>
+			
+				<!-- Wufoo form -->
+				<form id="form1" name="form1" class="wufoo topLabel page" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" novalidate
+				      action="https://yfreemark.wufoo.com/forms/z11qhl9e0tdbgax/#public"><h3>
+				<input id="Field1" name="Field1" type="email" spellcheck="false" class="field text large" value="Email (not required)" maxlength="255" tabindex="1"       />
+				<input id="Field2" name="Field2" type="text" class="field text large" value="What&#039;s wrong or missing?" maxlength="500" tabindex="2" onkeyup="validateRange(2, 'character');"       required />
+				
+				<input id="saveForm" name="saveForm" class="btTxt submit"
+				    type="submit" value="Submit" />
+				
+				<ul>
+				<li class="hide">
+				<label for="comment">Do Not Fill This Out</label>
+				<textarea name="comment" id="comment" rows="1" cols="1"></textarea>
+				<input type="hidden" id="idstamp" name="idstamp" value="/5EUlRa6ZFujVoDaGAbPyvKCP0ycsg265BoKFtWt4cY=" />
+				</li>
+				</ul>
+				</h3>
+				</form>
+			</div>
+			
 <h4>A Yonah Freemark / Steven Vance production, 2016.</h4>
 			 <a href="mailto:?Subject=Transit Explorer 2016: The Transport Politic&amp;Body=I%20saw%20this%20and%20thought%20of%20you!%20 http://www.thetransportpolitic.com/transitexplorer">
         <img src="images/email.png" width="40" alt="Email" /></a>
