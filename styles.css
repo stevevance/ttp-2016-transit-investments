@@ -88,6 +88,19 @@ h6 {
 
 }
 
+.region {
+	
+	font-family: 'Archivo Narrow', sans-serif;
+	font-size: 13;
+	color: #000000;
+	font-weight: bold;
+	text-align: left;
+	line-height: 1;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 15px 0px;
+
+}
+
 a:link {
     text-decoration: underline;
     color: #000000;

@@ -105,8 +105,8 @@ function processLayers(layers) {
 function selectKeyCity() {
 	
 	
-	var html = "<p>Zoom to a key city";
-	select = "<select id='key_city_select' onchange=\"zoomToCity('key_city_select');\"><option>Choose a city</option>";
+	var html = "<p>Zoom to a region";
+	select = "<select id='key_city_select' onchange=\"zoomToCity('key_city_select');\"><option>Choose a region</option>";
 	
 	$.each(cities, function(i, v) {
 		select += "<option data-latitude='" + v.lat + "' data-longitude='" + v.lng + "'>" + v.name + "</option>";
