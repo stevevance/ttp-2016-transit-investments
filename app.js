@@ -1,7 +1,7 @@
 function makeMap() {
 
 	var skobblerUrl1 = 'http://tiles{s}-73ef414d6fe7d2b466d3d6cb0a1eb744.skobblermaps.com/TileService/tiles/2.0/01021111200/0/{z}/{x}/{y}.png20';
-	var streets = L.tileLayer(skobblerUrl1, {
+	streets = L.tileLayer(skobblerUrl1, {
 		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 		detectRetina:true,
 		maxZoom: 19,
@@ -9,22 +9,19 @@ function makeMap() {
 		subdomains: '1234'
 	});
 
-	var buildings = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	buildings = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 		detectRetina:true,
 		maxZoom: 20,
 		maxNativeZoom: 19
 	});
-	
 
-	var satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3RldmV2YW5jZSIsImEiOiJqRVdYSnFjIn0.cmW3_zqwZpvcwPYc_C2SPQ', {
+	satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3RldmV2YW5jZSIsImEiOiJqRVdYSnFjIn0.cmW3_zqwZpvcwPYc_C2SPQ', {
 		attribution: '<a href="http://mapbox.com">Mapbox</a>',
 		detectRetina:false,
 		maxZoom: 20,
 		maxNativeZoom: 19
-	});
-	
-	
+	});	
 
 	// initialize the map on the "map" div with a given center and zoom
 	map = L.map('map', {
@@ -79,17 +76,41 @@ function makeMap() {
 	var otherLayers = {};
 	
 	// add the base layer maps
-	var baseMaps = {"Streets": streets, "Buildings": buildings, "Satellite": satellite};
-	streets.addTo(map); // load streets by default
+	baseMaps = {"Streets": streets, "Buildings": buildings, "Satellite": satellite};
+	toggleBaseMap("Streets"); // change to the default base map
 	
 	// create a layer switcher
-	control = L.control.layers(baseMaps, otherLayers, {collapsed: false, autoZIndex: true}).addTo(map);
+	//control = L.control.layers(baseMaps, otherLayers, {collapsed: false, autoZIndex: true}).addTo(map);
 	
 	// Adjust the map size
 	resizeMap();
 	$(window).on("resize", resizeMap);
+}
+
+function toggleBaseMap(changeto) {
+	name = changeto || $('#baselayer_select').find(':selected').data('name');
+	$.each(baseMaps, function(i, v) {
+		map.removeLayer(baseMaps[i]);
+	});
 	
+	map.addLayer(baseMaps[name]);
+	setTimeout(function() {
+		$('#baselayer_select').find('[data-name=' + name + ']').prop("selected","selected");
+	}, 100);
+}
+
+function selectBaseMap() {
+	var html = "<p>Switch base map";
+	select = "<select id='baselayer_select' onchange=\"toggleBaseMap();\"><option>Choose base map</option>";
 	
+	$.each(baseMaps, function(i, v) {
+		select += "<option data-name='" + i + "'>" + i + "</option>";
+	});
+	
+	select += "</select>";
+	html += select + "</p>";
+	
+	$("#baselayers").html(html);
 }
 
 function processLayers(layers) {
