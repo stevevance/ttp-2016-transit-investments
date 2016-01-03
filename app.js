@@ -252,13 +252,16 @@ function resizeMap() {
 	* anytime the user resizes the window
 	*/
 	
-	//console.log("Window has been resized so let's resize the map to match");
+	console.log("Window has been resized so let's resize the map to match");
 	
-	height = $("body").outerHeight();
-	$("#map").height( height );
-	map.invalidateSize();
+	setTimeout(function() {
+		height = $("body").outerHeight();
+		$("#map").height( height );
+		map.invalidateSize();
+		
+		return height;
+	}, 100); // I don't know why we have to wait 100 ms before we can get the new height
 	
-	return height;
 }
 
 function createIcons() {
