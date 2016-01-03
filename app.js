@@ -43,25 +43,25 @@ function makeMap() {
 	}).addTo(map);
 	
 	// Make some empty layers that will be filled later
-	lines = new L.featureGroup();
-	stations = new L.featureGroup();
+	geojsonLayers = [];
+	layerGroups = ["lines", "stations"];
+	layerGroups["lines"] = new L.featureGroup();
+	layerGroups["stations"] = new L.featureGroup();
 //	stations_future = new L.featureGroup();
 //	stations_existing = new L.MarkerClusterGroup();
 
-	// Add those layers to the map
-	lines.addTo(map);
-	stations.addTo(map);
+	// Add those layers to the map (even though they're empty)
+	layerGroups["lines"].addTo(map);
+	layerGroups["stations"].addTo(map);
 //	stations_future.addTo(map);
 //	stations_existing.addTo(map);
 	
-	geojsonLayers = [];
-	geojsonDatas = [];
+
 
 	// Add a search box
 	searchCtrl = L.control.fuseSearch({
 		threshold: 0.3,
-		maxResultLength: 5,
-		keys: ["name", "Name", "Region", "region"]
+		maxResultLength: 5
 	});
 	searchCtrl.addTo(map);
 	
@@ -91,7 +91,7 @@ function processLayers(layers) {
 		// Do something when we're done processing the layers
 		if(iteration == count) {
 			setTimeout(function() {
-				searchCtrl.initiateFuse(["name", "Name"]);
+				searchCtrl.initiateFuse(["name", "Name", "Mode1", "Region", "Mode"]);
 				map.fire("zoomend");
 			}, 500); // this won't work unless there's a short delay
 			
@@ -141,45 +141,27 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 		//data = data;		
 		
 		geojsonLayers[layerId] = L.geoJson(data, {
-			onEachFeature: function(feature, layer) { onEachFeature(feature, layer, type, status) }
+			onEachFeature: function(feature, layer) { onEachFeature(feature, layer, type, status) },
+			zoomRange: zoomRange,
+			type: type,
+			status: status,
+			layerId: layerId
 		});
-		geojsonDatas.push(data);
+		//geojsonDatas.push(data);
 		layerBounds = geojsonLayers[layerId].getBounds();
 		bounds.extend(layerBounds);
-		//map.fitBounds(bounds);
 		
 		// Index the features for searching
-		if(status != "99") {
-			console.log("indexing " + layerId);
-			searchCtrl.indexFeaturesMultipleLayers(data.features, ['Name', 'name', 'region', 'mode', 'Name', 'Region', 'Mode']);
-		} else {
-			console.log("NOT indexing " + layerId);
-		}
+		searchCtrl.indexFeaturesMultipleLayers(data.features, ['Name', 'name', 'region', 'Mode1', 'Region', 'Mode']);
 		
 		// Only show this layer at certain zoom levels
 		if(zoomRange != undefined) {
-			//console.log(layerId + " has a zoomRange of " + zoomRange);
 			map.on("zoomend", function() {
-				toggleLayer(layerId, type, zoomRange);
+				toggleLayer();
 			});
 		} else {
-			switch(type) {
-				case "lines":
-					lines.addLayer(geojsonLayers[layerId]);
-				break;
-				
-				case "stations":
-					stations.addLayer(geojsonLayers[layerId]);
-				break;
-				
-			/*	case "stations_future":
-					stations_future.addLayer(geojsonLayers[layerId]);
-				break;
-				
-				case "stations_existing":
-					stations_existing.addLayer(geojsonLayers[layerId]);
-				break; */
-			}
+			console.log("Layer doesn't have zoomRange, so we're adding a layerId '" + layerId + "' of type '" + type + "' now");
+			layerGroups[type].addLayer(geojsonLayers[layerId]);
 		}
 		
 		// Add the layer to our layer switcher
@@ -195,35 +177,24 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 	
 }
 
-function toggleLayer(layerId, type, zoomRange) {
-
-	var max = Math.max.apply(Math, zoomRange);
-	var min = Math.min.apply(Math, zoomRange);
-	
+function toggleLayer() {
 	// Check to see if we're within range
 	zoom = map.getZoom();
-	if(zoom >= min && zoom <= max) {
-		switch(type) {
-			case "lines":
-				lines.addLayer(geojsonLayers[layerId]);
-			break;
+	$.each(layers, function(i, v) {
+		if(v.zoomRange != undefined) {
+			var max = Math.max.apply(Math, v.zoomRange);
+			var min = Math.min.apply(Math, v.zoomRange);
 			
-			case "stations":
-				stations.addLayer(geojsonLayers[layerId]);
-			break;
+			if(zoom >= min && zoom <= max) {
+				// current zoom is within the range
+				layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
+			} else {
+				if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
+					layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
+				}
+			}
 		}
-	} else {
-		//console.log("Removing layer " + layerId);
-		switch(type) {
-			case "lines":
-				lines.removeLayer(geojsonLayers[layerId]);
-			break;
-			
-			case "stations":
-				stations.removeLayer(geojsonLayers[layerId]);
-			break;
-		}
-	}
+	});
 }
 
 function resizeMap() {
@@ -261,14 +232,7 @@ function createIcons() {
 		markerColor: 'red'
 		// non-existing station
 	});
-	
-/*	icons["stations_future"] = L.AwesomeMarkers.icon({
-		icon: 'stop-circle-o',
-		prefix: 'fa',
-		markerColor: 'red'
-		// future station
-	});
- */	
+
 	return icons;
 }
 
