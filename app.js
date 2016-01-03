@@ -113,8 +113,6 @@ function processLayers(layers) {
 }
 
 function selectKeyCity() {
-	
-	
 	var html = "<p>Zoom to a region";
 	select = "<select id='key_city_select' onchange=\"zoomToCity('key_city_select');\"><option>Choose a region</option>";
 	
@@ -132,6 +130,10 @@ function zoomToCity(id) {
 	lat = $('#' + id).find(':selected').data('latitude');
 	lng = $('#' + id).find(':selected').data('longitude');
 	map.setView([lat, lng], 11);
+}
+
+function zoomHere(lat, lng, zoom) {
+	map.setView([lat, lng], zoom);
 }
 
 function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
@@ -261,13 +263,22 @@ function onEachFeature(feature, layer, type, status) {
 	if(feature.properties) {
 		
 		p = feature.properties;
-		content = "<h7>" + p.Name + "</h7>";
-		content += "<h8>" + showFeatureProperties(p) + "</h8>";
-		popupOptions = {minWidth: 150}
-		popupOptions = {maxWidth: 180}
+		
+		// Set popup content
+		content = "<p class='feature-heading'>" + p.Name + "</p>";
+		content += "<p class='feature-text'>" + showFeatureProperties(p) + "</p>";
+		
+		lat = feature.geometry.coordinates[1];
+		lng = feature.geometry.coordinates[0];
+		content += "<button onclick=\"zoomHere(" + lat + "," + lng + ",14);\">Zoom in</button>";
+		
+		// Set popup options
+		popupOptions = {maxWidth: 280, minWidth: 150}
 		popup = L.popup(popupOptions, layer);
 		popup.setContent(content);
 		layer.bindPopup(popup);
+		
+		// Add the layer objecet to the feature itself so the Fuse search can deal with it
 		feature.layer = layer;
 		
 		// Change the icons for stations
