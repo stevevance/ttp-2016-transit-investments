@@ -202,9 +202,7 @@ function toggleLayer(layerId, type, zoomRange) {
 	
 	// Check to see if we're within range
 	zoom = map.getZoom();
-	//console.log("Current zoom: " + zoom + "; min: " + min + "; max: " + max);
 	if(zoom >= min && zoom <= max) {
-		//console.log("Adding layer " + layerId);
 		switch(type) {
 			case "lines":
 				lines.addLayer(geojsonLayers[layerId]);
@@ -213,14 +211,6 @@ function toggleLayer(layerId, type, zoomRange) {
 			case "stations":
 				stations.addLayer(geojsonLayers[layerId]);
 			break;
-			
-		/*	case "stations_future":
-				stations_future.addLayer(geojsonLayers[layerId]);
-			break;
-			
-			case "stations_existing":
-				stations_existing.addLayer(geojsonLayers[layerId]);
-			break; */
 		}
 	} else {
 		//console.log("Removing layer " + layerId);
@@ -232,14 +222,6 @@ function toggleLayer(layerId, type, zoomRange) {
 			case "stations":
 				stations.removeLayer(geojsonLayers[layerId]);
 			break;
-			
-		/*	case "stations_future":
-				stations_future.removeLayer(geojsonLayers[layerId]);
-			break;
-			
-			case "stations_existing":
-				stations_existing.removeLayer(geojsonLayers[layerId]);
-			break; */
 		}
 	}
 }
