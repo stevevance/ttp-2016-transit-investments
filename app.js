@@ -179,14 +179,19 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 function toggleLayer() {
 	// Check to see if we're within range
 	zoom = map.getZoom();
+	//console.log("toggleLayer fired at zoom " + zoom);
 	$.each(layers, function(i, v) {
 		if(v.zoomRange != undefined) {
+			//console.log(v);
 			var max = Math.max.apply(Math, v.zoomRange);
 			var min = Math.min.apply(Math, v.zoomRange);
 			
 			if(zoom >= min && zoom <= max) {
 				// current zoom is within the range
-				layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
+				//console.log("toggleLayer trying to add " +v.layerId + " of type " + v.type);
+				if(layerGroups[v.type] != undefined) {
+					layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
+				}
 			} else {
 				if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
 					layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
