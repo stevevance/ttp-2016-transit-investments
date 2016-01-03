@@ -69,7 +69,7 @@ function makeMap() {
 	var otherLayers = {};
 	
 	// add the base layer maps
-	var baseMaps = {"Streets": streets, "Building Names": buildings, "Satellite": satellite};
+	var baseMaps = {"Streets": streets, "Buildings": buildings, "Satellite": satellite};
 	streets.addTo(map); // load streets by default
 	
 	// create a layer switcher
