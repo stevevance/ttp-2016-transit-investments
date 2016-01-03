@@ -311,6 +311,8 @@ function onEachFeature(feature, layer, type, status) {
 							case "Streetcar":
 							style.color = "#8E8E8E";
 							style.weight = 2;
+							style.dashArray = [1,2];
+							style.lineCap = 'round';
 							break;
 							}
 						
