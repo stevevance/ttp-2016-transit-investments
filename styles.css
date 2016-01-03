@@ -88,6 +88,36 @@ h6 {
 
 }
 
+/* feature title */
+
+h7 {
+	
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14;
+	color: #ff0000;
+	font-weight: bold;
+	text-align: left;
+	line-height: 1;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+
+}
+
+/* feature text */
+
+h8 {
+	
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12;
+	color: #000000;
+	font-weight: normal;
+	text-align: left;
+	line-height: 1.4;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 15px 0px;
+
+}
+
 .region {
 	
 	font-family: 'Archivo Narrow', sans-serif;

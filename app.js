@@ -246,10 +246,10 @@ function onEachFeature(feature, layer, type, status) {
 	if(feature.properties) {
 		
 		p = feature.properties;
-		content = "<b><font color=ff0000 size=3 face='Open Sans', sans-serif>" + p.Name + "</font></b>";
-		content += "<font size=2 face='Open Sans', sans-serif>" + showFeatureProperties(p) + "</font>";
-		popupOptions = {minWidth: 180}
-		popupOptions = {maxWidth: 220}
+		content = "<h7>" + p.Name + "</h7>";
+		content += "<h8>" + showFeatureProperties(p) + "</h8>";
+		popupOptions = {minWidth: 150}
+		popupOptions = {maxWidth: 180}
 		popup = L.popup(popupOptions, layer);
 		popup.setContent(content);
 		layer.bindPopup(popup);
