@@ -222,9 +222,10 @@ a:visited {
 
 /* Key-mobile site */
 .mobile-key {
+	display: none;
     position: absolute;
     left: 20px;
-    width: 140px;
+    width: 220px;
     border: 0px;
     padding: 10px;
 	font-family: 'Open Sans', sans-serif;
@@ -236,6 +237,9 @@ a:visited {
   	color: black;
  	top: 50%;
   	transform: translateY(-50%);
+}
+a.no-underline {
+	text-decoration: none;
 }
 
 /* Information form */

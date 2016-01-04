@@ -44,13 +44,11 @@ function makeMap() {
 	layerGroups = ["lines", "stations"];
 	layerGroups["lines"] = new L.featureGroup();
 	layerGroups["stations"] = new L.featureGroup();
-//	stations_future = new L.featureGroup();
 //	stations_existing = new L.MarkerClusterGroup();
 
 	// Add those layers to the map (even though they're empty)
 	layerGroups["lines"].addTo(map);
 	layerGroups["stations"].addTo(map);
-//	stations_future.addTo(map);
 //	stations_existing.addTo(map);
 	
 
@@ -71,20 +69,37 @@ function makeMap() {
 	        container.appendChild(document.createTextNode(region));
 	    }
 	});
-	searchCtrl.addTo(map);
-	
-	var otherLayers = {};
 	
 	// add the base layer maps
 	baseMaps = {"Streets": streets, "Buildings": buildings, "Satellite": satellite};
 	toggleBaseMap("Streets"); // change to the default base map
 	
-	// create a layer switcher
-	//control = L.control.layers(baseMaps, otherLayers, {collapsed: false, autoZIndex: true}).addTo(map);
-	
 	// Adjust the map size
 	resizeMap();
 	$(window).on("resize", resizeMap);
+}
+
+function changeIfMobile() {
+	// Always do these things
+	$("#mobile_symbology").html( $("#symbology").clone() );
+	
+	// Do these things if it's a small screen
+	if(isMobile.phone == true) {
+		$(".left-mid").hide();
+	} else {
+		// not small screen, hide all the things that are mobile only
+		$(".mobile-only").hide();
+		searchCtrl.addTo(map);
+	}
+}
+
+function toggleMobileKey() {
+	$(".mobile-key").toggle();
+	if($(".mobile-key").is(":visible")) {
+		$("#action-icon").removeClass("fa-caret-down").addClass("fa-caret-up");
+	} else {
+		$("#action-icon").removeClass("fa-caret-up").addClass("fa-caret-down");
+	}
 }
 
 function toggleBaseMap(changeto) {
@@ -124,8 +139,7 @@ function processLayers(layers) {
 		if(iteration == count) {
 			setTimeout(function() {
 				searchCtrl.initiateFuse(["name", "Name", "Mode1", "Region", "Mode"]);
-				map.fire("zoomend"); // fire a zoomend so the layers that need to turn on depending on the zoom level will be toggled
-			}, 100); // this won't work unless there's a short delay
+			}, 1); // this won't work unless there's a short delay
 			
 		} else {
 			// do something in the mean time?
@@ -133,9 +147,9 @@ function processLayers(layers) {
 	});
 }
 
-function selectKeyCity() {
+function selectKeyCity(whichId) {
 	var html = "<p>Zoom to a region";
-	select = "<select id='key_city_select' onchange=\"zoomToCity('key_city_select');\"><option>Choose a region</option>";
+	select = "<select id='" + whichId + "_select' onchange=\"zoomToCity('" + whichId + "_select');\"><option>Choose a region</option>";
 	
 	$.each(cities, function(i, v) {
 		select += "<option data-latitude='" + v.lat + "' data-longitude='" + v.lng + "'>" + v.name + "</option>";
@@ -144,7 +158,7 @@ function selectKeyCity() {
 	select += "</select>";
 	html += select + "</p>";
 	
-	$("#key_city").html(html);
+	$("#" + whichId).html(html);
 }
 
 function zoomToCity(id) {
@@ -154,7 +168,7 @@ function zoomToCity(id) {
 }
 
 function zoomHere(lat, lng, zoom) {
-	map.setView([lat, lng], zoom);
+	map.setView([lat, lng], map.getMaxZoom()-1);
 }
 
 function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
@@ -197,9 +211,7 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 			layerGroups[type].addLayer(geojsonLayers[layerId]);
 		}
 		
-		// Add the layer to our layer switcher
-		//count = data.features.length;
-		//control.addOverlay(geojsonLayers[layerId], name + " (" + count + ")");
+		map.fire("zoomend"); // fire a zoomend so the layers that need to turn on depending on the zoom level will be toggled
 	})
 	.fail(function() {
 		alert("Couldn't load your GeoJSON file; Is it where you said it is?")
@@ -210,18 +222,15 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 }
 
 function toggleLayer() {
-	// Check to see if we're within range
+	// Check to see if we're within range, and then hide or show the map layer
 	zoom = map.getZoom();
-	//console.log("toggleLayer fired at zoom " + zoom);
 	$.each(layers, function(i, v) {
 		if(v.zoomRange != undefined) {
-			//console.log(v);
 			var max = Math.max.apply(Math, v.zoomRange);
 			var min = Math.min.apply(Math, v.zoomRange);
 			
 			if(zoom >= min && zoom <= max) {
 				// current zoom is within the range
-				//console.log("toggleLayer trying to add " +v.layerId + " of type " + v.type);
 				if(layerGroups[v.type] != undefined) {
 					layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
 				}
