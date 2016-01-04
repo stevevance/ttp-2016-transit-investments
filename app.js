@@ -349,16 +349,17 @@ function onEachFeature(feature, layer, type, status) {
 						break;
 								
 				case "existing":
-						style.weight = 2.5;
+						style.weight = 3;
 						style.lineCap = 'round';
 						style.color = "#494949";
+						style.opacity = 0.4;
 						
 						switch(mode) {
 							case "Commuter Rail":
 							case "Streetcar":
 							style.color = "#8E8E8E";
-							style.weight = 2;
-							style.dashArray = [1,2];
+							style.weight = 3;
+							style.dashArray = [1,3];
 							style.lineCap = 'round';
 							break;
 							}
