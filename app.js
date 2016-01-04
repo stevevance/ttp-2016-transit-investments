@@ -428,7 +428,7 @@ function showFeatureProperties(properties) {
 				case "Estimated_Cost":
 				case "Estimated_":
 					i = "<b>Estimated cost (USD)</b>: ";
-					v = "$" + number_format(v); // display a number with thousands separators
+					v = "$" + number_format(v) + " m"; // display a number with thousands separators
 				break;
 				
 				case "Cost_per_Mi_":
@@ -500,6 +500,7 @@ function showFeatureProperties(properties) {
 				
 				case "Miles":
 				case "Mi_":
+				case "Mi":
 					i = "<b>Length</b>: ";
 					v = v + " mi."
 				break;
