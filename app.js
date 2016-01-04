@@ -139,6 +139,7 @@ function processLayers(layers) {
 		if(iteration == count) {
 			setTimeout(function() {
 				searchCtrl.initiateFuse(["name", "Name", "Mode1", "Region", "Mode"]);
+				//map.fire("zoomend"); // fire a zoomend so the layers that need to turn on depending on the zoom level will be toggled
 			}, 1); // this won't work unless there's a short delay
 			
 		} else {
@@ -206,12 +207,11 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 			map.on("zoomend", function() {
 				toggleLayer();
 			});
+			shouldWeShowLayer(layerId);
 		} else {
 			console.log("Layer doesn't have zoomRange, so we're adding a layerId '" + layerId + "' of type '" + type + "' now");
 			layerGroups[type].addLayer(geojsonLayers[layerId]);
 		}
-		
-		map.fire("zoomend"); // fire a zoomend so the layers that need to turn on depending on the zoom level will be toggled
 	})
 	.fail(function() {
 		alert("Couldn't load your GeoJSON file; Is it where you said it is?")
@@ -241,6 +241,27 @@ function toggleLayer() {
 			}
 		}
 	});
+}
+
+function shouldWeShowLayer(layerId) {
+	zoom = map.getZoom();
+	v = geojsonLayers[layerId].options;
+	
+	if(v.zoomRange != undefined) {
+		var max = Math.max.apply(Math, v.zoomRange);
+		var min = Math.min.apply(Math, v.zoomRange);
+		
+		if(zoom >= min && zoom <= max) {
+			// current zoom is within the range
+			if(layerGroups[v.type] != undefined) {
+				layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
+			}
+		} else {
+			if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
+				layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
+			}
+		}
+	}
 }
 
 function resizeMap() {
