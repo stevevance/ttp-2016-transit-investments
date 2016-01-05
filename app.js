@@ -53,7 +53,7 @@ function makeMap() {
 	
 	// Keep track of whichever popup is open
 	map.on("popupopen", function(e) {
-		popup = e;
+		activePopup = e;
 	});
 
 	// Add a search box
@@ -165,7 +165,7 @@ function zoomToCity(id) {
 }
 
 function zoomHere() {
-	map.setView(popup.popup._latlng, 14);
+	map.setView(activePopup.popup._latlng, 14);
 }
 
 function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
