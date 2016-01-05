@@ -137,17 +137,10 @@ function processLayers(layers) {
 	$.each(layers, function(i, v) {
 		addGeoJsonLayer(v.file, v.layerId, v.name, v.type, v.status, v.zoomRange);
 		iteration++;
-		
-		// Do something when we're done processing the layers
-		if(iteration == count) {
-			setTimeout(function() {
-				searchCtrl.initiateFuse(["name", "Name", "Mode1", "Region", "Mode"]);
-				//map.fire("zoomend"); // fire a zoomend so the layers that need to turn on depending on the zoom level will be toggled
-			}, 1); // this won't work unless there's a short delay
-			
-		} else {
-			// do something in the mean time?
-		}
+	});
+	
+	$("a[title=Search]").on("click", function() {
+		searchCtrl.initiateFuse(["name", "Name", "Mode1", "Region", "Mode"]);
 	});
 }
 
