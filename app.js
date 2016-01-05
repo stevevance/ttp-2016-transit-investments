@@ -51,7 +51,10 @@ function makeMap() {
 	layerGroups["stations"].addTo(map);
 //	stations_existing.addTo(map);
 	
-
+	// Keep track of whichever popup is open
+	map.on("popupopen", function(e) {
+		popup = e;
+	});
 
 	// Add a search box
 	searchCtrl = L.control.fuseSearch({
@@ -168,8 +171,8 @@ function zoomToCity(id) {
 	map.setView([lat, lng], 11);
 }
 
-function zoomHere(lat, lng, zoom) {
-	map.setView([lat, lng], map.getMaxZoom()-1);
+function zoomHere() {
+	map.setView(popup.popup._latlng, 14);
 }
 
 function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
@@ -316,12 +319,16 @@ function onEachFeature(feature, layer, type, status) {
 		p = feature.properties;
 		
 		// Set popup content
-		content = "<p class='feature-heading'>" + p.Name + "</p>";
+		var content = "<p class='feature-heading'>" + p.Name + "</p>";
 		content += "<p class='feature-text'>" + showFeatureProperties(p) + "</p>";
 		
-		lat = feature.geometry.coordinates[1];
-		lng = feature.geometry.coordinates[0];
-		content += "<button onclick=\"zoomHere(" + lat + "," + lng + ",14);\">Zoom in</button>";
+		var lat = feature.geometry.coordinates[1];
+		var lng = feature.geometry.coordinates[0];
+		//content += "<button onclick=\"zoomHere(" + lat + "," + lng + ",14);\">Zoom in</button>";
+		//var bounds_layer = L.GeoJSON.geometryToLayer(feature);
+		//console.log(bounds_layer);
+		//var bounds = JSON.stringify( bounds_layer.getBounds() );
+		content += "<button onclick=\"zoomHere();\">Zoom in</button>";
 		
 		// Set popup options
 		popupOptions = {maxWidth: 280, minWidth: 150}
