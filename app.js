@@ -22,11 +22,21 @@ function makeMap() {
 		maxZoom: 20,
 		maxNativeZoom: 19
 	});	
+	
+	urlParams = getUrlParams();
+	if(urlParams.embed_lat != undefined && urlParams.embed_lng != undefined) {
+		lat = urlParams.embed_lat;
+		lng = urlParams.embed_lng;
+	} else {
+		lat = 41.89;
+		lng = -87.62;
+	}
+	zoom = urlParams.embed_zoom || 10;
 
 	// initialize the map on the "map" div with a given center and zoom
 	map = L.map('map', {
-	    center: [41.89, -87.62],
-	    zoom: 10,
+	    center: [lat, lng],
+	    zoom: zoom,
 	    maxZoom: 18,
 	    zoomControl: false // turning off the auto location of the zoom control (to the right)
 	});
@@ -520,4 +530,21 @@ function showFeatureProperties(properties) {
 	
 	return html;
 	
+}
+
+function getUrlParams() {
+	var urlParams;
+	(window.onpopstate = function () {
+	    var match,
+	        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+	        search = /([^&=]+)=?([^&]*)/g,
+	        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+	        query  = window.location.search.substring(1);
+	
+	    urlParams = {};
+	    while (match = search.exec(query))
+	       urlParams[decode(match[1])] = decode(match[2]);
+	})();
+	
+	return urlParams;
 }
