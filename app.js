@@ -30,6 +30,7 @@ function makeMap() {
 	    maxZoom: 18,
 	    zoomControl: false // turning off the auto location of the zoom control (to the right)
 	});
+	var hash = new L.Hash(map);
 	icons = createIcons();
 	
 	bounds = map.getBounds();
