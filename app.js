@@ -116,18 +116,13 @@ function toggleMobileKey() {
 	$("#mobile-key").toggle();
 	
 	urlParams = getUrlParams();
-/*
 	if(urlParams.embed_mobile == "true") {
-		// if it's being embedded, keep it open
-		document.getElementById('mobile-key').style.display = 'block'; // in case there's no jQuery, like on the embed
-	}
-*/
-	
-	if(document.getElementById('mobile-key').style.display == 'block') {
-		document.getElementById('mobile-key').style.display = 'none';
-	}
-	if(document.getElementById('mobile-key').style.display == 'none') {
-		document.getElementById('mobile-key').style.display = 'block';
+		if(document.getElementById('mobile-key').style.display == 'block') {
+			document.getElementById('mobile-key').style.display = 'none';
+		}
+		if(document.getElementById('mobile-key').style.display == 'none') {
+			document.getElementById('mobile-key').style.display = 'block';
+		}
 	}
 	
 	if($("#mobile-key").is(":visible")) {
