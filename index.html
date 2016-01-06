@@ -391,8 +391,10 @@
 				<!-- Wufoo form -->
 				<form id="form1" name="form1" class="wufoo topLabel page" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" novalidate
 				      action="https://yfreemark.wufoo.com/forms/z11qhl9e0tdbgax/#public"><h3>
-				<input id="Field1" name="Field1" type="email" spellcheck="false" class="field text large" value="Email (not required)" maxlength="255" tabindex="1"       />
-				<input id="Field2" name="Field2" type="text" class="field text large" value="What&#039;s wrong or missing?" maxlength="500" tabindex="2" onkeyup="validateRange(2, 'character');"       required />
+				<label for="Field1">Your email (optional)</label>
+				<input id="Field1" name="Field1" type="email" spellcheck="false" class="field text large" placeholder="Email" maxlength="255" tabindex="1" />
+				<label for="Field2">The problem</label>
+				<textarea id="Field2" name="Field2" type="text" class="field text large" placeholder="What's wrong or missing?" maxlength="500" tabindex="2" onkeyup="validateRange(2, 'character');" required style="height:100px;" /></textarea>
 				
 				<input id="saveForm" name="saveForm" class="btTxt submit"
 				    type="submit" value="Submit" />
