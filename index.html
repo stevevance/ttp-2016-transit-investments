@@ -347,7 +347,7 @@
 		</div>
 
 		<!-- Show this Key only on Desktop -->
-		<div class="left-mid">
+		<div id="left-mid">
 			<h1>Transit Explorer</h1>
 			<h2>Discover current, planned, and potential fixed-guideway transit systems in North America.</h2>
 			<table id="symbology" width="100%" border="0" valign="top">
@@ -437,7 +437,7 @@
 		</div><!-- /left-mid -->
 		
 		<!-- Show this Key only on mobile -->
-		<div class="mobile-key">
+		<div id="mobile-key">
 			<h7>Transit Explorer</h7>
 			
 			<div id="mobile_symbology"></div>
@@ -453,6 +453,8 @@
 	        <img src="images/linkedin.png" width="25" alt="LinkedIn" /></a>
 	        <a href="https://twitter.com/share?url=http://www.thetransportpolitic.com/transitexplorer&amp;text=Transit%20Explorer:%20The%20Transport%20Politic&amp" target="_blank">
 	        <img src="images/twitter.png" width="25" alt="Twitter" /></a>
+	        
+	        <p class="h3"><a href="#" onclick="document.getElementById('mobile-key').style.display = 'none';">Close legend</a></p>
 		</div>
 		
 		<!-- Scripts should go right before the closing body tag so they don't obstruct page loading performance -->
@@ -471,6 +473,6 @@
 		<!-- Our app scripts -->
 		<script src="functions.js"></script>
 		<script src="app.js"></script>
-		
+
 	</body>
 </html>

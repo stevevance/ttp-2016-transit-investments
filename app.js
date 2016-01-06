@@ -94,12 +94,17 @@ function makeMap() {
 }
 
 function changeIfMobile() {
+	urlParams = getUrlParams();
+	console.log(urlParams);
+	
 	// Always do these things
-	$("#mobile_symbology").html( $("#symbology").clone() );
+	$("#mobile_symbology").html( $("#symbology").clone() ); // copy the symbology to the one used in the mobile key
 	
 	// Do these things if it's a small screen
-	if(isMobile.phone == true) {
-		$(".left-mid").hide();
+	if(isMobile.phone == true || urlParams.embed_mobile == "true") {
+		$("#left-mid").hide();
+		document.getElementById('left-mid').style.display = 'none'; // in case there's no jQuery, like on the embed
+		//document.getElementById('mobile-key').style.display = 'block';
 	} else {
 		// not small screen, hide all the things that are mobile only
 		$(".mobile-only").hide();
@@ -108,8 +113,24 @@ function changeIfMobile() {
 }
 
 function toggleMobileKey() {
-	$(".mobile-key").toggle();
-	if($(".mobile-key").is(":visible")) {
+	$("#mobile-key").toggle();
+	
+	urlParams = getUrlParams();
+/*
+	if(urlParams.embed_mobile == "true") {
+		// if it's being embedded, keep it open
+		document.getElementById('mobile-key').style.display = 'block'; // in case there's no jQuery, like on the embed
+	}
+*/
+	
+	if(document.getElementById('mobile-key').style.display == 'block') {
+		document.getElementById('mobile-key').style.display = 'none';
+	}
+	if(document.getElementById('mobile-key').style.display == 'none') {
+		document.getElementById('mobile-key').style.display = 'block';
+	}
+	
+	if($("#mobile-key").is(":visible")) {
 		$("#action-icon").removeClass("fa-caret-down").addClass("fa-caret-up");
 	} else {
 		$("#action-icon").removeClass("fa-caret-up").addClass("fa-caret-down");

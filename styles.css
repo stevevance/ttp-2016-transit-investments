@@ -36,7 +36,7 @@ h2 {
 
 }
 
-h3 {
+h3, .h3 {
 	
 	font-family: 'Archivo Narrow', sans-serif;
 	font-size: 13;
@@ -203,7 +203,7 @@ a:visited {
 }
 
 /* Key-main site */
-.left-mid {
+#left-mid {
     position: absolute;
     left: 20px;
     width: 220px;
@@ -221,7 +221,7 @@ a:visited {
 }
 
 /* Key-mobile site */
-.mobile-key {
+#mobile-key {
 	display: none;
     position: absolute;
     left: 20px;
