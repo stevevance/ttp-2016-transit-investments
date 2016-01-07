@@ -1,9 +1,12 @@
 # Transit Explorer
-Map of the transit investments in 2016
+Map of existing fixed-guideway transit and major transit investments in the U.S., Mexico, and Canada.
 
-This repository is the [Transit Explorer map](http://www.thetransportpolitic.com/transitexplorer) featured on [The Transport Politic](http://www.thetransportpolitic.com/2016/01/06/openings-and-construction-starts-planned-for-2016/), launched on Wednesday, January 6, 2015. It holds the HTML and JavaScript code and GeoJSON map data.
+This repository is the [Transit Explorer map](http://www.thetransportpolitic.com/transitexplorer) featured on [The Transport Politic](http://www.thetransportpolitic.com/2016/01/06/openings-and-construction-starts-planned-for-2016/), launched on Wednesday, January 6, 2016. It holds the HTML and JavaScript code and GeoJSON map data.
 
 ## About
+Transit Explorer was developed by Yonah Freemark and Steven Vance.
+
+Code includes Google Analytics and Maptiks settings specific to the site. If using the code elsewhere, adapt these settings for your specific site's needs.
 
 ## Geographic data
 The geographic data represents existing and future transit lines and future transit stations and combines custom-created data and data from open sources. 
@@ -16,4 +19,4 @@ The geographic data represents existing and future transit lines and future tran
 ## Licensing
 MIT License. 
 
-If you use any of the geographic data you must attribute OpenStreetMap contributors, and Yonah Freemark. 
+If you use any of the geographic data you must attribute OpenStreetMap contributors and Yonah Freemark. 
