@@ -113,6 +113,7 @@ function changeIfMobile() {
 }
 
 function toggleMobileKey() {
+	console.log("toggling the mobile key");
 	$("#mobile-key").toggle();
 	
 	urlParams = getUrlParams();
