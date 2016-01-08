@@ -11,7 +11,9 @@ Boston MA,Green Line Extension (Union Square Branch),Light Rail,4.3,1300000000,2
 Boston MA,Silver Line Gateway,Bus Rapid Transit,1.1,83000000,2015-2017,8730,At Grade Partially Independent ROW,http://www.massdot.state.ma.us/silverlinegateway/Home.aspx,
 Boston MA,Fairmount Line,Commuter Rail DMU,9.2,79000000,2011-2017,7300,At Grade Independent ROW,http://www.mbta.com/about_the_mbta/t_projects/Default.asp?id=14261,
 Boston MA,Wachusett Extension,Commuter Rail,4.5,72000000,2011-2016,,At Grade Independent ROW,http://www.mbta.com/about_the_mbta/t_projects/default.asp?id=15585,77% of project's cost covered through federal TIGER grant
+Calgary AB,Southwest Transitway,Bus Rapid Transit,13.7,28000000,2016-2018,,At Grade Semi-Independent ROW,http://www.calgary.ca/Transportation/TI/Pages/Transit-projects/Southwest-Transitway.aspx,
 Charlotte NC,Blue Line Extension,Light Rail,9.3,1160000000,2013-2017,24600,At Grade Independent ROW,http://charmeck.org/city/charlotte/cats/planning/BLE/Pages/default.aspx,50% of project's cost covered through federal New Starts grant
+Charlotte NC,CityLYNX Gold Line Phase 2 (southeast and northwest,Streetcar,2.5,150000000,2016-2019,,At Grade Shared ROW,http://charmeck.org/city/charlotte/charlottefuture/Pages/GoldLine.aspx,50% of project's cost covered by federal Small Starts grant
 Chicago IL,Pace Pulse Milwaukee Line,Bus Rapid Transit,7.6,14000000,2016-2017,,At Grade Shared ROW,http://pulse.pacebus.com/index.php/service-lines/milwaukee/location,
 Cincinnati OH,Cincinnati Streetcar Phase 1,Streetcar,1.8,148000000,2012-2016,6400,At Grade Shared ROW,http://www.cincinnati-oh.gov/streetcar/,28% of project's cost covered through federal Urban Circulator grant
 Dallas TX,South Oak Cliff Blue Line Extension,Light Rail,2.6,240000000,2014-2016,,At Grade Independent ROW,http://www.dart.org/about/expansion/bluelinesoc3.asp,
@@ -27,8 +29,9 @@ Detroit MI,M-1 Rail,Streetcar,3.3,137000000,2013-2016,8000,At Grade Shared ROW,h
 Edmonton AB,Valley Line Stage 1,Light Rail,8.1,1300000000,2016-2020,,At Grade Independent ROW,http://www.edmonton.ca/ets/transit_projects/southeast-to-west-lrt-mill-woods-to-lewis-farms.aspx,22% of project's cost covered through PPP Canada grant
 El Paso TX,Brio Alameda Corridor,Bus Rapid Transit,12.2,36000000,2015-2016,,At Grade Shared ROW,http://www.sunmetro.net/brio.html,
 El Paso TX,El Paso Streetcar,Streetcar,,97000000,2016-2018,,At Grade Shared ROW,http://www.sunmetro.us/streetcar.html,
-Eugene OR,West Eugene EmX,Bus Rapid Transit,4.4,96000000,2014-2017,7400,At Grade Partially Separated ROW,http://weemx.ltd.org/Š—_,78% of project's cost covered through federal Small Starts grant
+Eugene OR,West Eugene EmX,Bus Rapid Transit,4.4,96000000,2014-2017,7400,At Grade Partially Separated ROW,http://weemx.ltd.org/_Ñ_,78% of project's cost covered through federal Small Starts grant
 Guadalajara MX,Linea 3,Light Rail,13,447000000,2014-2017,230000,At Grade Independent ROW,http://l3gdl.com,
+Hartford CT,Hartford Line,Commuter Rail,62,750000000,2015-2018,,At Grade Independent ROW,http://www.nhhsrail.com/,
 Honolulu HI,Honolulu Rail Transit Phase 1,Heavy Rail Automated,20,6600000000,2011-2021,119600,Elevated,http://www.honolulutransit.org/,"30% of project's cost covered by federal New Starts grant; cost increased from $5.2 billion; phase 1 delayed from 2017 to 2018, phase 2 from 2020."
 Houston TX,East End Line Phase 2,Light Rail,,0,2015-2017,,At Grade Independent ROW,http://www.gometrorail.org/go/doc/2491/406635/,
 Houston TX,Uptown (Post Oak) BRT,Bus Rapid Transit,4.5,193000000,2015-2017,19000,At Grade Independent ROW,http://www.gometrorail.org/go/doc/2491/1333311/,
@@ -54,6 +57,7 @@ New York NY,Woodhaven/Cross Bay Boulevard SBS,Bus Rapid Transit,13.8,0,2015-2017
 Oklahoma City OK,Oklahoma City Streetcar Phase 1,Streetcar,2.3,129000000,2016-2018,,At Grade Shared ROW,https://www.okc.gov/maps3/projects/modernstreetcar.html,
 Orlando FL,SunRail Phase 2 (South),Commuter Rail DMU,29.5,174000000,2015-2017,5800,At Grade Independent ROW,http://sunrail.com/default.aspx,50% of project's cost covered through federal New Starts grant
 Orlando FL,SunRail Phase 2 (North),Commuter Rail DMU,12,79000000,2015-2017,,At Grade Independent ROW,http://sunrail.com/default.aspx,50% of project's cost covered through federal Small Starts grant
+Orlando FL,Lymmo Lime Line,Bus Rapid Transit,2.1,,2015-2016,1500,At Grade Semi-Independent ROW,http://www.golymmo.com/Parramore-BRT/index.stml,
 Ottawa ON,Confederation Line,Light Rail,7.7,1978000000,2013-2018,,Subway and At Grade Independent ROW,http://www.ligneconfederationline.ca,29% of project's cost covered by Canadian government
 Phoenix AZ,Northwest Phase 1,Light Rail,3.1,327000000,2013-2016,5000,At Grade Independent ROW,http://www.valleymetro.org/projects_and_planning/project_detail/northwest_phase_i/,
 Phoenix AZ,Gilbert Road Extension,Light Rail,1.9,162000000,2015-2018,,At Grade Independent ROW,http://www.valleymetro.org/projects_and_planning/project_detail/gilbert_road,
