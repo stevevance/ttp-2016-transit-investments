@@ -1,0 +1,37 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Auburn Gresham Metra Station",
+        "Region": "Chicago IL",
+        "Construction": 2016,
+        "Type": "Station"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6393449306488,
+          41.75071607841109
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Peterson UP-North Metra Station",
+        "Region": "Chicago IL",
+        "Construction": 2016,
+        "Type": "Station"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.67505049705505,
+          41.991370796419446
+        ]
+      }
+    }
+  ]
+}
