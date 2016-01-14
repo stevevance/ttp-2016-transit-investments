@@ -2,7 +2,7 @@ function makeMap() {
 
 	var skobblerUrl1 = 'http://tiles{s}-73ef414d6fe7d2b466d3d6cb0a1eb744.skobblermaps.com/TileService/tiles/2.0/01021111200/0/{z}/{x}/{y}.png20';
 	streets = L.tileLayer(skobblerUrl1, {
-		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors / Map tiles <a href="http://developer.skobbler.com/attribution">copyright Skobbler/Scout</a>',
 		detectRetina:true,
 		maxZoom: 19,
 		maxNativeZoom: 18,
