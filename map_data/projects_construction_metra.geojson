@@ -4,7 +4,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Auburn Gresham Metra Station",
+        "Name": "Auburn Gresham Metra Station",
         "Region": "Chicago IL",
         "Construction": 2016,
         "Type": "Station"
@@ -20,7 +20,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Peterson UP-North Metra Station",
+        "Name": "Peterson UP-North Metra Station",
         "Region": "Chicago IL",
         "Construction": 2016,
         "Type": "Station"
