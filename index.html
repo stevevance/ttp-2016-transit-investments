@@ -335,7 +335,8 @@
 						"name": "Existing fixed-guideway transit",
 						"type": "lines",
 						"status": "existing",
-						"zoomRange": [10,99]
+						"zoomRange": [10,99],
+						"special": false
 					},
 					{
 						"file": "map_data/existing_transit_stops.geojson",
@@ -400,8 +401,14 @@
 			<!-- Insert the "zoom to a key city" here -->
 			<div id="key_city_desktop" class="region"></div>
 			
-			<!-- Insert the "change base layer" here -->
+			<!-- Insert the "switch base layer" here -->
 			<div id="baselayers" class="region"></div>
+			
+			<!-- Insert the "switch special layer" here -->
+			<div id="special_layers" class="region">
+				<label for="toggle_special_layers">Show cancelled lines</label>
+				<input type="checkbox" name="toggle_special_layers" onclick="toggleSpecialLayers();" />
+			</div>
 
 			<h3><a href="#" onclick="$('#more').slideToggle();">More information about this page</a>. Follow transport news and analysis on <a href="http://www.thetransportpolitic.com" target="_self">The Transport Politic</a>. <a href="#" onclick="$('div#err').slideToggle();">Find an error?</a></h3>
 			

@@ -2,7 +2,16 @@ function makeMap() {
 
 	var skobblerUrl1 = 'http://tiles{s}-73ef414d6fe7d2b466d3d6cb0a1eb744.skobblermaps.com/TileService/tiles/2.0/01021111200/0/{z}/{x}/{y}.png20';
 	streets = L.tileLayer(skobblerUrl1, {
-		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors / Map tiles <a href="http://developer.skobbler.com/attribution">copyright Skobbler/Scout</a>',
+		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors / Map tiles <a href="http://developer.skobbler.com/attribution">copyright Skobbler</a>',
+		detectRetina:true,
+		maxZoom: 19,
+		maxNativeZoom: 18,
+		subdomains: '1234'
+	});
+	
+	var skobblerUrlNight = 'http://tiles{s}-73ef414d6fe7d2b466d3d6cb0a1eb744.skobblermaps.com/TileService/tiles/2.0/01021111200/2/{z}/{x}/{y}.png20';
+	night = L.tileLayer(skobblerUrlNight, {
+		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors / Map tiles <a href="http://developer.skobbler.com/attribution">copyright Skobbler</a>',
 		detectRetina:true,
 		maxZoom: 19,
 		maxNativeZoom: 18,
@@ -21,7 +30,8 @@ function makeMap() {
 		detectRetina:false,
 		maxZoom: 20,
 		maxNativeZoom: 19
-	});	
+	});
+	
 	
 	urlParams = getUrlParams();
 	if(urlParams.embed_lat != undefined && urlParams.embed_lng != undefined) {
@@ -163,7 +173,7 @@ function processLayers(layers) {
 	count = layers.length;
 	iteration = 0;
 	$.each(layers, function(i, v) {
-		addGeoJsonLayer(v.file, v.layerId, v.name, v.type, v.status, v.zoomRange);
+		addGeoJsonLayer(v.file, v.layerId, v.name, v.type, v.status, v.zoomRange, v.special);
 		iteration++;
 	});
 	
@@ -196,7 +206,7 @@ function zoomHere() {
 	map.setView(activePopup.popup._latlng, 14);
 }
 
-function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
+function addGeoJsonLayer(file, layerId, name, type, status, zoomRange, special) {
 	
 	/*
 	* A generic function that simply adds our GeoJSON file to the map
@@ -215,7 +225,8 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 			zoomRange: zoomRange,
 			type: type,
 			status: status,
-			layerId: layerId
+			layerId: layerId,
+			special: special
 		});
 		//geojsonDatas.push(data);
 		layerBounds = geojsonLayers[layerId].getBounds();
@@ -231,7 +242,7 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange) {
 			map.on("zoomend", function() {
 				toggleLayer();
 			});
-			shouldWeShowLayer(layerId);
+			shouldWeShowLayer(layerId); // should we show it now?
 		} else {
 			console.log("Layer doesn't have zoomRange, so we're adding a layerId '" + layerId + "' of type '" + type + "' now");
 			layerGroups[type].addLayer(geojsonLayers[layerId]);
@@ -255,11 +266,11 @@ function toggleLayer() {
 			
 			if(zoom >= min && zoom <= max) {
 				// current zoom is within the range
-				if(layerGroups[v.type] != undefined) {
+				if(layerGroups[v.type] != undefined && (v.special == undefined || v.special == false)) {
 					layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
 				}
 			} else {
-				if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
+				if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId]) && (v.special == undefined || v.special == false)) {
 					layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
 				}
 			}
@@ -277,15 +288,40 @@ function shouldWeShowLayer(layerId) {
 		
 		if(zoom >= min && zoom <= max) {
 			// current zoom is within the range
-			if(layerGroups[v.type] != undefined) {
+			if(layerGroups[v.type] != undefined && (v.special == undefined || v.special == false)) {
 				layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
 			}
 		} else {
-			if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
+			if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId]) && (v.special == undefined || v.special == false)) {
 				layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
 			}
 		}
 	}
+}
+
+function toggleSpecialLayers() {
+	
+	if(map.hasLayer(night)) {
+		// return to the default "streets" map
+		console.log("Returning to the default Streets map");
+		toggleBaseMap("Streets");
+		$("#baselayer_select").removeAttr("disabled");
+		map.removeLayer(night);
+	} else {
+		map.addLayer(night);
+		$("#baselayer_select").attr("disabled", "disabled");
+	}
+	
+	$.each(layers, function(i, v) {
+		keepGoing = true;
+		if(layerGroups[v.type] != undefined && !layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
+			layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
+			keepGoing = false;
+		}
+		if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId]) && keepGoing) {
+			layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
+		}		
+	});
 }
 
 function resizeMap() {
