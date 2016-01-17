@@ -263,12 +263,8 @@
 				        "lng": -97.14
 				    },
 				];
-			
-			$(document).ready(function() { 
-				makeMap();
-				changeIfMobile();
 				
-				layers = [
+			layers = [
 					{
 						"file": "map_data/projects_funded_ns_lines.geojson",
 						"layerId": "projects_funded_lines",
@@ -346,8 +342,19 @@
 						"status": "existing",
 						"zoomRange": [14,99]
 					},
-
+					{
+						"file": "map_data/cancelled_lines.geojson",
+						"layerId": "cancelled_lines",
+						"name": "Cancelled lines",
+						"type": "lines",
+						"status": "cancelled",
+						"special": true
+					}
 				];
+			
+			$(document).ready(function() { 
+				makeMap();
+				changeIfMobile();
 			
 				processLayers(layers);
 				selectKeyCity("key_city_mobile");
@@ -490,14 +497,13 @@
 		<script src="scripts/wufoo.js"></script>
 		<script src="js/fuse.min.js"></script>
 		
-<!-- Maptiks analysis -->
-
-<script src="//cdn.maptiks.com/maptiks-leaflet.min.js"></script>
-<script>maptiks.trackcode='2afc914e-312f-46a8-83f1-dd64516de381';</script>
+		<!-- Maptiks analysis -->
+<!--
+		<script src="//cdn.maptiks.com/maptiks-leaflet.min.js"></script>
+		<script>maptiks.trackcode='2afc914e-312f-46a8-83f1-dd64516de381';</script>
+-->
 
 		<!-- Leaflet plugins -->
-
-		<!-- <script src="src/leaflet-search.js"></script> -->
 		<script src="js/leaflet.awesome-markers.js"></script>
 		<script src="leaflet_plugins/leaflet.markercluster.js"></script>
 		<script src="leaflet_plugins/leaflet.fusesearch.js"></script>

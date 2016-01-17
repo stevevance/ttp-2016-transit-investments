@@ -31,7 +31,7 @@ function makeMap() {
 		maxZoom: 20,
 		maxNativeZoom: 19
 	});
-	
+	special_toggle = false;
 	
 	urlParams = getUrlParams();
 	if(urlParams.embed_lat != undefined && urlParams.embed_lng != undefined) {
@@ -96,6 +96,9 @@ function makeMap() {
 	
 	// add the base layer maps
 	baseMaps = {"Streets": streets, "Buildings": buildings, "Satellite": satellite};
+	$.each(baseMaps, function(i, v) {
+		map.addLayer(baseMaps[i]);
+	});
 	toggleBaseMap("Streets"); // change to the default base map
 	
 	// Adjust the map size
@@ -145,11 +148,12 @@ function toggleMobileKey() {
 
 function toggleBaseMap(changeto) {
 	name = changeto || $('#baselayer_select').find(':selected').data('name');
+	console.log("toggleBaseMap: changing to "+ name);
 	$.each(baseMaps, function(i, v) {
-		map.removeLayer(baseMaps[i]);
+		baseMaps[i].bringToBack();
 	});
 	
-	map.addLayer(baseMaps[name]);
+	baseMaps[name].bringToFront();
 	setTimeout(function() {
 		$('#baselayer_select').find('[data-name=' + name + ']').prop("selected","selected");
 	}, 100);
@@ -169,13 +173,24 @@ function selectBaseMap() {
 	$("#baselayers").html(html);
 }
 
-function processLayers(layers) {
+function processLayers(layers, layerId) {
 	count = layers.length;
 	iteration = 0;
+	
+	// We can process one layer, or all layers
 	$.each(layers, function(i, v) {
-		addGeoJsonLayer(v.file, v.layerId, v.name, v.type, v.status, v.zoomRange, v.special);
+		if(layerId != undefined) {
+			if(layerId == v.layerId) {
+				addGeoJsonLayer(v.file, v.layerId, v.name, v.type, v.status, v.zoomRange, v.special);
+			} else {
+				// this isn't the layer we're looking for
+			}
+		} else {
+			addGeoJsonLayer(v.file, v.layerId, v.name, v.type, v.status, v.zoomRange, v.special);
+		}
 		iteration++;
 	});
+
 	
 	$("a[title=Search]").on("click", function() {
 		searchCtrl.initiateFuse(["name", "Name", "Mode1", "Region", "Mode"]);
@@ -245,7 +260,9 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange, special) 
 			shouldWeShowLayer(layerId); // should we show it now?
 		} else {
 			console.log("Layer doesn't have zoomRange, so we're adding a layerId '" + layerId + "' of type '" + type + "' now");
-			layerGroups[type].addLayer(geojsonLayers[layerId]);
+			if(special == undefined || special == false) {
+				layerGroups[type].addLayer(geojsonLayers[layerId]);
+			}
 		}
 	})
 	.fail(function() {
@@ -259,23 +276,26 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange, special) 
 function toggleLayer() {
 	// Check to see if we're within range, and then hide or show the map layer
 	zoom = map.getZoom();
-	$.each(layers, function(i, v) {
-		if(v.zoomRange != undefined) {
-			var max = Math.max.apply(Math, v.zoomRange);
-			var min = Math.min.apply(Math, v.zoomRange);
-			
-			if(zoom >= min && zoom <= max) {
-				// current zoom is within the range
-				if(layerGroups[v.type] != undefined && (v.special == undefined || v.special == false)) {
-					layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
-				}
-			} else {
-				if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId]) && (v.special == undefined || v.special == false)) {
-					layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
+	
+	if(!special_toggle) {
+		$.each(layers, function(i, v) {
+			if(v.zoomRange != undefined) {
+				var max = Math.max.apply(Math, v.zoomRange);
+				var min = Math.min.apply(Math, v.zoomRange);
+				
+				if(zoom >= min && zoom <= max) {
+					// current zoom is within the range
+					if(layerGroups[v.type] != undefined && (v.special == undefined || v.special == false)) {
+						layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
+					}
+				} else {
+					if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId]) && (v.special == undefined || v.special == false)) {
+						layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 }
 
 function shouldWeShowLayer(layerId) {
@@ -301,27 +321,79 @@ function shouldWeShowLayer(layerId) {
 
 function toggleSpecialLayers() {
 	
-	if(map.hasLayer(night)) {
+	if(special_toggle) {
+		// Remove the "night" base layer, and the cancelled lines layer
+		//map.removeLayer(night);
+		night.bringToBack();
+		map.removeLayer(geojsonLayers["cancelled_lines"]);
+		
+		special_toggle = false;
+		
+		// Reset the style of existing lines
+		map.removeLayer(geojsonLayers["existing_lines"]);
+		processLayers(layers, "existing_lines");
+		
+		// Add the layers back
+		$.each(layers, function(i, v) {
+			if(v.status != "existing" && v.special != true) { // always show existing things along with the "special" (cancelled lines)
+				if(layerGroups[v.type] != undefined && !layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
+					layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
+				}
+			}
+		});
+		
 		// return to the default "streets" map
 		console.log("Returning to the default Streets map");
 		toggleBaseMap("Streets");
 		$("#baselayer_select").removeAttr("disabled");
-		map.removeLayer(night);
+		
 	} else {
-		map.addLayer(night);
+		special_toggle = true;
+		
+		if(!map.hasLayer(night)) {
+			map.addLayer(night);
+		}
+		night.bringToFront();
 		$("#baselayer_select").attr("disabled", "disabled");
+		
+		// Change the style of existing lines
+		style = {
+			color: "white",
+			weight: 10
+		}
+		geojsonLayers["existing_lines"].setStyle(style);
+		
+		// Change the style of cancelled lines
+		style = {
+			// leave this object empty and the style won't change
+		}
+		geojsonLayers["cancelled_lines"].setStyle(style);
+		map.addLayer(geojsonLayers["cancelled_lines"]);
+		
+		// Remove layers
+		$.each(layers, function(i, v) {
+			if(v.status != "existing" && v.special != true) { // always show existing things along with the "special" (cancelled lines)
+				if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
+					layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
+				}
+			}
+		});
 	}
 	
+/*
 	$.each(layers, function(i, v) {
 		keepGoing = true;
-		if(layerGroups[v.type] != undefined && !layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
-			layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
-			keepGoing = false;
+		if(v.status != "existing") { // always show existing things along with the "special" (cancelled lines)
+			if(layerGroups[v.type] != undefined && !layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
+				layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
+				keepGoing = false;
+			}
+			if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId]) && keepGoing) {
+				layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
+			}
 		}
-		if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId]) && keepGoing) {
-			layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
-		}		
 	});
+*/
 }
 
 function resizeMap() {
@@ -381,10 +453,6 @@ function onEachFeature(feature, layer, type, status) {
 		
 		var lat = feature.geometry.coordinates[1];
 		var lng = feature.geometry.coordinates[0];
-		//content += "<button onclick=\"zoomHere(" + lat + "," + lng + ",14);\">Zoom in</button>";
-		//var bounds_layer = L.GeoJSON.geometryToLayer(feature);
-		//console.log(bounds_layer);
-		//var bounds = JSON.stringify( bounds_layer.getBounds() );
 		content += "<button onclick=\"zoomHere();\">Zoom in</button>";
 		
 		// Set popup options
@@ -393,7 +461,7 @@ function onEachFeature(feature, layer, type, status) {
 		popup.setContent(content);
 		layer.bindPopup(popup);
 		
-		// Add the layer objecet to the feature itself so the Fuse search can deal with it
+		// Add the layer object to the feature itself so the Fuse search can deal with it
 		feature.layer = layer;
 		
 		// Change the icons for stations
@@ -403,70 +471,79 @@ function onEachFeature(feature, layer, type, status) {
 		
 		// Change the styling for lines
 		if(type == "lines") {
-			// set some default styles for lines
-			var style = {};
-			style.weight = 6;
-			style.lineCap = 'round';
-			
-			mode = p.Mode || p.Mode1;
-			switch(mode) {
-				case "Bus Rapid Transit":
-				case "BRT":
-					style.color = "#b2182b";
-				break;
-				
-				default:
-					style.color = "#2166ac";
-				break;	
-			}
-			
-			switch(status) {
-				case "funded":
-				case "new_starts":
-						style.dashArray = [1, 9];
-						style.weight = 7;
-						break;
-		
-				case "planned":
-						style.dashArray = [2,10];
-						break;
-				
-				case "renovating":
-						style.weight = 4;
-						style.color = "#88B4E0";
-						break;
-				
-				case "future":
-						style.weight = 4;
-						style.dashArray = [5,8,1,8];
-						style.lineCap = 'square';
-						break;
-								
-				case "existing":
-						style.weight = 3;
-						style.lineCap = 'round';
-						style.color = "#494949";
-						style.opacity = 0.4;
-						
-						switch(mode) {
-							case "Commuter Rail":
-							case "Streetcar":
-							style.color = "#8E8E8E";
-							style.weight = 3;
-							style.dashArray = [1,3];
-							style.lineCap = 'round';
-							break;
-							}
-						
-						break;
-								
-				case "under_construction":
-				
-				break;
-			}
+			style = chooseStyle(type, status, p);
 			layer.setStyle(style);
 		}
     }
+}
+
+function chooseStyle(type, status, properties) {
+	
+	p = properties;
+	
+	// set some default styles for lines
+	var style = {};
+	style.weight = 6;
+	style.lineCap = 'round';
+	
+	mode = p.Mode || p.Mode1;
+	switch(mode) {
+		case "Bus Rapid Transit":
+		case "BRT":
+			style.color = "#b2182b";
+		break;
+		
+		default:
+			style.color = "#2166ac";
+		break;	
+	}
+	
+	switch(status) {
+		case "funded":
+		case "new_starts":
+				style.dashArray = [1, 9];
+				style.weight = 7;
+				break;
+
+		case "planned":
+				style.dashArray = [2,10];
+				break;
+		
+		case "renovating":
+				style.weight = 4;
+				style.color = "#88B4E0";
+				break;
+		
+		case "future":
+				style.weight = 4;
+				style.dashArray = [5,8,1,8];
+				style.lineCap = 'square';
+				break;
+						
+		case "existing":
+				style.weight = 3;
+				style.lineCap = 'round';
+				style.color = "#494949";
+				style.opacity = 0.4;
+				
+				switch(mode) {
+					case "Commuter Rail":
+					case "Streetcar":
+					style.color = "#8E8E8E";
+					style.weight = 3;
+					style.dashArray = [1,3];
+					style.lineCap = 'round';
+					break;
+					}
+				
+				break;
+						
+		case "under_construction":
+		
+		break;
+	}
+	
+	return style;
 }
 
 function showFeatureProperties(properties) {
