@@ -147,13 +147,12 @@ function toggleBaseMap(changeto) {
 	name = changeto || $('#baselayer_select').find(':selected').data('name');
 	console.log("toggleBaseMap: changing to "+ name);
 	$.each(baseMaps, function(i, v) {
-		if(!map.hasLayer(baseMaps[i])) {
-			map.addLayer(baseMaps[i]);
+		if(map.hasLayer(baseMaps[i])) {
+			map.removeLayer(baseMaps[i]);
 		}
-		baseMaps[i].bringToBack();
 	});
 	
-	baseMaps[name].bringToFront();
+	map.addLayer(baseMaps[name]);
 	setTimeout(function() {
 		$('#baselayer_select').find('[data-name=' + name + ']').prop("selected","selected");
 	}, 100);
