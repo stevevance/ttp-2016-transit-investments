@@ -96,10 +96,7 @@ function makeMap() {
 	
 	// add the base layer maps
 	baseMaps = {"Streets": streets, "Buildings": buildings, "Satellite": satellite};
-	$.each(baseMaps, function(i, v) {
-		map.addLayer(baseMaps[i]);
-	});
-	toggleBaseMap("Streets"); // change to the default base map
+	map.addLayer(streets);
 	
 	// Adjust the map size
 	resizeMap();
@@ -150,6 +147,9 @@ function toggleBaseMap(changeto) {
 	name = changeto || $('#baselayer_select').find(':selected').data('name');
 	console.log("toggleBaseMap: changing to "+ name);
 	$.each(baseMaps, function(i, v) {
+		if(!map.hasLayer(baseMaps[i])) {
+			map.addLayer(baseMaps[i]);
+		}
 		baseMaps[i].bringToBack();
 	});
 	
@@ -161,7 +161,7 @@ function toggleBaseMap(changeto) {
 
 function selectBaseMap() {
 	var html = "<p>Switch base map";
-	select = "<select id='baselayer_select' onchange=\"toggleBaseMap();\"><option>Choose base map</option>";
+	select = "<select id='baselayer_select' onchange=\"toggleBaseMap();\">";
 	
 	$.each(baseMaps, function(i, v) {
 		select += "<option data-name='" + i + "'>" + i + "</option>";
