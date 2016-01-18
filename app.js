@@ -323,7 +323,7 @@ function toggleSpecialLayers() {
 	if(special_toggle) {
 		// Remove the "night" base layer, and the cancelled lines layer
 		//map.removeLayer(night);
-		night.bringToBack();
+		map.removeLayer(night);
 		map.removeLayer(geojsonLayers["cancelled_lines"]);
 		
 		special_toggle = false;
