@@ -359,7 +359,7 @@ function toggleSpecialLayers() {
 		// Change the style of existing lines
 		style = {
 			color: "white",
-			weight: 10
+			weight: 2
 		}
 		geojsonLayers["existing_lines"].setStyle(style);
 		
@@ -541,6 +541,12 @@ function chooseStyle(type, status, properties) {
 		case "under_construction":
 		
 		break;
+		
+		case "cancelled":
+				style.weight = 6;
+				style.color = "#e60000";
+				style.lineCap = 'square';
+				break;
 	}
 	
 	return style;
@@ -592,6 +598,11 @@ function showFeatureProperties(properties) {
 					v = "<a href='" + v + "' target='_blank'>Project website</a>";
 				break;
 				
+				case "Learn_More":
+					i = "";
+					v = "<a href='" + v + "' target='_blank'>Learn more about this project</a>";
+				break;
+				
 				case "Project_status":
 				case "Project_st":
 					i = "<b>Status</b>: ";
@@ -616,7 +627,6 @@ function showFeatureProperties(properties) {
 					i = "<b>Average speed</b>: ";
 					v = v + " mph";
 				break;
-				
 				
 				case "Construction_Start":
 				case "Constructi":
