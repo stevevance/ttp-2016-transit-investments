@@ -522,13 +522,13 @@ function chooseStyle(type, status, properties) {
 		case "existing":
 				style.weight = 3;
 				style.lineCap = 'round';
-				style.color = "#494949";
+				style.color = "#2e2e2e";
 				style.opacity = 0.4;
 				
 				switch(mode) {
 					case "Commuter Rail":
 					case "Streetcar":
-					style.color = "#8E8E8E";
+					style.color = "#5E5E5E";
 					style.weight = 3;
 					style.dashArray = [1,3];
 					style.lineCap = 'round';
