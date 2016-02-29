@@ -2,7 +2,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width">
 		<meta name="viewport" content="initial-scale=1.0">
-		<meta name="description" content="Transit Explorer is a map of under construction and planned transit projects in the Canada, Mexico, and the United States.">
+		<meta name="description" content="Transit Explorer is a map of under construction and planned transit projects in Canada, Mexico, and the United States.">
 		<title>The Transport Politic - Transit Explorer 2016</title>
 		
 		<!-- Open Graph metadata -->
@@ -51,6 +51,11 @@
 					    "name": "Atlanta",
 				        "lat": 33.75,
 				        "lng": -84.39
+				    },
+				    {
+					    "name": "Baltimore",
+				        "lat": 39.29,
+				        "lng": -76.61
 				    },
 					{
 					    "name": "Boston",
@@ -335,12 +340,20 @@
 						"special": false
 					},
 					{
-						"file": "map_data/existing_transit_stops.geojson",
-						"layerId": "existing_transit_stops",
+						"file": "map_data/us_can_stations.geojson",
+						"layerId": "existing_stations",
 						"name": "Existing stations",
 						"type": "stations_existing",
 						"status": "existing",
-						"zoomRange": [14,99]
+						"zoomRange": [13,99]
+					},
+					{
+						"file": "map_data/us_can_stations_street.geojson",
+						"layerId": "existing_stations_street",
+						"name": "Existing stations street",
+						"type": "street_stations",
+						"status": "existing",
+						"zoomRange": [13,99]
 					},
 					{
 						"file": "map_data/cancelled_lines.geojson",
@@ -376,7 +389,7 @@
 		<!-- Show this Key only on Desktop -->
 		<div id="left-mid">
 			<h1>Transit Explorer</h1>
-			<h2>Discover current, planned, and potential fixed-guideway transit systems in North America.</h2>
+			<h2>Discover current, planned, and potential fixed-guideway transit systems. Zoom in to see lines.</h2>
 			<table id="symbology" width="100%" border="0" valign="top">
 				<tr>
 				<td colspan="2">

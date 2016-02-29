@@ -62,14 +62,18 @@ function makeMap() {
 	
 	// Make some empty layers that will be filled later
 	geojsonLayers = [];
-	layerGroups = ["lines", "stations"];
+	layerGroups = ["lines", "stations", "stations_existing", "street_stations"];
 	layerGroups["lines"] = new L.featureGroup();
 	layerGroups["stations"] = new L.featureGroup();
+	layerGroups["stations_existing"] = new L.featureGroup();
+	layerGroups["street_stations"] = new L.featureGroup();
 //	stations_existing = new L.MarkerClusterGroup();
 
 	// Add those layers to the map (even though they're empty)
 	layerGroups["lines"].addTo(map);
 	layerGroups["stations"].addTo(map);
+	layerGroups["stations_existing"].addTo(map);
+	layerGroups["street_stations"].addTo(map);
 //	stations_existing.addTo(map);
 	
 	// Keep track of whichever popup is open
@@ -417,13 +421,18 @@ function resizeMap() {
 
 function createIcons() {
 	icons = [];
-	icons["stations_existing"] = L.AwesomeMarkers.icon({
-		icon: 'subway',
-		prefix: 'fa',
-		markerColor: 'lightblue'
-		// existing station
-	});
 	
+	icons["stations_existing"] = L.divIcon({className: 'existing_stations_css', iconSize: [5, 5]});
+	
+	icons["street_stations"] = L.divIcon({className: 'street_stations_css', iconSize: [3, 3]});
+	
+//	icons["stations_existing"] = L.AwesomeMarkers.icon({
+//		icon: 'subway',
+//		prefix: 'fa',
+//		markerColor: 'lightblue'
+		// existing station
+//	}); 
+		
 	icons["stations"] = L.AwesomeMarkers.icon({
 		icon: 'subway',
 		prefix: 'fa',
@@ -464,7 +473,7 @@ function onEachFeature(feature, layer, type, status) {
 		feature.layer = layer;
 		
 		// Change the icons for stations
-		if(type == "stations" || type == "stations_existing") {
+		if(type == "stations" || type == "stations_existing" || type == "street_stations") {
 			layer.setIcon(icons[type]);
 		}
 		
@@ -619,6 +628,7 @@ function showFeatureProperties(properties) {
 				
 				case "Mode":
 				case "Mode1":
+				case "Type":
 					i = "<b>Type</b>: ";
 				break;
 				
