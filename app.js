@@ -468,6 +468,8 @@ function onEachFeature(feature, layer, type, status) {
 		popup = L.popup(popupOptions, layer);
 		popup.setContent(content);
 		layer.bindPopup(popup);
+		label = p.Name;
+		layer.bindLabel(label);
 		
 		// Add the layer object to the feature itself so the Fuse search can deal with it
 		feature.layer = layer;
