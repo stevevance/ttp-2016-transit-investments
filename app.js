@@ -422,9 +422,9 @@ function resizeMap() {
 function createIcons() {
 	icons = [];
 	
-	icons["stations_existing"] = L.divIcon({className: 'existing_stations_css', iconSize: [5, 5]});
+	icons["stations_existing"] = L.divIcon({className: 'existing_stations_css', iconSize: [5, 5], iconAnchor: [5, 5]});
 	
-	icons["street_stations"] = L.divIcon({className: 'street_stations_css', iconSize: [3, 3]});
+	icons["street_stations"] = L.divIcon({className: 'street_stations_css', iconSize: [3, 3], iconAnchor: [3, 3]});
 	
 //	icons["stations_existing"] = L.AwesomeMarkers.icon({
 //		icon: 'subway',
