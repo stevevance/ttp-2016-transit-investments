@@ -438,12 +438,12 @@
 			<!-- Insert the "switch special layer" here -->
 			<div id="special_layers" class="region">
 				<label for="toggle_special_layers">What if?</label>
-				<input type="checkbox" name="toggle_special_layers" onclick="toggleSpecialLayers();" />
+				<input type="checkbox" name="toggle_special_layers" onclick="toggleSpecialLayers("cancelled");" />
 			</div>
 			
-			<div id=“ballot” class="region">
+			<div id="ballot" class="region">
 				<label for="toggle_ballot”>On the ballot</label>
-				<input type="checkbox" name="toggle_ballot” onclick="toggleBallot();” />
+				<input type="checkbox" name="toggle_ballot" onclick="toggleSpecialLayers("ballot");" />
 			</div>
 
 			<h3><a href="#" onclick="$('#more').slideToggle();">More information about this page</a>. Follow transport news and analysis on <a href="http://www.thetransportpolitic.com" target="_self">The Transport Politic</a>. <a href="#" onclick="$('div#err').slideToggle();">Find an error?</a></h3>
