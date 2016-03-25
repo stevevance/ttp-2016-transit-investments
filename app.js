@@ -322,7 +322,7 @@ function shouldWeShowLayer(layerId) {
 	}
 }
 
-function toggleSpecialLayers(geojsonLayers[which_layer]) {
+function toggleSpecialLayers(which_layer) {
 	
 	if(map.hasLayer(geojsonLayers[which_layer])) {
 	
