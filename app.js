@@ -581,6 +581,7 @@ function showFeatureProperties(properties) {
 				case "Cost_USD":
 				case "Estimated_Cost":
 				case "Estimated_":
+				case "Cost":
 					i = "<b>Estimated cost (USD)</b>: ";
 					v = "$" + number_format(v) + " m"; // display a number with thousands separators
 				break;
@@ -643,6 +644,7 @@ function showFeatureProperties(properties) {
 				break;
 				
 				case "Completion_Date":
+				case "Date":
 					i = "<b>Completion date</b>: ";
 				break;
 				
@@ -674,6 +676,10 @@ function showFeatureProperties(properties) {
 					v = v
 				break;
 				
+				case "Info":
+					i = "<b>Ballot measure</b>: ";
+					v = v
+				break;
 				
 				default:
 					i = "<b>" + i + "</b>: ";
