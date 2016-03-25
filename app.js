@@ -217,7 +217,7 @@ function selectKeyCity(whichId) {
 function zoomToCity(id) {
 	lat = $('#' + id).find(':selected').data('latitude');
 	lng = $('#' + id).find(':selected').data('longitude');
-	map.setView([lat, lng], 11);
+	map.setView([lat, lng], 12);
 }
 
 function zoomHere() {
@@ -554,7 +554,7 @@ function chooseStyle(type, status, properties) {
 		
 		case "cancelled":
 				style.weight = 6;
-				style.color = "#e60000";
+				style.color = "#ffff00";
 				style.lineCap = 'square';
 				break;
 	}
@@ -666,6 +666,17 @@ function showFeatureProperties(properties) {
 					i = "<b>Length</b>: ";
 					v = v + " mi."
 				break;
+				
+				case "Riders":
+					i = "<b>Daily riders projected before project opening</b>: ";
+					v = number_format(v);
+				break;
+				
+				case "Year_Open":
+					i = "<b>Year open</b>: ";
+					v = v
+				break;
+				
 				
 				default:
 					i = "<b>" + i + "</b>: ";
