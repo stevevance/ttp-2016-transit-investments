@@ -322,13 +322,17 @@ function shouldWeShowLayer(layerId) {
 	}
 }
 
-function toggleSpecialLayers() {
+function toggleSpecialLayers(geojsonLayers[which_layer]) {
 	
-	if(special_toggle) {
+	if(map.hasLayer(geojsonLayers[which_layer])) {
+	
+		map.removeLayer(geojsonLayers[which_layer]);
+		
+	// if(special_toggle) {
 		// Remove the "night" base layer, and the cancelled lines layer
 		//map.removeLayer(night);
-		map.removeLayer(night);
-		map.removeLayer(geojsonLayers["cancelled_lines"]);
+	//	map.removeLayer(night);
+	//	map.removeLayer(geojsonLayers[which_layer]);
 		
 		special_toggle = false;
 		
@@ -370,8 +374,8 @@ function toggleSpecialLayers() {
 		style = {
 			// leave this object empty and the style won't change
 		}
-		geojsonLayers["cancelled_lines"].setStyle(style);
-		map.addLayer(geojsonLayers["cancelled_lines"]);
+		geojsonLayers[which_layer].setStyle(style);
+		map.addLayer(geojsonLayers[which_layer]);
 		
 		// Remove layers
 		$.each(layers, function(i, v) {
@@ -383,20 +387,6 @@ function toggleSpecialLayers() {
 		});
 	}
 	
-/*
-	$.each(layers, function(i, v) {
-		keepGoing = true;
-		if(v.status != "existing") { // always show existing things along with the "special" (cancelled lines)
-			if(layerGroups[v.type] != undefined && !layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
-				layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
-				keepGoing = false;
-			}
-			if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId]) && keepGoing) {
-				layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
-			}
-		}
-	});
-*/
 }
 
 function resizeMap() {
@@ -557,6 +547,13 @@ function chooseStyle(type, status, properties) {
 				style.color = "#ffff00";
 				style.lineCap = 'square';
 				break;
+				
+		case "ballot":
+				style.weight = 6;
+				style.color = "#ffff00";
+				style.lineCap = 'square';
+				break;
+				
 	}
 	
 	return style;
