@@ -365,8 +365,8 @@ function toggleSpecialLayers(which_layer) {
 		
 		// Change the style of existing lines
 		style = {
-			color: "white",
-			weight: 2
+			color: "#fff",
+			weight: 3
 		}
 		geojsonLayers["existing_lines"].setStyle(style);
 		
