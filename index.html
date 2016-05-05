@@ -363,6 +363,14 @@
 						"type": "lines",
 						"status": "cancelled",
 						"special": true
+					},
+					{
+						"file": "map_data/ballot.geojson",
+						"layerId": "ballot",
+						"name": "Ballot",
+						"type": "lines",
+						"status": "ballot",
+						"special": true
 					}
 				
 				];
@@ -429,7 +437,11 @@
 			<!-- Insert the "switch special layer" here -->
 			<div id="special_layers" class="region">
 				<label for="toggle_special_layers">What if?</label>
-				<input type="checkbox" name="toggle_special_layers" onclick="toggleSpecialLayers();" />
+				<input type="checkbox" name="toggle_special_layers" onclick="toggleSpecialLayers('cancelled_lines');" />
+				
+				<label for="toggle_special_layers">On the ballot</label>
+				<input type="checkbox" name="toggle_ballot" onclick="toggleSpecialLayers('ballot');" />
+				
 			</div>
 
 			<h3><a href="#" onclick="$('#more').slideToggle();">More information about this page</a>. Follow transport news and analysis on <a href="http://www.thetransportpolitic.com" target="_self">The Transport Politic</a>. <a href="#" onclick="$('div#err').slideToggle();">Find an error?</a></h3>
@@ -482,7 +494,7 @@
 			<li>Existing Canadian and Mexican transit lines from Open Street Map.</li>
 			<li>New York City Subway, Metro-North Railroad, and Long Island Rail Road from <a href="https://www.baruch.cuny.edu/confluence/display/geoportal/NYC+Mass+Transit+Spatial+Layers">Baruch College</a>.
 			</ul>
-			Note: "Regions" defined for each project do not denote municipality or even state. They denote the metropolitan area in which the project exists or is planned. Map rendering powered by <a href="http://developer.scout.me">Scout</a>.<br>Recent changes: LA Gold Line to Azusa opened (March 2016).
+			Note: "Regions" defined for each project do not denote municipality or even state. They denote the metropolitan area in which the project exists or is planned. Map rendering powered by <a href="http://developer.scout.me">Scout</a>.<br>Recent changes: On the ballots added.
 <br>
 			<a href="#" onclick="$('#more').slideToggle();">Close window</a></h3>
 		</div><!-- /left-mid -->

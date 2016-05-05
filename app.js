@@ -322,21 +322,28 @@ function shouldWeShowLayer(layerId) {
 	}
 }
 
-function toggleSpecialLayers() {
+function toggleSpecialLayers(which_layer) {
 	
-	if(special_toggle) {
-		// Remove the "night" base layer, and the cancelled lines layer
-		//map.removeLayer(night);
-		map.removeLayer(night);
-		map.removeLayer(geojsonLayers["cancelled_lines"]);
-		
+	/* A special layer is essentially an alternative state of the map.
+	* Turn on a special layer and other layers get turned off
+	*/
+	
+	if(map.hasLayer(geojsonLayers[which_layer])) {
+	
+		// Remove the special layer
+		map.removeLayer(geojsonLayers[which_layer]);
 		special_toggle = false;
 		
-		// Reset the style of existing lines
+		// Remove the "night" layer
+		if(map.hasLayer(night)) {
+			map.removeLayer(night);
+		}
+		
+		// Reset the style of existing lines (which was changed when a special layer was added)
 		map.removeLayer(geojsonLayers["existing_lines"]);
 		processLayers(layers, "existing_lines");
 		
-		// Add the layers back
+		// Re-add the regular, non-special layers
 		$.each(layers, function(i, v) {
 			if(v.status != "existing" && v.special != true) { // always show existing things along with the "special" (cancelled lines)
 				if(layerGroups[v.type] != undefined && !layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
@@ -359,19 +366,21 @@ function toggleSpecialLayers() {
 		night.bringToFront();
 		$("#baselayer_select").attr("disabled", "disabled");
 		
-		// Change the style of existing lines
+		// Change the style of existing lines to something that goes better with the "night" base layer
 		style = {
-			color: "white",
-			weight: 2
+			color: "#fff",
+			weight: 3
 		}
 		geojsonLayers["existing_lines"].setStyle(style);
 		
 		// Change the style of cancelled lines
+/*
 		style = {
 			// leave this object empty and the style won't change
 		}
-		geojsonLayers["cancelled_lines"].setStyle(style);
-		map.addLayer(geojsonLayers["cancelled_lines"]);
+		geojsonLayers[which_layer].setStyle(style);
+*/
+		map.addLayer(geojsonLayers[which_layer]);
 		
 		// Remove layers
 		$.each(layers, function(i, v) {
@@ -383,20 +392,6 @@ function toggleSpecialLayers() {
 		});
 	}
 	
-/*
-	$.each(layers, function(i, v) {
-		keepGoing = true;
-		if(v.status != "existing") { // always show existing things along with the "special" (cancelled lines)
-			if(layerGroups[v.type] != undefined && !layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
-				layerGroups[v.type].addLayer(geojsonLayers[v.layerId]);
-				keepGoing = false;
-			}
-			if(layerGroups[v.type] != undefined && layerGroups[v.type].hasLayer(geojsonLayers[v.layerId]) && keepGoing) {
-				layerGroups[v.type].removeLayer(geojsonLayers[v.layerId]);
-			}
-		}
-	});
-*/
 }
 
 function resizeMap() {
@@ -557,6 +552,13 @@ function chooseStyle(type, status, properties) {
 				style.color = "#ffff00";
 				style.lineCap = 'square';
 				break;
+				
+		case "ballot":
+				style.weight = 6;
+				style.color = "#ffff00";
+				style.lineCap = 'square';
+				break;
+				
 	}
 	
 	return style;
@@ -584,6 +586,7 @@ function showFeatureProperties(properties) {
 				case "Cost_USD":
 				case "Estimated_Cost":
 				case "Estimated_":
+				case "Cost":
 					i = "<b>Estimated cost (USD)</b>: ";
 					v = "$" + number_format(v) + " m"; // display a number with thousands separators
 				break;
@@ -646,6 +649,7 @@ function showFeatureProperties(properties) {
 				break;
 				
 				case "Completion_Date":
+				case "Date":
 					i = "<b>Completion date</b>: ";
 				break;
 				
@@ -677,6 +681,10 @@ function showFeatureProperties(properties) {
 					v = v
 				break;
 				
+				case "Info":
+					i = "<b>Ballot measure</b>: ";
+					v = v
+				break;
 				
 				default:
 					i = "<b>" + i + "</b>: ";
