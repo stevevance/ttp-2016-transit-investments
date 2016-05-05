@@ -324,23 +324,26 @@ function shouldWeShowLayer(layerId) {
 
 function toggleSpecialLayers(which_layer) {
 	
+	/* A special layer is essentially an alternative state of the map.
+	* Turn on a special layer and other layers get turned off
+	*/
+	
 	if(map.hasLayer(geojsonLayers[which_layer])) {
 	
+		// Remove the special layer
 		map.removeLayer(geojsonLayers[which_layer]);
-		
-	// if(special_toggle) {
-		// Remove the "night" base layer, and the cancelled lines layer
-		//map.removeLayer(night);
-	//	map.removeLayer(night);
-	//	map.removeLayer(geojsonLayers[which_layer]);
-		
 		special_toggle = false;
 		
-		// Reset the style of existing lines
+		// Remove the "night" layer
+		if(map.hasLayer(night)) {
+			map.removeLayer(night);
+		}
+		
+		// Reset the style of existing lines (which was changed when a special layer was added)
 		map.removeLayer(geojsonLayers["existing_lines"]);
 		processLayers(layers, "existing_lines");
 		
-		// Add the layers back
+		// Re-add the regular, non-special layers
 		$.each(layers, function(i, v) {
 			if(v.status != "existing" && v.special != true) { // always show existing things along with the "special" (cancelled lines)
 				if(layerGroups[v.type] != undefined && !layerGroups[v.type].hasLayer(geojsonLayers[v.layerId])) {
@@ -363,7 +366,7 @@ function toggleSpecialLayers(which_layer) {
 		night.bringToFront();
 		$("#baselayer_select").attr("disabled", "disabled");
 		
-		// Change the style of existing lines
+		// Change the style of existing lines to something that goes better with the "night" base layer
 		style = {
 			color: "#fff",
 			weight: 3
@@ -371,10 +374,12 @@ function toggleSpecialLayers(which_layer) {
 		geojsonLayers["existing_lines"].setStyle(style);
 		
 		// Change the style of cancelled lines
+/*
 		style = {
 			// leave this object empty and the style won't change
 		}
 		geojsonLayers[which_layer].setStyle(style);
+*/
 		map.addLayer(geojsonLayers[which_layer]);
 		
 		// Remove layers
