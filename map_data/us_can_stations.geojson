@@ -2475,6 +2475,9 @@
 { "type": "Feature", "properties": { "Line": "CTrain Blue\/Red Lines", "Mode": "Light Rail", "Name": "3rd Street SW" }, "geometry": { "type": "Point", "coordinates": [ -114.06904, 51.04669 ] } },
 { "type": "Feature", "properties": { "Line": "CTrain Blue\/Red Lines", "Mode": "Light Rail", "Name": "1st Street SW" }, "geometry": { "type": "Point", "coordinates": [ -114.06393, 51.04655 ] } },
 { "type": "Feature", "properties": { "Line": "CTrain Blue\/Red Lines", "Mode": "Light Rail", "Name": "Centre Street" }, "geometry": { "type": "Point", "coordinates": [ -114.06152, 51.04648 ] } },
-{ "type": "Feature", "properties": { "Line": "CTrain Blue\/Red Lines", "Mode": "Light Rail", "Name": "City Hall" }, "geometry": { "type": "Point", "coordinates": [ -114.05673, 51.04634 ] } }
+{ "type": "Feature", "properties": { "Line": "CTrain Blue\/Red Lines", "Mode": "Light Rail", "Name": "City Hall" }, "geometry": { "type": "Point", "coordinates": [ -114.05673, 51.04634 ] } },
+{ "type": "Feature", "properties": { "Line": "Southeast Light Rail Extension", "Mode": "Light Rail", "Name": "Sky Ridge" }, "geometry": { "type": "Point", "coordinates": [ -104.87074, 39.53597 ] } },
+{ "type": "Feature", "properties": { "Line": "Southeast Light Rail Extension", "Mode": "Light Rail", "Name": "Lone Tree City Center" }, "geometry": { "type": "Point", "coordinates": [ -104.86914, 39.53103 ] } },
+{ "type": "Feature", "properties": { "Line": "Southeast Light Rail Extension", "Mode": "Light Rail", "Name": "RidgeGate Parkway" }, "geometry": { "type": "Point", "coordinates": [ -104.86409, 39.52175 ] } }
 ]
 }
