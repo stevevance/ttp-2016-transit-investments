@@ -13,7 +13,7 @@ html, body {
 h1 {
 	
 	font-family: 'Archivo Narrow', sans-serif;
-	font-size: 35;
+	font-size: 30;
 	color: #000000;
 	font-weight: bold;
 	text-align: left;
@@ -99,6 +99,21 @@ h7 {
 	line-height: 0.8;
 	padding: 0px 0px 0px 0px;
 	margin: 10px 0px 15px 0px;
+
+}
+
+/* france heading */
+
+h8, .h8 {
+	
+	font-family: 'Archivo Narrow', sans-serif;
+	font-size: 25;
+	color: #000000;
+	font-weight: bold;
+	text-align: left;
+	line-height: 0.4;
+	padding: 0px 0px 0px 0px;
+	margin: 10px 0px 5px 0px;
 
 }
 
@@ -204,11 +219,22 @@ a:visited {
 
 /* Station icons */
 
+.cities_points_css {
+	background: #00BFFF;
+    width: 100px;
+    height: 100px;
+    border-radius: 20%; 
+    border:5px solid #000; 
+	left: 50%; 
+    -webkit-transform: translate(-50%, 0); 
+    position: fixed;
+}
+
 .existing_stations_css {
-	background: #FFC20A;
+	background: #fff;
     width: 10px;
     height: 10px;
-    border-radius: 20%; 
+    border-radius: 50%; 
     border:2px solid #000; 
    /* margin-right: -50%;
 	margin-bottom: -50%; */
@@ -222,7 +248,20 @@ a:visited {
     width: 10px;
     height: 10px;
     border-radius: 20%; 
-    border:1px solid #000; 
+    border:1.5px solid #000; 
+   /* margin-right: -50%;
+	margin-bottom: -50%; */
+	left: 50%; 
+    -webkit-transform: translate(-50%, 0); 
+    position: fixed;
+}
+
+.rail_stations_css {
+	background: #fff;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%; 
+    border:2px solid #6E6E6E; 
    /* margin-right: -50%;
 	margin-bottom: -50%; */
 	left: 50%; 

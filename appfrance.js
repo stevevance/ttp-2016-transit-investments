@@ -1,5 +1,14 @@
 function makeMap() {
 
+	var positron = 'https://cartodb-basemaps-d.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png';
+	streetsPositron = L.tileLayer(positron, {
+		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors / Map tiles <a href="https://carto.com/attributions">Carto</a>',
+		detectRetina:true,
+		maxZoom: 19,
+		maxNativeZoom: 18,
+		subdomains: '1234'
+	});
+
 	var skobblerUrlLite = 'http://tiles{s}-317f991e476cc08870b062b435c36491.skobblermaps.com/TileService/tiles/2.0/01021111200/7/{z}/{x}/{y}.png20';
 	streets = L.tileLayer(skobblerUrlLite, {
 		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors / Map tiles <a href="http://developer.skobbler.com/attribution">copyright Skobbler</a>',
@@ -37,13 +46,11 @@ function makeMap() {
 	if(urlParams.embed_lat != undefined && urlParams.embed_lng != undefined) {
 		lat = urlParams.embed_lat;
 		lng = urlParams.embed_lng;
-		zoom = urlParams.embed_zoom || 10;
 	} else {
-		lat = 38.625;
-		lng = -78.673;
-		zoom = urlParams.embed_zoom || 6;
-	} 
-	/** zoom = urlParams.embed_zoom || 10; **/
+		lat = 48.8566;
+		lng = 2.3522;
+	}
+	zoom = urlParams.embed_zoom || 12;
 
 	// initialize the map on the "map" div with a given center and zoom
 	map = L.map('map', {
@@ -64,13 +71,13 @@ function makeMap() {
 	
 	// Make some empty layers that will be filled later
 	geojsonLayers = [];
-	layerGroups = ["cities_points", "lines", "stations", "stations_existing", "street_stations"];
+	layerGroups = ["cities_points", "lines", "stations", "stations_existing", "street_stations", "rail_stations"];
 	layerGroups["cities_points"] = new L.featureGroup();
 	layerGroups["lines"] = new L.featureGroup();
 	layerGroups["stations"] = new L.featureGroup();
 	layerGroups["stations_existing"] = new L.featureGroup();
 	layerGroups["street_stations"] = new L.featureGroup();
-//	stations_existing = new L.MarkerClusterGroup();
+	layerGroups["rail_stations"] = new L.featureGroup();
 
 	// Add those layers to the map (even though they're empty)
 	layerGroups["cities_points"].addTo(map);
@@ -78,7 +85,7 @@ function makeMap() {
 	layerGroups["stations"].addTo(map);
 	layerGroups["stations_existing"].addTo(map);
 	layerGroups["street_stations"].addTo(map);
-//	stations_existing.addTo(map);
+	layerGroups["rail_stations"].addTo(map);
 	
 	// Keep track of whichever popup is open
 	map.on("popupopen", function(e) {
@@ -90,20 +97,35 @@ function makeMap() {
 		threshold: 0.3,
 		maxResultLength: 10,
 		showInvisibleFeatures: true,
-		placeholder: "Search names and regions",
+		placeholder: "Lignes, stations, projets...",
 		showResultFct: function(feature, container) {
 	        props = feature.properties;
 	        var name = L.DomUtil.create('b', null, container);
-	        name.innerHTML = props.name || props.Name;
+	        name.innerHTML = props.name || props.Name || props.line || props.ligne;
 	        
-	        var region = props.region || props.Region;
-	        container.appendChild(L.DomUtil.create('br', null, container));
-	        container.appendChild(document.createTextNode(region));
+	        var mode_type = props.mode;
+	        var station_type = props.station;
+	        var region = props.region || props.Region || props.ville;
+	    	
+	        container.appendChild(L.DomUtil.create('br', null, container));  
+	        if(station_type == "station") {
+				container.appendChild(document.createTextNode("Station / "));
+		       } 
+		    if(mode_type != null) {
+				container.appendChild(document.createTextNode(mode_type));
+				container.appendChild(document.createTextNode(" / "));
+		       }   
+			 if(region != null) {
+				container.appendChild(document.createTextNode(region));
+		       }      
+	    /**    container.appendChild(document.createTextNode(mode_type));
+	        container.appendChild(document.createTextNode(" / "));
+	        container.appendChild(document.createTextNode(region)); **/
 	    }
 	});
 	
 	// add the base layer maps
-	baseMaps = {"Streets": streets, "Buildings": buildings, "Satellite": satellite};
+	baseMaps = {"Rues": streets, "B&acirc;timents": buildings, "Satellite": satellite};
 	map.addLayer(streets);
 	
 	// Adjust the map size
@@ -167,7 +189,7 @@ function toggleBaseMap(changeto) {
 }
 
 function selectBaseMap() {
-	var html = "<p>Switch base map";
+	var html = "<p>Changez la carte";
 	select = "<select id='baselayer_select' onchange=\"toggleBaseMap();\">";
 	
 	$.each(baseMaps, function(i, v) {
@@ -200,13 +222,13 @@ function processLayers(layers, layerId) {
 
 	
 	$("a[title=Search]").on("click", function() {
-		searchCtrl.initiateFuse(["name", "Name", "Mode1", "Region", "Mode"]);
+		searchCtrl.initiateFuse(["name", "Name", "Mode1", "ligne", "ville", "Region", "Mode"]);
 	});
 }
 
 function selectKeyCity(whichId) {
-	var html = "<p>Zoom to a region";
-	select = "<select id='" + whichId + "_select' onchange=\"zoomToCity('" + whichId + "_select');\"><option>Choose a region</option>";
+	var html = "<p>Zoomez";
+	select = "<select id='" + whichId + "_select' onchange=\"zoomToCity('" + whichId + "_select');\"><option>Choisissez</option>";
 	
 	$.each(cities, function(i, v) {
 		select += "<option data-latitude='" + v.lat + "' data-longitude='" + v.lng + "' data-level='" + v.level + "'>" + v.name + "</option>";
@@ -222,7 +244,7 @@ function zoomToCity(id) {
 	lat = $('#' + id).find(':selected').data('latitude');
 	lng = $('#' + id).find(':selected').data('longitude');
 	level = $('#' + id).find(':selected').data('level');
-	map.setView([lat, lng], [level]);
+	map.setView([lat, lng], [level]/**12**/);
 }
 
 function zoomHere() {
@@ -256,8 +278,8 @@ function addGeoJsonLayer(file, layerId, name, type, status, zoomRange, special) 
 		bounds.extend(layerBounds);
 		
 		// Index the features for searching
-		if(status != "existing") {
-			searchCtrl.indexFeaturesMultipleLayers(data.features, ['Name', 'name', 'region', 'Mode1', 'Region', 'Mode']);
+		if(type != "cities_points") {
+			searchCtrl.indexFeaturesMultipleLayers(data.features, ['Name', 'name', 'ville', 'ligne', 'region', 'Mode1', 'Region', 'Mode']);
 		}
 		
 		// Only show this layer at certain zoom levels
@@ -424,16 +446,11 @@ function createIcons() {
 	
 	icons["cities_points"] = L.divIcon({className: 'cities_points_css', iconSize: [10, 10], iconAnchor: [10, 10]});
 	
-	icons["stations_existing"] = L.divIcon({className: 'existing_stations_css', iconSize: [5, 5], iconAnchor: [5, 5]});
+	icons["stations_existing"] = L.divIcon({className: 'existing_stations_css', iconSize: [4, 4], iconAnchor: [4, 4]});
 	
 	icons["street_stations"] = L.divIcon({className: 'street_stations_css', iconSize: [3, 3], iconAnchor: [3, 3]});
 	
-//	icons["stations_existing"] = L.AwesomeMarkers.icon({
-//		icon: 'subway',
-//		prefix: 'fa',
-//		markerColor: 'lightblue'
-		// existing station
-//	}); 
+	icons["rail_stations"] = L.divIcon({className: 'rail_stations_css', iconSize: [4, 4], iconAnchor: [4, 4]});
 		
 	icons["stations"] = L.AwesomeMarkers.icon({
 		icon: 'subway',
@@ -458,7 +475,7 @@ function onEachFeature(feature, layer, type, status) {
 		p = feature.properties;
 		
 		// Set popup content
-		var content = "<p class='feature-heading'>" + p.Name + "</p>";
+		var content = "<p class='feature-heading'>" + p.ligne + "</p>";
 		content += "<p class='feature-text'>" + showFeatureProperties(p) + "</p>";
 		
 		var lat = feature.geometry.coordinates[1];
@@ -470,8 +487,8 @@ function onEachFeature(feature, layer, type, status) {
 		popup = L.popup(popupOptions, layer);
 		popup.setContent(content);
 		layer.bindPopup(popup);
-		label = p.Name;
-	//	layer.bindLabel(label);
+		label = p.name;
+		//layer.bindLabel(label);
 		
 		if(type == "cities_points") {
 			layer.bindLabel(label, { noHide: true })/**;
@@ -486,11 +503,12 @@ function onEachFeature(feature, layer, type, status) {
 			layer.bindLabel(label);
 		}
 		
+		
 		// Add the layer object to the feature itself so the Fuse search can deal with it
 		feature.layer = layer;
 		
 		// Change the icons for stations
-		if(type == "stations" || type == "stations_existing" || type == "street_stations") {
+		if(type == "stations" || type == "cities_points" || type == "stations_existing" || type == "street_stations" || type == "rail_stations") {
 			layer.setIcon(icons[type]);
 		}
 		
@@ -511,23 +529,40 @@ function chooseStyle(type, status, properties) {
 	style.weight = 6;
 	style.lineCap = 'round';
 	
-	mode = p.Mode || p.Mode1;
+	mode = p.mode || p.Mode1;
 	switch(mode) {
 		case "Bus Rapid Transit":
 		case "BRT":
+		case "BHNS":
 			style.color = "#b2182b";
 		break;
 		
+		case "Tramway":
+			style.color = "#B57600";
+		break;
+		
+		case "RER":
+			style.color = "#088A4B";
+		break;
+		
+		case "Train":
+			style.color = "#848484";
+			style.weight = 2;
+		break;
+		
 		default:
-			style.color = "#2166ac";
+			style.color = "#0D608C";
 		break;	
 	}
+	
 	
 	switch(status) {
 		case "funded":
 		case "new_starts":
-				style.dashArray = [1, 9];
-				style.weight = 7;
+				style.weight = 3;
+				style.dashArray = [5,5,1,5];
+				style.lineCap = 'square';
+				style.opacity = 0.9;
 				break;
 
 		case "planned":
@@ -540,7 +575,7 @@ function chooseStyle(type, status, properties) {
 				break;
 		
 		case "future":
-				style.weight = 4;
+				style.weight = 3;
 				style.dashArray = [5,8,1,8];
 				style.lineCap = 'square';
 				break;
@@ -548,16 +583,25 @@ function chooseStyle(type, status, properties) {
 		case "existing":
 				style.weight = 3;
 				style.lineCap = 'round';
-				style.color = "#2e2e2e";
-				style.opacity = 0.4;
+			//	style.color = "#5E5E5E";
+				style.opacity = 0.7;
 				
 				switch(mode) {
-					case "Commuter Rail":
-					case "Streetcar":
-					style.color = "#5E5E5E";
+					case "Tram-Train":
+					case "Tramway":
+				//	style.color = "#5E5E5E";
 					style.weight = 3;
-					style.dashArray = [1,3];
+				//	style.dashArray = [1,3];
 					style.lineCap = 'round';
+					break;
+					}
+					
+				switch(mode) {
+					case "BHNS":
+				//	style.color = "#5E5E5E";
+					style.weight = 3;
+				//	style.dashArray = [5,3];
+					style.lineCap = 'square';
 					break;
 					}
 				
@@ -586,7 +630,7 @@ function chooseStyle(type, status, properties) {
 
 function showFeatureProperties(properties) {
 	// Don't show these properties ever:
-	var noshow = ["Name", "Routes", "timestamp", "begin", "end", "altitudeMode", "tessellate", "extrude", "visibility", "drawOrder", "icon", "description"];
+	var noshow = ["Name", "name", "Routes", "station", "ligne", "timestamp", "begin", "end", "altitudeMode", "tessellate", "extrude", "visibility", "drawOrder", "icon", "description"];
 	
 	html = "<dl class=''>"; // use <dl> for a simple data list
 	
@@ -596,19 +640,14 @@ function showFeatureProperties(properties) {
 			
 			// Display certain properties differently
 			switch(i) {
-				
-			/*	case "Name":
-				case "Routes":
-					i = "";
-					v = "";
-				break; */
 			
 				case "Cost_USD":
 				case "Estimated_Cost":
 				case "Estimated_":
 				case "Cost":
-					i = "<b>Estimated cost (USD)</b>: ";
-					v = "$" + number_format(v) + " m"; // display a number with thousands separators
+				case "cout":
+					i = "<b>Cout estim&eacute;</b>: ";
+					v = number_format(v) + "&euro;"; // display a number with thousands separators
 				break;
 				
 				case "Cost_per_Mi_":
@@ -619,7 +658,8 @@ function showFeatureProperties(properties) {
 				
 				case "Expected_Daily_Ridership":
 				case "Expected_D":
-					i = "<b>Estimated weekday riders</b>: ";
+				case "traficjour":
+					i = "<b>Trafic journalier estim&eacute;</b>: ";
 					v = number_format(v); // display a number with thousands separators
 				break;
 				
@@ -627,8 +667,9 @@ function showFeatureProperties(properties) {
 				case "Website":
 				case "Project_We":
 				case "Web":
+				case "siteweb":
 					i = "";
-					v = "<a href='" + v + "' target='_blank'>Project website</a>";
+					v = "<a href='" + v + "' target='_blank'>Site web</a>";
 				break;
 				
 				case "Learn_More":
@@ -654,7 +695,8 @@ function showFeatureProperties(properties) {
 				case "Mode":
 				case "Mode1":
 				case "Type":
-					i = "<b>Type</b>: ";
+				case "mode":
+					i = "";
 				break;
 				
 				case "Avg__Speed":
@@ -665,7 +707,8 @@ function showFeatureProperties(properties) {
 				case "Construction_Start":
 				case "Constructi":
 				case "Construct":
-					i = "<b>Construction</b>: ";
+				case "constructi":
+					i = "<b>Travaux</b>: ";
 				break;
 				
 				case "Completion_Date":
@@ -687,8 +730,9 @@ function showFeatureProperties(properties) {
 				case "Miles":
 				case "Mi_":
 				case "Mi":
-					i = "<b>Length</b>: ";
-					v = v + " mi."
+				case "km":
+					i = "<b>Longeur</b>: ";
+					v = v + " km"
 				break;
 				
 				case "Riders":
@@ -696,8 +740,14 @@ function showFeatureProperties(properties) {
 					v = number_format(v);
 				break;
 				
+				case "ville":
+					i = "";
+					v = v
+				break;
+				
 				case "Year_Open":
-					i = "<b>Year open</b>: ";
+				case "year":
+					i = "<b>Ann&eacute;e d'ouverture</b>: ";
 					v = v
 				break;
 				
